@@ -3,20 +3,39 @@ import { newsEvents, sources, tracks } from "../data/rankingData";
 import type { DomainId } from "../types/rankings";
 
 const eventTypes = Array.from(new Set(newsEvents.map((event) => event.eventType)));
+const impactOptions = ["All", "High", "Medium", "Low"] as const;
 
 export function NewsPage() {
   const [domain, setDomain] = useState<DomainId | "all">("all");
   const [eventType, setEventType] = useState("All");
+  const [impact, setImpact] = useState<(typeof impactOptions)[number]>("All");
 
   const filteredEvents = useMemo(
     () =>
       newsEvents.filter((event) => {
         const domainMatch = domain === "all" || event.domainId === domain;
         const typeMatch = eventType === "All" || event.eventType === eventType;
-        return domainMatch && typeMatch;
+        const impactMatch = impact === "All" || event.impact === impact;
+        return domainMatch && typeMatch && impactMatch;
       }),
-    [domain, eventType],
+    [domain, eventType, impact],
   );
+
+  const briefingMetrics = [
+    { label: "Visible events", value: filteredEvents.length },
+    {
+      label: "High impact",
+      value: filteredEvents.filter((event) => event.impact === "High").length,
+    },
+    {
+      label: "Robotics-linked",
+      value: filteredEvents.filter((event) => event.domainId === "robotics").length,
+    },
+    {
+      label: "Source-linked",
+      value: filteredEvents.filter((event) => event.sourceIds.length > 0).length,
+    },
+  ];
 
   return (
     <main className="page-shell news-page">
@@ -36,6 +55,15 @@ export function NewsPage() {
         </div>
       </section>
 
+      <section className="news-briefing-strip" aria-label="News briefing summary">
+        {briefingMetrics.map((metric) => (
+          <div key={metric.label}>
+            <span>{metric.label}</span>
+            <strong>{metric.value}</strong>
+          </div>
+        ))}
+      </section>
+
       <section className="news-controls" aria-label="News filters">
         <div className="segmented-control">
           {(["all", "ai", "robotics"] as const).map((item) => (
@@ -53,6 +81,18 @@ export function NewsPage() {
           <option>All</option>
           {eventTypes.map((type) => (
             <option key={type}>{type}</option>
+          ))}
+        </select>
+        <select
+          value={impact}
+          onChange={(event) =>
+            setImpact(event.target.value as (typeof impactOptions)[number])
+          }
+        >
+          {impactOptions.map((item) => (
+            <option key={item} value={item}>
+              {item === "All" ? "All impact" : `${item} impact`}
+            </option>
           ))}
         </select>
       </section>
@@ -77,8 +117,10 @@ export function NewsPage() {
                 </div>
                 <h2>{event.title}</h2>
                 <p>
-                  <span>{event.relatedEntity} leads this workbook snapshot.</span>
-                  <span>Impact is tied to the source trail below.</span>
+                  <span>
+                    {event.relatedEntity} leads {event.affectedRanking}.
+                  </span>
+                  <span>Snapshot {event.date}; source trail below.</span>
                 </p>
                 <div className="news-meta-grid">
                   <div>
