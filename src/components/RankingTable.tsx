@@ -83,8 +83,8 @@ export function RankingTable({
               <th>7d change</th>
               <th>Category</th>
               <th>Evidence</th>
-              <th>Traffic</th>
-              <th>Funding</th>
+              <th>Confidence</th>
+              <th>Workbook</th>
               <th>Sentiment</th>
               <th>
                 <button

@@ -44,6 +44,14 @@ export type Track = {
   label: string;
   description: string;
   segments: string[];
+  folder?: string;
+  slug?: string;
+  workbookTitle?: string;
+  workbookPath?: string;
+  snapshotDate?: string;
+  sourceCount?: number;
+  companyCount?: number;
+  categoryCn?: string;
 };
 
 export type Source = {
@@ -55,6 +63,9 @@ export type Source = {
   quality: SourceQuality;
   lastChecked: string;
   notes: string;
+  trackId?: string;
+  trackName?: string;
+  folder?: string;
 };
 
 export type Entity = {
@@ -105,6 +116,10 @@ export type RankingRow = {
   evidenceQuality: SourceQuality;
   sourceIds: string[];
   dataStatus: DataStatus;
+  analystNote?: string;
+  marketPositioning?: string;
+  representativeProduct?: string;
+  confidence?: string;
 };
 
 export type MarketPulseMetric = {
@@ -121,3 +136,53 @@ export type FilterState = {
   stage: string;
   entityType: string;
 };
+
+export type CategorySummary = {
+  id: string;
+  name: string;
+  domainId: DomainId;
+  trackCount: number;
+  companyCount: number;
+  sourceCount: number;
+  description: string;
+};
+
+export type NewsEvent = {
+  id: string;
+  date: string;
+  eventType:
+    | "Ranking update"
+    | "Company event"
+    | "Model release"
+    | "Robotics deployment"
+    | "Source watch"
+    | "Analyst brief";
+  title: string;
+  summary: string;
+  domainId: DomainId;
+  trackId: string;
+  relatedEntity: string;
+  affectedRanking: string;
+  impact: "Low" | "Medium" | "High";
+  sourceQuality: SourceQuality;
+  sourceIds: string[];
+  dataStatus: DataStatus;
+};
+
+export type TrackMethodologyItem = {
+  item: string;
+  value: string;
+  description: string;
+  dataHandling: string;
+  refreshCycle: string;
+  notes: string;
+};
+
+export type AppPageId =
+  | "rankings"
+  | "categories"
+  | "companies"
+  | "robotics"
+  | "news"
+  | "methodology"
+  | "sources";

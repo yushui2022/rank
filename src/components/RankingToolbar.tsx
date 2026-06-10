@@ -84,10 +84,6 @@ export function RankingToolbar({
       <button type="button" className="ghost-button" onClick={onReset}>
         Reset
       </button>
-
-      <button type="button" className="ghost-button" title="Prototype column selector">
-        Columns
-      </button>
     </section>
   );
 }
