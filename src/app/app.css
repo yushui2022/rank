@@ -25,6 +25,26 @@
   font-family: var(--sans);
 }
 
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  transform: translateY(-140%);
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  background: var(--panel);
+  padding: 8px 10px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .top-nav {
   position: sticky;
   top: 0;

@@ -117,24 +117,29 @@ export function App() {
 
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
       <TopNav
         watchlistCount={watchedIds.size}
         shortlistCount={shortlistedIds.size}
         activePage={activePage}
         onPageChange={setPage}
       />
-      <Suspense
-        fallback={
-          <main className="page-shell">
+      <div id="main-content">
+        <Suspense
+          fallback={
+            <main className="page-shell">
             <section className="page-loading">
               <span className="eyebrow">Loading ranking surface</span>
               <strong>Preparing imported workbook data</strong>
             </section>
           </main>
-        }
-      >
-        {renderPage()}
-      </Suspense>
+          }
+        >
+          {renderPage()}
+        </Suspense>
+      </div>
     </div>
   );
 }
