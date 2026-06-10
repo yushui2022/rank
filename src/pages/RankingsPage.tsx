@@ -23,6 +23,10 @@ import type {
   LeaderboardViewId,
 } from "../types/rankings";
 import {
+  formatSignedNumber,
+  formatWorkbookSnapshot,
+} from "../utils/displayText";
+import {
   recordsForTrack,
   rowsForDomain,
   type SortDirection,
@@ -165,7 +169,9 @@ export function RankingsPage({
         <section className="market-bar">
           <span className="live-dot" aria-hidden="true" />
           <div className="market-bar-id">
-            <span className="eyebrow">Imported ranking index · {activeTrack.snapshotDate}</span>
+            <span className="eyebrow">
+              Imported ranking index / {activeTrack.snapshotDate}
+            </span>
             <h1>{activeDomain.name} leaderboard</h1>
             <p>{activeTrack.name}</p>
           </div>
@@ -192,7 +198,7 @@ export function RankingsPage({
         {records.length > 0 && (
           <section className="leader-strip" aria-label="Top ranked leaders">
             <div className="leader-strip-head">
-              <span className="eyebrow">Index desk · top of {activeTrack.name}</span>
+              <span className="eyebrow">Index desk / top of {activeTrack.name}</span>
               <strong>Leaders</strong>
             </div>
             <div className="leader-podium">
@@ -217,10 +223,10 @@ export function RankingsPage({
                       <i>score</i>
                     </span>
                     <span className={`leader-change ${tone}`}>
-                      {row.scoreChange >= 0 ? "▲" : "▼"} {Math.abs(row.scoreChange)}
+                      {formatSignedNumber(row.scoreChange)}
                     </span>
                     <span className="leader-evidence">
-                      {row.evidenceQuality} · {row.evidenceCount} src · view {viewScore}
+                      {row.evidenceQuality} / {row.evidenceCount} src / view {viewScore}
                     </span>
                   </button>
                 );
@@ -278,11 +284,11 @@ export function RankingsPage({
               <div className="rail-metrics">
                 <div>
                   <em>Score</em>
-                  <b>{selectedRecord ? selectedRecord.row.score : "—"}</b>
+                  <b>{selectedRecord ? selectedRecord.row.score : "-"}</b>
                 </div>
                 <div>
                   <em>Rank</em>
-                  <b>{selectedRecord ? `#${selectedRecord.row.rank}` : "—"}</b>
+                  <b>{selectedRecord ? `#${selectedRecord.row.rank}` : "-"}</b>
                 </div>
                 <div>
                   <em>Sources</em>
@@ -297,7 +303,7 @@ export function RankingsPage({
             <div className="rail-card">
               <span>Source confidence</span>
               <strong>
-                {selectedRecord ? selectedRecord.row.evidenceQuality : "—"}
+                {selectedRecord ? selectedRecord.row.evidenceQuality : "-"}
               </strong>
               <p>
                 Source quality is mapped from workbook confidence and source
@@ -305,9 +311,11 @@ export function RankingsPage({
               </p>
             </div>
             <div className="rail-card">
-              <span>Workbook path</span>
+              <span>Workbook snapshot</span>
               <strong>{activeTrack.folder}</strong>
-              <p>{activeTrack.workbookTitle}</p>
+              <p>
+                {formatWorkbookSnapshot(activeTrack.slug, activeTrack.snapshotDate)}
+              </p>
             </div>
             <AlertSignalPanel
               watchedCount={watchedIds.size}

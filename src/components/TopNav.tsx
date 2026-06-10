@@ -29,7 +29,7 @@ export function TopNav({
         <span className="brand-symbol">R</span>
         <div>
           <strong>Rank Intelligence</strong>
-          <span>AI · Robotics ranking exchange</span>
+          <span>AI / Robotics ranking exchange</span>
         </div>
       </div>
 

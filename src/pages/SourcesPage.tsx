@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
 import { sources } from "../data/rankingData";
 
+const qualityOptions = ["All", "high", "medium", "proxy"] as const;
+
 export function SourcesPage() {
   const [query, setQuery] = useState("");
-  const [quality, setQuality] = useState("All");
+  const [quality, setQuality] = useState<(typeof qualityOptions)[number]>("All");
 
   const filteredSources = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -18,6 +20,13 @@ export function SourcesPage() {
       return queryMatch && qualityMatch;
     });
   }, [query, quality]);
+
+  const qualityCounts = qualityOptions
+    .filter((item) => item !== "All")
+    .map((item) => ({
+      item,
+      count: sources.filter((source) => source.quality === item).length,
+    }));
 
   return (
     <main className="page-shell">
@@ -36,17 +45,35 @@ export function SourcesPage() {
         </div>
       </section>
 
+      <section className="source-quality-strip" aria-label="Source quality summary">
+        {qualityCounts.map((item) => (
+          <button
+            key={item.item}
+            type="button"
+            className={quality === item.item ? "is-active" : ""}
+            onClick={() => setQuality(item.item)}
+          >
+            <span>{item.item}</span>
+            <strong>{item.count}</strong>
+          </button>
+        ))}
+      </section>
+
       <section className="source-controls">
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Search publisher, title, track, or category"
         />
-        <select value={quality} onChange={(event) => setQuality(event.target.value)}>
-          <option>All</option>
-          <option>high</option>
-          <option>medium</option>
-          <option>proxy</option>
+        <select
+          value={quality}
+          onChange={(event) =>
+            setQuality(event.target.value as (typeof qualityOptions)[number])
+          }
+        >
+          {qualityOptions.map((item) => (
+            <option key={item}>{item}</option>
+          ))}
         </select>
       </section>
 
@@ -56,11 +83,15 @@ export function SourcesPage() {
             <div>
               <span>{source.quality}</span>
               <strong>{source.title}</strong>
-              <p>{source.notes}</p>
+              <p>
+                {source.type} / checked {source.lastChecked}
+              </p>
             </div>
             <div>
               <span>{source.publisher}</span>
-              <em>{source.folder} · {source.trackName}</em>
+              <em>
+                {source.folder} / {source.trackName}
+              </em>
             </div>
             <a href={source.url} target="_blank" rel="noreferrer">
               Open source

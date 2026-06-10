@@ -1,4 +1,5 @@
 import type { Entity, RankingRow } from "../types/rankings";
+import { formatSignedNumber } from "../utils/displayText";
 import { Badge } from "./Badge";
 import { Sparkline } from "./Sparkline";
 
@@ -24,10 +25,8 @@ type RankingTableProps = {
   onToggleShortlist: (entityId: string) => void;
 };
 
-const sortArrow = (
-  active: boolean,
-  direction: SortDirection,
-): string => (active ? (direction === "desc" ? " ↓" : " ↑") : "");
+const sortSuffix = (active: boolean, direction: SortDirection): string =>
+  active ? (direction === "desc" ? " desc" : " asc") : "";
 
 const qualityTone = {
   high: "green",
@@ -54,7 +53,7 @@ export function RankingTable({
           <span>Leaderboard</span>
           <h2>Ranking index</h2>
         </div>
-        <p>{records.length} listed · live composite</p>
+        <p>{records.length} listed / live composite</p>
       </div>
 
       <div className="table-wrap">
@@ -76,7 +75,7 @@ export function RankingTable({
                   }
                   onClick={() => onSort("score")}
                 >
-                  Score{sortArrow(sortKey === "score", sortDirection)}
+                  Score{sortSuffix(sortKey === "score", sortDirection)}
                 </button>
               </th>
               <th>View score</th>
@@ -99,7 +98,7 @@ export function RankingTable({
                   }
                   onClick={() => onSort("momentum")}
                 >
-                  Momentum{sortArrow(sortKey === "momentum", sortDirection)}
+                  Momentum{sortSuffix(sortKey === "momentum", sortDirection)}
                 </button>
               </th>
               <th>Trend</th>
@@ -142,7 +141,7 @@ export function RankingTable({
                       <span>
                         <strong>{entity.name}</strong>
                         <em>
-                          {entity.country} · {entity.entityType}
+                          {entity.country} / {entity.entityType}
                         </em>
                       </span>
                     </button>
@@ -158,8 +157,7 @@ export function RankingTable({
                   <td className="view-score-cell">{viewScore}</td>
                   <td>
                     <span className={`change-pill ${trendTone}`}>
-                      {row.scoreChange >= 0 ? "▲" : "▼"}{" "}
-                      {Math.abs(row.scoreChange)}
+                      {formatSignedNumber(row.scoreChange)}
                     </span>
                   </td>
                   <td className="category-cell">{row.category}</td>

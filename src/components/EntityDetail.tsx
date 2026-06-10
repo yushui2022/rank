@@ -1,4 +1,8 @@
 import type { Entity, RankingRow, Source } from "../types/rankings";
+import {
+  displayDimensionLabel,
+  formatSignedNumber,
+} from "../utils/displayText";
 import { Badge } from "./Badge";
 import { Sparkline } from "./Sparkline";
 
@@ -22,6 +26,12 @@ const channelLabels = [
   "RaaS",
 ];
 
+const qualityTone = (quality: Source["quality"]) => {
+  if (quality === "high") return "green";
+  if (quality === "medium") return "blue";
+  return "amber";
+};
+
 export function EntityDetail({
   entity,
   row,
@@ -43,7 +53,7 @@ export function EntityDetail({
           <div>
             <span className="eyebrow">Entity detail</span>
             <h2>{entity.name}</h2>
-            <p>{entity.summary}</p>
+            <p>{entity.summary || "Imported workbook profile."}</p>
           </div>
         </div>
         <div className="entity-actions">
@@ -66,11 +76,10 @@ export function EntityDetail({
 
       <div className="detail-grid">
         <article className="score-card">
-          <span>Composite Score</span>
+          <span>Composite score</span>
           <strong>{row.score}</strong>
           <em>
-            Rank #{row.rank} · {row.scoreChange > 0 ? "+" : ""}
-            {row.scoreChange} 7d
+            Rank #{row.rank} / {formatSignedNumber(row.scoreChange)} 7d
           </em>
           <Sparkline
             points={row.sparkline}
@@ -101,7 +110,7 @@ export function EntityDetail({
         </article>
 
         <article className="fact-list">
-          <h3>AI-native metrics</h3>
+          <h3>Workbook signals</h3>
           <dl>
             <div>
               <dt>Traffic proxy</dt>
@@ -129,9 +138,7 @@ export function EntityDetail({
             <span>Availability</span>
             <h3>Providers / channels</h3>
           </div>
-          <button type="button" className="ghost-button">
-            Show full width
-          </button>
+          <p>Proxy view</p>
         </div>
         <div className="channel-grid">
           {channelLabels.map((channel, index) => (
@@ -147,10 +154,13 @@ export function EntityDetail({
         <article>
           <h3>Dimension breakdown</h3>
           <div className="dimension-list">
-            {row.dimensionScores.map((dimension) => (
-              <div key={dimension.id} className="dimension-row">
+            {row.dimensionScores.map((dimension, index) => (
+              <div
+                key={`${dimension.label}-${index}`}
+                className="dimension-row"
+              >
                 <span>
-                  {dimension.label}
+                  {displayDimensionLabel(dimension.label)}
                   <em>{dimension.weight}%</em>
                 </span>
                 <div className="bar-track">
@@ -174,17 +184,7 @@ export function EntityDetail({
               >
                 <span>{source.publisher}</span>
                 <strong>{source.title}</strong>
-                <Badge
-                  tone={
-                    source.quality === "high"
-                      ? "green"
-                      : source.quality === "medium"
-                        ? "blue"
-                        : "amber"
-                  }
-                >
-                  {source.quality}
-                </Badge>
+                <Badge tone={qualityTone(source.quality)}>{source.quality}</Badge>
               </a>
             ))}
           </div>
@@ -199,12 +199,20 @@ export function EntityDetail({
           ))}
         </div>
         <div className="claim-actions">
-          <a href={entity.website} target="_blank" rel="noreferrer">
-            Official site
-          </a>
-          <button type="button">Claim this profile</button>
-          <button type="button">Submit benchmark evidence</button>
-          <button type="button">Report incorrect data</button>
+          {entity.website && (
+            <a href={entity.website} target="_blank" rel="noreferrer">
+              Official site
+            </a>
+          )}
+          <button type="button" disabled title="Account workflow is not enabled.">
+            Claim profile
+          </button>
+          <button type="button" disabled title="Evidence submission will be added later.">
+            Submit evidence
+          </button>
+          <button type="button" disabled title="Issue reporting will be added later.">
+            Report data issue
+          </button>
         </div>
       </div>
     </section>
