@@ -22,7 +22,7 @@ export function TopNav({ watchlistCount, shortlistCount }: TopNavProps) {
         <span className="brand-symbol">R</span>
         <div>
           <strong>Rank Intelligence</strong>
-          <span>AI & Robotics market terminal</span>
+          <span>AI · Robotics ranking exchange</span>
         </div>
       </div>
 

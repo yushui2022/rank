@@ -22,8 +22,8 @@ export function DomainSwitcher({
   return (
     <aside className="domain-switcher">
       <div className="panel-heading">
-        <span>Domains</span>
-        <strong>Market map</strong>
+        <span>Market map</span>
+        <strong>Domains</strong>
       </div>
 
       <div className="domain-buttons">
@@ -34,11 +34,14 @@ export function DomainSwitcher({
             className={domain.id === activeDomainId ? "is-active" : ""}
             onClick={() => onDomainChange(domain.id)}
           >
+            <span className="tick" aria-hidden="true" />
             <span>{domain.name}</span>
             <em>{domain.description}</em>
           </button>
         ))}
       </div>
+
+      <div className="switcher-label">Tracks</div>
 
       <div className="track-list" aria-label="Tracks">
         {visibleTracks.map((track) => (
@@ -48,8 +51,9 @@ export function DomainSwitcher({
             className={track.id === activeTrackId ? "is-active" : ""}
             onClick={() => onTrackChange(track.id)}
           >
+            <span className="tick" aria-hidden="true" />
             <span>{track.name}</span>
-            <em>{track.label}</em>
+            <span className="count">{track.label}</span>
           </button>
         ))}
       </div>
