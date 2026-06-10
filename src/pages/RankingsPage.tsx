@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { AlertSignalPanel } from "../components/AlertSignalPanel";
 import { DomainSwitcher } from "../components/DomainSwitcher";
 import { EntityDetail } from "../components/EntityDetail";
 import { LeaderboardTabs } from "../components/LeaderboardTabs";
@@ -308,6 +309,10 @@ export function RankingsPage({
               <strong>{activeTrack.folder}</strong>
               <p>{activeTrack.workbookTitle}</p>
             </div>
+            <AlertSignalPanel
+              watchedCount={watchedIds.size}
+              shortlistedCount={shortlistedIds.size}
+            />
           </aside>
         </div>
 
