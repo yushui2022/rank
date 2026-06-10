@@ -53,7 +53,11 @@ export function EntityDetail({
           <div>
             <span className="eyebrow">Entity detail</span>
             <h2>{entity.name}</h2>
-            <p>{entity.summary || "Imported workbook profile."}</p>
+            <p>
+              Appears in {entity.trackIds.length} imported ranking{" "}
+              {entity.trackIds.length === 1 ? "track" : "tracks"} as a{" "}
+              {entity.entityType} from {entity.country}.
+            </p>
           </div>
         </div>
         <div className="entity-actions">
