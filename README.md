@@ -1,31 +1,39 @@
-# rank
+# Rank Intelligence
 
-`rank` 是新的榜单前端仓库，用于承接后续的大重构。
+Frontend prototype for an overseas-facing AI and Robotics ranking intelligence product.
 
-当前初始化版本包含：
+This version turns the initial report-like scaffold into a market terminal style product surface:
 
-- `Vite + React + TypeScript` 基础工程
-- 面向榜单产品的信息架构占位
-- 统一的目录结构与开发脚本
+- AI and Robotics as top-level domains
+- Track navigation for model, agent, infrastructure, hardware, media, autonomy, governance, and robotics markets
+- Market pulse metrics
+- Multiple leaderboard views
+- Dense ranking table with filters, evidence count, trend sparklines, watchlist, and shortlist actions
+- Entity detail panel with score, metrics, availability channels, source evidence, and claim-profile actions
+- Methodology and source ledger sections
 
 ## Scripts
 
-- `npm install`
-- `npm run dev`
-- `npm run build`
-- `npm run preview`
+```bash
+npm install --cache .npm-cache
+npm run build
+npm run dev
+npm run preview
+```
 
-## Structure
+On this Windows machine, `npm` may be blocked by PowerShell script policy. Use `npm.cmd` when needed:
 
-- `src/app`：应用壳层与页面编排
-- `src/components`：通用组件
-- `src/data`：静态样例与后续数据接入层
-- `src/styles`：全局样式
-- `src/types`：领域类型定义
+```bash
+npm.cmd install --cache .npm-cache
+npm.cmd run build
+```
 
-## Next
+## Data Status
 
-1. 接入真实榜单数据
-2. 重构导航与筛选结构
-3. 细化 AI / Robotics 双大类信息架构
-4. 建立榜单详情、方法论、来源页
+The ranking data in this repository is prototype data for frontend development. It is not a final researched ranking.
+
+Final production data should be imported from researched workbooks or a verified data pipeline, with sources, source quality, and proxy notes attached to each ranking row.
+
+## Planning
+
+See `plan.md` for the detailed product plan, reference research, execution blueprint, and first-build acceptance criteria.
