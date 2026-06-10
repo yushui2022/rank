@@ -25,9 +25,9 @@ export function NewsPage() {
           <span className="eyebrow">Ranking intelligence news</span>
           <h1>News</h1>
           <p>
-            A structured event ledger for ranking updates, source changes,
-            company movements, model releases, and robotics deployments. This is
-            tied back to rankings instead of acting like a generic blog.
+            <span>Ranking updates and source changes.</span>
+            <span>Company movements and model releases.</span>
+            <span>Robotics deployments tied back to the index.</span>
           </p>
         </div>
         <div className="hero-metrics">
@@ -76,7 +76,10 @@ export function NewsPage() {
                   <span>{event.impact} impact</span>
                 </div>
                 <h2>{event.title}</h2>
-                <p>{event.summary}</p>
+                <p>
+                  <span>{event.relatedEntity} leads this workbook snapshot.</span>
+                  <span>Impact is tied to the source trail below.</span>
+                </p>
                 <div className="news-meta-grid">
                   <div>
                     <span>Related entity</span>

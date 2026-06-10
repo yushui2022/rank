@@ -18,11 +18,29 @@
   --sans: "Aptos", "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .app-shell {
   min-height: 100vh;
+  overflow-x: hidden;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--sans);
+}
+
+.top-nav > *,
+.page-shell,
+.page-hero,
+.news-event,
+.source-row,
+.category-card,
+.robotics-track-card,
+.company-row-card {
+  min-width: 0;
 }
 
 .skip-link {
@@ -1660,12 +1678,28 @@ button {
   letter-spacing: 0;
 }
 
+.page-hero > div {
+  min-width: 0;
+}
+
 .page-hero p {
-  max-width: 760px;
+  max-width: min(760px, calc(100vw - 72px));
   margin: 0;
   color: var(--ink-2);
   font-size: 14px;
   line-height: 1.6;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.page-hero p span,
+.news-body p span {
+  display: block;
+}
+
+.news-body h2,
+.news-body p {
+  max-width: min(860px, calc(100vw - 84px));
 }
 
 .hero-metrics {
@@ -2107,9 +2141,47 @@ button {
   .source-row {
     grid-template-columns: 1fr;
   }
+
+  .page-hero p,
+  .news-body h2,
+  .news-body p,
+  .category-card p,
+  .robotics-track-card p,
+  .company-row-card p {
+    max-width: min(640px, 60vw);
+  }
 }
 
 @media (max-width: 680px) {
+  .page-shell {
+    width: 100%;
+    max-width: 100vw;
+    padding: 14px;
+    overflow: hidden;
+  }
+
+  .page-hero,
+  .news-event,
+  .source-ledger-page .source-row,
+  .category-card,
+  .robotics-track-card,
+  .company-row-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .page-hero p {
+    max-width: calc(100vw - 56px);
+  }
+
+  .news-body h2,
+  .news-body p,
+  .category-card p,
+  .robotics-track-card p,
+  .company-row-card p {
+    max-width: calc(100vw - 56px);
+  }
+
   .workspace {
     padding: 14px;
   }

@@ -24,6 +24,7 @@ body,
 
 body {
   background: #f5f7fa;
+  overflow-x: hidden;
 }
 
 button,

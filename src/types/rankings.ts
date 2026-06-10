@@ -47,6 +47,7 @@ export type Track = {
   folder?: string;
   slug?: string;
   workbookTitle?: string;
+  workbookNote?: string;
   workbookPath?: string;
   snapshotDate?: string;
   sourceCount?: number;

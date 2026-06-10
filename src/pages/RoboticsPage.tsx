@@ -32,7 +32,7 @@ export function RoboticsPage() {
           const leaderEntity = leader ? entityById.get(leader.entityId) : null;
           return (
             <article key={track.id} className="robotics-track-card">
-              <span>{track.categoryCn || track.folder}</span>
+              <span>{track.folder}</span>
               <h2>{track.name}</h2>
               <p>{track.description}</p>
               <div className="metric-row">
