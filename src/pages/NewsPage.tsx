@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { newsEvents, sources, tracks } from "../data/rankingData";
+import { newsEvents, sources } from "../data/rankingData";
 import type { DomainId } from "../types/rankings";
 
 const eventTypes = Array.from(new Set(newsEvents.map((event) => event.eventType)));
@@ -97,60 +97,96 @@ export function NewsPage() {
         </select>
       </section>
 
-      <section className="news-ledger">
-        {filteredEvents.slice(0, 40).map((event) => {
-          const track = tracks.find((item) => item.id === event.trackId);
-          const eventSources = event.sourceIds
-            .map((sourceId) => sources.find((source) => source.id === sourceId))
-            .filter(Boolean);
-          return (
-            <article key={event.id} className="news-event">
-              <div className="news-date">
-                <span>{event.date}</span>
-                <strong>{event.eventType}</strong>
-              </div>
-              <div className="news-body">
-                <div className="news-kicker">
-                  <span>{event.domainId.toUpperCase()}</span>
-                  <span>{track?.name ?? event.affectedRanking}</span>
-                  <span>{event.impact} impact</span>
+      <div className="news-layout">
+        <section className="news-hero-article">
+          <div className="news-hero-image" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')" }} />
+          <div className="news-hero-content">
+            <span className="news-hero-kicker">News</span>
+            <h2 className="news-hero-title">ByteDance sets four AI priorities for 2026</h2>
+            <div className="news-hero-meta">
+              <span>6 mins read</span>
+              <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 2C1 1.44772 1.44772 1 2 1H12C12.5523 1 13 1.44772 13 2V14.5C13 14.8988 12.569 15.1482 12.2173 14.9532L7.48274 12.3284C7.17935 12.1601 6.82065 12.1601 6.51726 12.3284L1.78274 14.9532C1.43098 15.1482 1 14.8988 1 14.5V2Z" stroke="currentColor" strokeWidth="1.5"/>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <section className="news-timeline-container">
+          <div className="news-timeline-header">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="var(--accent)" strokeWidth="2"/>
+              <path d="M7 12H9.5L10.5 8L13.5 16L14.5 12H17" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <h2>Pulses</h2>
+          </div>
+
+          <div className="news-timeline">
+            {filteredEvents.slice(0, 5).map((event) => {
+              const eventSources = event.sourceIds
+                .map((sourceId) => sources.find((source) => source.id === sourceId))
+                .filter(Boolean);
+              
+              const sourceName = eventSources[0]?.publisher || "Industry Source";
+
+              return (
+                <article key={event.id} className="news-timeline-item">
+                  <h3>{event.title}</h3>
+                  <div className="news-timeline-meta">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <span>{event.date}</span>
+                    <span>@</span>
+                    <span>{sourceName}</span>
+                  </div>
+                  <p>
+                    {event.relatedEntity} leads {event.affectedRanking}. Snapshot {event.date}; source trail attached. {event.impact} impact on the {event.domainId.toUpperCase()} rankings.
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="news-timeline-footer">
+            <button type="button">See All</button>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="10 8 14 12 10 16"/>
+            </svg>
+          </div>
+        </section>
+      </div>
+
+      <div className="news-list-container">
+        <h2 className="news-list-title">Latest Updates</h2>
+        <div className="news-list">
+          {filteredEvents.slice(5, 40).map((event) => {
+            const eventSources = event.sourceIds
+              .map((sourceId) => sources.find((source) => source.id === sourceId))
+              .filter(Boolean);
+            
+            const sourceName = eventSources[0]?.publisher || "Industry Source";
+
+            return (
+              <article key={event.id} className="news-list-row">
+                <div className="news-list-date">{event.date}</div>
+                <div className="news-list-core">
+                  <h3>{event.title}</h3>
+                  <p>{event.relatedEntity} leads {event.affectedRanking}. {event.impact} impact.</p>
                 </div>
-                <h2>{event.title}</h2>
-                <p>
-                  <span>
-                    {event.relatedEntity} leads {event.affectedRanking}.
-                  </span>
-                  <span>Snapshot {event.date}; source trail below.</span>
-                </p>
-                <div className="news-meta-grid">
-                  <div>
-                    <span>Related entity</span>
-                    <strong>{event.relatedEntity}</strong>
-                  </div>
-                  <div>
-                    <span>Affected ranking</span>
-                    <strong>{event.affectedRanking}</strong>
-                  </div>
-                  <div>
-                    <span>Source quality</span>
-                    <strong>{event.sourceQuality}</strong>
-                  </div>
+                <div className="news-list-source">
+                  <span>{sourceName}</span>
                 </div>
-              </div>
-              <aside className="news-source-stack">
-                <span>Source trail</span>
-                {eventSources.slice(0, 3).map((source) =>
-                  source ? (
-                    <a key={source.id} href={source.url} target="_blank" rel="noreferrer">
-                      {source.publisher}
-                    </a>
-                  ) : null,
-                )}
-              </aside>
-            </article>
-          );
-        })}
-      </section>
+                <div className="news-list-type">
+                  <span className="badge">{event.eventType}</span>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
     </main>
   );
 }

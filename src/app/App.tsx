@@ -3,19 +3,14 @@ import { TopNav } from "../components/TopNav";
 import type { AppPageId } from "../types/rankings";
 import "./app.css";
 
-const CategoriesPage = lazy(() =>
-  import("../pages/CategoriesPage").then((module) => ({
-    default: module.CategoriesPage,
+const DownloadsPage = lazy(() =>
+  import("../pages/DownloadsPage").then((module) => ({
+    default: module.DownloadsPage,
   })),
 );
-const CompaniesPage = lazy(() =>
-  import("../pages/CompaniesPage").then((module) => ({
-    default: module.CompaniesPage,
-  })),
-);
-const MethodologyPage = lazy(() =>
-  import("../pages/MethodologyPage").then((module) => ({
-    default: module.MethodologyPage,
+const HonorRollPage = lazy(() =>
+  import("../pages/HonorRollPage").then((module) => ({
+    default: module.HonorRollPage,
   })),
 );
 const NewsPage = lazy(() =>
@@ -28,11 +23,6 @@ const RankingsPage = lazy(() =>
     default: module.RankingsPage,
   })),
 );
-const RoboticsPage = lazy(() =>
-  import("../pages/RoboticsPage").then((module) => ({
-    default: module.RoboticsPage,
-  })),
-);
 const SourcesPage = lazy(() =>
   import("../pages/SourcesPage").then((module) => ({
     default: module.SourcesPage,
@@ -41,11 +31,9 @@ const SourcesPage = lazy(() =>
 
 const pageIds: AppPageId[] = [
   "rankings",
-  "categories",
-  "companies",
-  "robotics",
   "news",
-  "methodology",
+  "downloads",
+  "honor-roll",
   "sources",
 ];
 
@@ -90,16 +78,12 @@ export function App() {
 
   const renderPage = () => {
     switch (activePage) {
-      case "categories":
-        return <CategoriesPage />;
-      case "companies":
-        return <CompaniesPage />;
-      case "robotics":
-        return <RoboticsPage />;
+      case "downloads":
+        return <DownloadsPage />;
+      case "honor-roll":
+        return <HonorRollPage />;
       case "news":
         return <NewsPage />;
-      case "methodology":
-        return <MethodologyPage />;
       case "sources":
         return <SourcesPage />;
       case "rankings":

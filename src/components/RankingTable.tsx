@@ -1,7 +1,5 @@
 import type { Entity, RankingRow } from "../types/rankings";
 import { formatSignedNumber } from "../utils/displayText";
-import { Badge } from "./Badge";
-import { Sparkline } from "./Sparkline";
 
 type RankingRecord = {
   row: RankingRow;
@@ -9,7 +7,7 @@ type RankingRecord = {
   viewScore: number;
 };
 
-type SortKey = "view" | "score" | "momentum";
+type SortKey = "view" | "1m" | "3m" | "momentum";
 type SortDirection = "asc" | "desc";
 
 type RankingTableProps = {
@@ -27,12 +25,6 @@ type RankingTableProps = {
 
 const sortSuffix = (active: boolean, direction: SortDirection): string =>
   active ? (direction === "desc" ? " desc" : " asc") : "";
-
-const qualityTone = {
-  high: "green",
-  medium: "blue",
-  proxy: "amber",
-} as const;
 
 export function RankingTable({
   records,
@@ -67,23 +59,34 @@ export function RankingTable({
                   type="button"
                   className="sort-header"
                   aria-sort={
-                    sortKey === "score"
+                    sortKey === "1m"
                       ? sortDirection === "desc"
                         ? "descending"
                         : "ascending"
                       : "none"
                   }
-                  onClick={() => onSort("score")}
+                  onClick={() => onSort("1m")}
                 >
-                  Score{sortSuffix(sortKey === "score", sortDirection)}
+                  1M Change{sortSuffix(sortKey === "1m", sortDirection)}
                 </button>
               </th>
-              <th>View score</th>
-              <th>7d change</th>
+              <th>
+                <button
+                  type="button"
+                  className="sort-header"
+                  aria-sort={
+                    sortKey === "3m"
+                      ? sortDirection === "desc"
+                        ? "descending"
+                        : "ascending"
+                      : "none"
+                  }
+                  onClick={() => onSort("3m")}
+                >
+                  3M Change{sortSuffix(sortKey === "3m", sortDirection)}
+                </button>
+              </th>
               <th>Category</th>
-              <th>Evidence</th>
-              <th>Confidence</th>
-              <th>Workbook</th>
               <th>Sentiment</th>
               <th>
                 <button
@@ -101,26 +104,25 @@ export function RankingTable({
                   Momentum{sortSuffix(sortKey === "momentum", sortDirection)}
                 </button>
               </th>
-              <th>Trend</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {records.length === 0 && (
               <tr className="empty-row">
-                <td colSpan={13}>
+                <td colSpan={8}>
                   No matching entities. Adjust filters or reset to see results.
                 </td>
               </tr>
             )}
-            {records.map(({ row, entity, viewScore }) => {
-              const trendTone = row.scoreChange >= 0 ? "positive" : "negative";
+            {records.map(({ row, entity }) => {
               const selected = entity.id === selectedEntityId;
 
               return (
                 <tr
                   key={`${row.trackId}-${entity.id}`}
                   className={selected ? "is-selected" : ""}
+                  onClick={() => onSelectEntity(entity.id)}
                 >
                   <td className="rank-cell">
                     <div className="rank-wrap">
@@ -132,11 +134,7 @@ export function RankingTable({
                     </div>
                   </td>
                   <td>
-                    <button
-                      type="button"
-                      className="entity-cell"
-                      onClick={() => onSelectEntity(entity.id)}
-                    >
+                    <div className="entity-cell">
                       <span className="entity-logo">{entity.logoText}</span>
                       <span>
                         <strong>{entity.name}</strong>
@@ -144,40 +142,23 @@ export function RankingTable({
                           {entity.country} / {entity.entityType}
                         </em>
                       </span>
-                    </button>
-                  </td>
-                  <td className="score-cell">
-                    <div className="score-block">
-                      <b>{row.score}</b>
-                      <span className="score-meter">
-                        <i style={{ width: `${Math.min(100, row.score)}%` }} />
-                      </span>
                     </div>
                   </td>
-                  <td className="view-score-cell">{viewScore}</td>
                   <td>
-                    <span className={`change-pill ${trendTone}`}>
-                      {formatSignedNumber(row.scoreChange)}
+                    <span className={`change-pill ${row.rank1mChange >= 0 ? "positive" : "negative"}`}>
+                      {formatSignedNumber(row.rank1mChange)}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`change-pill ${row.rank3mChange >= 0 ? "positive" : "negative"}`}>
+                      {formatSignedNumber(row.rank3mChange)}
                     </span>
                   </td>
                   <td className="category-cell">{row.category}</td>
-                  <td>
-                    <div className="evidence-stack">
-                      <Badge tone={qualityTone[row.evidenceQuality]}>
-                        {row.evidenceQuality}
-                      </Badge>
-                      <span>{row.evidenceCount} sources</span>
-                    </div>
-                  </td>
-                  <td className="proxy-cell">{row.trafficProxy}</td>
-                  <td className="proxy-cell">{row.fundingProxy}</td>
                   <td className="proxy-cell">{row.sentiment}/100</td>
                   <td className="momentum-cell">{row.momentum}</td>
                   <td>
-                    <Sparkline points={row.sparkline} tone={trendTone} />
-                  </td>
-                  <td>
-                    <div className="row-actions">
+                    <div className="row-actions" onClick={(e) => e.stopPropagation()}>
                       <button
                         type="button"
                         className={watchedIds.has(entity.id) ? "is-active" : ""}

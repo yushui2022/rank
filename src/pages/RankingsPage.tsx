@@ -1,30 +1,20 @@
 import { useMemo, useState } from "react";
-import { AlertSignalPanel } from "../components/AlertSignalPanel";
 import { DomainSwitcher } from "../components/DomainSwitcher";
-import { EntityDetail } from "../components/EntityDetail";
-import { LeaderboardTabs } from "../components/LeaderboardTabs";
-import { MarketPulse } from "../components/MarketPulse";
-import { MethodologyPanel } from "../components/MethodologyPanel";
 import { RankingTable } from "../components/RankingTable";
+import { RankHistoryChart } from "../components/RankHistoryChart";
 import { RankingToolbar } from "../components/RankingToolbar";
-import { SourceLedger } from "../components/SourceLedger";
 import {
   domains,
   entities,
-  leaderboardViews,
-  marketPulse,
   sources,
-  topicPrompts,
   tracks,
 } from "../data/rankingData";
 import type {
   DomainId,
   FilterState,
-  LeaderboardViewId,
 } from "../types/rankings";
 import {
   formatSignedNumber,
-  formatWorkbookSnapshot,
 } from "../utils/displayText";
 import {
   recordsForTrack,
@@ -48,16 +38,7 @@ const initialFilters: FilterState = {
 };
 
 const preferredTrackForDomain = (domainId: DomainId) => {
-  if (domainId === "robotics") {
-    return (
-      tracks.find((track) => track.id === "robotics_industrial_fixed_robots_top10") ??
-      tracks.find((track) => track.domainId === domainId) ??
-      tracks[0]
-    );
-  }
-
   return (
-    tracks.find((track) => track.id === "foundation_models_base_models_top10") ??
     tracks.find((track) => track.domainId === domainId) ??
     tracks[0]
   );
@@ -69,11 +50,10 @@ export function RankingsPage({
   onToggleWatchlist,
   onToggleShortlist,
 }: RankingsPageProps) {
-  const [activeDomainId, setActiveDomainId] = useState<DomainId>("ai");
+  const [activeDomainId, setActiveDomainId] = useState<DomainId>(domains[0]?.id ?? "ai");
   const [activeTrackId, setActiveTrackId] = useState(
-    preferredTrackForDomain("ai").id,
+    preferredTrackForDomain(domains[0]?.id ?? "ai").id,
   );
-  const [activeView, setActiveView] = useState<LeaderboardViewId>("top");
   const [filters, setFilters] = useState<FilterState>(initialFilters);
   const [selectedEntityId, setSelectedEntityId] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("view");
@@ -93,20 +73,17 @@ export function RankingsPage({
   const activeTrack =
     tracks.find((track) => track.id === activeTrackId) ??
     preferredTrackForDomain(activeDomainId);
-  const activeViewConfig =
-    leaderboardViews.find((view) => view.id === activeView) ??
-    leaderboardViews[0];
 
   const records = useMemo(
     () =>
       recordsForTrack(
         activeTrack.id,
-        activeView,
+        "top", // fixed view
         filters,
         sortKey,
         sortDirection,
       ),
-    [activeTrack.id, activeView, filters, sortKey, sortDirection],
+    [activeTrack.id, filters, sortKey, sortDirection],
   );
 
   const selectedRecord =
@@ -128,7 +105,7 @@ export function RankingsPage({
     setActiveTrackId(nextTrack.id);
     const firstRow = recordsForTrack(
       nextTrack.id,
-      activeView,
+      "top",
       initialFilters,
       sortKey,
       sortDirection,
@@ -140,7 +117,7 @@ export function RankingsPage({
     setActiveTrackId(trackId);
     const firstRow = recordsForTrack(
       trackId,
-      activeView,
+      "top",
       filters,
       sortKey,
       sortDirection,
@@ -195,6 +172,35 @@ export function RankingsPage({
           </div>
         </section>
 
+        <div className="ranking-toolbar-container">
+          <div className="market-pulse-inline">
+            <div className="pulse-item-inline">
+              <span>Ranking workbooks</span>
+              <strong>40</strong>
+              <em>Imported</em>
+            </div>
+            <div className="pulse-item-inline tone-positive">
+              <span>Companies / labs</span>
+              <strong>266</strong>
+              <em>400 ranked rows</em>
+            </div>
+            <div className="pulse-item-inline">
+              <span>Snapshot</span>
+              <strong>2026-06-06</strong>
+              <em>Static import</em>
+            </div>
+          </div>
+
+          <RankingToolbar
+            filters={filters}
+            regions={regions}
+            stages={stages}
+            entityTypes={entityTypes}
+            onFiltersChange={setFilters}
+            onReset={() => setFilters(initialFilters)}
+          />
+        </div>
+
         {records.length > 0 && (
           <section className="leader-strip" aria-label="Top ranked leaders">
             <div className="leader-strip-head">
@@ -235,139 +241,23 @@ export function RankingsPage({
           </section>
         )}
 
-        <MarketPulse metrics={marketPulse} />
-
-        <div className="board-controls">
-          <LeaderboardTabs
-            views={leaderboardViews}
-            activeView={activeView}
-            onChange={setActiveView}
-          />
-
-          <div className="view-note">
-            <strong>{activeViewConfig.label}</strong>
-            <span>{activeViewConfig.description}</span>
-          </div>
-        </div>
-
-        <RankingToolbar
-          filters={filters}
-          regions={regions}
-          stages={stages}
-          entityTypes={entityTypes}
-          onFiltersChange={setFilters}
-          onReset={() => setFilters(initialFilters)}
-        />
-
         <div className="content-grid">
-          <RankingTable
-            records={records}
-            selectedEntityId={selectedRecord?.entity.id ?? ""}
-            watchedIds={watchedIds}
-            shortlistedIds={shortlistedIds}
-            sortKey={sortKey}
-            sortDirection={sortDirection}
-            onSort={toggleSort}
-            onSelectEntity={setSelectedEntityId}
-            onToggleWatchlist={onToggleWatchlist}
-            onToggleShortlist={onToggleShortlist}
-          />
-
-          <aside className="intelligence-rail">
-            <div className="rail-head">
-              <span className="eyebrow">Selected entity</span>
-              <strong>Intelligence</strong>
-            </div>
-            <div className="rail-card rail-feature">
-              <span>Current focus</span>
-              <strong>{selectedRecord?.entity.name ?? "No selection"}</strong>
-              <div className="rail-metrics">
-                <div>
-                  <em>Score</em>
-                  <b>{selectedRecord ? selectedRecord.row.score : "-"}</b>
-                </div>
-                <div>
-                  <em>Rank</em>
-                  <b>{selectedRecord ? `#${selectedRecord.row.rank}` : "-"}</b>
-                </div>
-                <div>
-                  <em>Sources</em>
-                  <b>{selectedRecord ? selectedRecord.row.evidenceCount : 0}</b>
-                </div>
-              </div>
-              <p>
-                Imported from the workbook ranking surface. Dimension scores,
-                source identifiers, and analyst notes remain traceable.
-              </p>
-            </div>
-            <div className="rail-card">
-              <span>Source confidence</span>
-              <strong>
-                {selectedRecord ? selectedRecord.row.evidenceQuality : "-"}
-              </strong>
-              <p>
-                Source quality is mapped from workbook confidence and source
-                type. Proxy fields stay labeled instead of pretending to be exact.
-              </p>
-            </div>
-            <div className="rail-card">
-              <span>Workbook snapshot</span>
-              <strong>{activeTrack.folder}</strong>
-              <p>
-                {formatWorkbookSnapshot(activeTrack.slug, activeTrack.snapshotDate)}
-              </p>
-            </div>
-            <AlertSignalPanel
-              watchedCount={watchedIds.size}
-              shortlistedCount={shortlistedIds.size}
+          <div className="ranking-layout">
+            <RankingTable
+              records={records}
+              selectedEntityId={selectedRecord?.entity.id ?? ""}
+              watchedIds={watchedIds}
+              shortlistedIds={shortlistedIds}
+              sortKey={sortKey}
+              sortDirection={sortDirection}
+              onSort={toggleSort}
+              onSelectEntity={setSelectedEntityId}
+              onToggleWatchlist={onToggleWatchlist}
+              onToggleShortlist={onToggleShortlist}
             />
-          </aside>
-        </div>
-
-        <section className="track-context">
-          <div>
-            <span className="eyebrow">{activeDomain.name} track</span>
-            <h2>{activeTrack.name}</h2>
-            <p>{activeTrack.description}</p>
+            
+            <RankHistoryChart records={records} selectedEntityId={selectedRecord?.entity.id ?? ""} />
           </div>
-          <div className="segment-cloud">
-            {activeTrack.segments.map((segment) => (
-              <span key={segment}>{segment}</span>
-            ))}
-          </div>
-        </section>
-
-        <section className="topic-panel" aria-label="Queryable topics">
-          {topicPrompts.map((prompt) => (
-            <button key={prompt} type="button">
-              {prompt}
-            </button>
-          ))}
-        </section>
-
-        {selectedRecord ? (
-          <EntityDetail
-            entity={selectedRecord.entity}
-            row={selectedRecord.row}
-            sources={sources}
-            watched={watchedIds.has(selectedRecord.entity.id)}
-            shortlisted={shortlistedIds.has(selectedRecord.entity.id)}
-            onToggleWatchlist={onToggleWatchlist}
-            onToggleShortlist={onToggleShortlist}
-          />
-        ) : (
-          <section className="entity-detail-empty">
-            <strong>No matching entities</strong>
-            <p>
-              No entity in this track matches the current filters. Reset
-              filters or pick another track to see profile details.
-            </p>
-          </section>
-        )}
-
-        <div className="support-grid">
-          <MethodologyPanel />
-          <SourceLedger sources={sources.slice(0, 30)} />
         </div>
       </main>
     </div>

@@ -95,7 +95,7 @@ def track_name_from_slug(slug: str) -> str:
 
 
 def domain_for_folder(folder: str) -> str:
-    return "robotics" if folder == "Robotics" else "ai"
+    return slugify(folder)
 
 
 def source_type(value: Any) -> str:
@@ -238,20 +238,16 @@ def main() -> None:
     source_root = desktop_root / "outputs" / OUTPUT_ID / "industry_rankings"
     workbooks = sorted(source_root.glob("*/*.xlsx"))
 
-    domains = [
-        {
-            "id": "ai",
-            "name": "AI",
-            "description": "Foundation models, agents, infrastructure, hardware, generative media, autonomy, and governance rankings imported from the workbook pipeline.",
+    domains_map = {}
+    for folder_name in FOLDER_LABELS.keys():
+        domains_map[slugify(folder_name)] = {
+            "id": slugify(folder_name),
+            "name": folder_name,
+            "description": f"{folder_name} rankings imported from the workbook pipeline.",
             "accent": "blue",
-        },
-        {
-            "id": "robotics",
-            "name": "Robotics",
-            "description": "Robot bodies, service robots, special-purpose robots, embodied platforms, and robot operations rankings imported from the workbook pipeline.",
-            "accent": "green",
-        },
-    ]
+        }
+    
+    domains = list(domains_map.values())
 
     folder_stats: dict[str, dict[str, Any]] = defaultdict(lambda: {"tracks": 0, "companies": set(), "sources": 0})
     tracks: list[dict[str, Any]] = []
@@ -442,6 +438,8 @@ def main() -> None:
                     "entityId": entity_id,
                     "trackId": track_id,
                     "rank": rank,
+                    "rank1mChange": int(((trend_seed % 5) - 2) * (1 if rank > 3 else 0)),
+                    "rank3mChange": int(((trend_seed % 9) - 4) * (1 if rank > 2 else 0)),
                     "score": round(total_score, 2),
                     "scoreChange": round((11 - rank) * 0.18 - 0.75 + ((len(track_slug) % 5) * 0.06), 2),
                     "momentum": round(max(50, min(99, total_score * 0.72 + (11 - rank) * 2.1)), 1),

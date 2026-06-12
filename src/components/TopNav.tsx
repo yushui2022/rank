@@ -9,11 +9,9 @@ type TopNavProps = {
 
 const navItems: { id: AppPageId; label: string }[] = [
   { id: "rankings", label: "Rankings" },
-  { id: "categories", label: "Categories" },
-  { id: "companies", label: "Companies" },
-  { id: "robotics", label: "Robotics" },
   { id: "news", label: "News" },
-  { id: "methodology", label: "Methodology" },
+  { id: "downloads", label: "Downloads" },
+  { id: "honor-roll", label: "Honor Roll" },
   { id: "sources", label: "Sources" },
 ];
 
@@ -29,7 +27,7 @@ export function TopNav({
         <span className="brand-symbol">R</span>
         <div>
           <strong>Rank Intelligence</strong>
-          <span>AI / Robotics ranking exchange</span>
+          <span>Industry ranking exchange</span>
         </div>
       </div>
 

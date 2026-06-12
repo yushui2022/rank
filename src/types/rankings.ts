@@ -1,4 +1,4 @@
-export type DomainId = "ai" | "robotics";
+export type DomainId = string;
 
 export type EntityType =
   | "company"
@@ -98,6 +98,8 @@ export type RankingRow = {
   entityId: string;
   trackId: string;
   rank: number;
+  rank1mChange: number;
+  rank3mChange: number;
   score: number;
   scoreChange: number;
   momentum: number;
@@ -181,9 +183,7 @@ export type TrackMethodologyItem = {
 
 export type AppPageId =
   | "rankings"
-  | "categories"
-  | "companies"
-  | "robotics"
   | "news"
-  | "methodology"
+  | "downloads"
+  | "honor-roll"
   | "sources";

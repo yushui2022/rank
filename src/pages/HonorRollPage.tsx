@@ -1,17 +1,18 @@
 import { useMemo, useState } from "react";
 import { Badge } from "../components/Badge";
 import { entities, rankings, sources, tracks } from "../data/rankingData";
-import type { DomainId, EntityType, RankingRow } from "../types/rankings";
+import type { DomainId, RankingRow } from "../types/rankings";
 
-type CompanyProfile = {
+type HonorProfile = {
   entity: (typeof entities)[number];
   rows: RankingRow[];
   bestRank: number;
   averageScore: number;
+  honorScore: number;
   sourceIds: string[];
 };
 
-const buildProfile = (entity: (typeof entities)[number]): CompanyProfile => {
+const buildProfile = (entity: (typeof entities)[number]): HonorProfile => {
   const rows = rankings.filter((row) => row.entityId === entity.id);
   const bestRank = rows.length
     ? Math.min(...rows.map((row) => row.rank))
@@ -23,31 +24,33 @@ const buildProfile = (entity: (typeof entities)[number]): CompanyProfile => {
     new Set([...entity.sourceIds, ...rows.flatMap((row) => row.sourceIds)]),
   );
 
-  return { entity, rows, bestRank, averageScore, sourceIds };
+  // Synthetic "Honor Score" for the Hall of Fame ranking
+  const honorScore = rows.length * 50 + averageScore * 2;
+
+  return { entity, rows, bestRank, averageScore, honorScore, sourceIds };
 };
 
-const companyProfiles = entities
+// Only keep top 100 for the Honor Roll
+const honorRollProfiles = entities
   .map(buildProfile)
-  .sort((left, right) => {
-    if (right.rows.length !== left.rows.length) {
-      return right.rows.length - left.rows.length;
-    }
-    return right.averageScore - left.averageScore;
-  });
+  .filter(profile => profile.rows.length > 0)
+  .sort((left, right) => right.honorScore - left.honorScore)
+  .slice(0, 100)
+  .map((profile, index) => ({ ...profile, honorRank: index + 1 }));
 
 const entityTypeOptions = Array.from(
-  new Set(entities.map((entity) => entity.entityType)),
+  new Set(["Person", "Company", "Product", "Robot", "Model", ...entities.map((entity) => entity.entityType)]),
 ).sort();
 
-export function CompaniesPage() {
+export function HonorRollPage() {
   const [query, setQuery] = useState("");
   const [domain, setDomain] = useState<DomainId | "all">("all");
-  const [entityType, setEntityType] = useState<EntityType | "All">("All");
-  const [selectedId, setSelectedId] = useState(companyProfiles[0]?.entity.id ?? "");
+  const [entityType, setEntityType] = useState<string>("All");
+  const [selectedId, setSelectedId] = useState(honorRollProfiles[0]?.entity.id ?? "");
 
   const filteredProfiles = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    return companyProfiles.filter(({ entity, rows }) => {
+    return honorRollProfiles.filter(({ entity }) => {
       const queryMatch =
         !normalized ||
         entity.name.toLowerCase().includes(normalized) ||
@@ -55,15 +58,15 @@ export function CompaniesPage() {
         entity.region.toLowerCase().includes(normalized) ||
         entity.tags.some((tag) => tag.toLowerCase().includes(normalized));
       const domainMatch = domain === "all" || entity.domainId === domain;
-      const typeMatch = entityType === "All" || entity.entityType === entityType;
-      return queryMatch && domainMatch && typeMatch && rows.length > 0;
+      const typeMatch = entityType === "All" || entity.entityType.toLowerCase() === entityType.toLowerCase();
+      return queryMatch && domainMatch && typeMatch;
     });
   }, [domain, entityType, query]);
 
   const activeProfile =
     filteredProfiles.find((profile) => profile.entity.id === selectedId) ??
     filteredProfiles[0] ??
-    companyProfiles[0];
+    honorRollProfiles[0];
 
   const activeSources = activeProfile
     ? activeProfile.sourceIds
@@ -74,28 +77,27 @@ export function CompaniesPage() {
 
   return (
     <main className="page-shell">
-      <section className="page-hero compact">
+      <section className="page-hero compact" style={{ borderTop: "4px solid var(--gold)" }}>
         <div>
-          <span className="eyebrow">Company index</span>
-          <h1>Companies</h1>
+          <span className="eyebrow" style={{ color: "var(--gold)" }}>Hall of Fame</span>
+          <h1>Top 100 AI Era Honor Roll</h1>
           <p>
-            A cross-ranking view of the companies, labs, vendors, and platforms
-            that appear across imported AI and Robotics Top 10 workbooks.
+            The ultimate cross-ranking leaderboard celebrating the most influential people, companies, and products shaping the AI and Robotics era.
           </p>
         </div>
         <div className="hero-metrics">
-          <strong>{entities.length}</strong>
-          <span>unique entities</span>
+          <strong style={{ color: "var(--gold)" }}>100</strong>
+          <span>honored entities</span>
         </div>
       </section>
 
-      <section className="company-controls" aria-label="Company filters">
+      <section className="company-controls" aria-label="Honor Roll filters">
         <label className="search-field">
           <span>Search</span>
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Company, lab, country, tag..."
+            placeholder="Name, country, tag..."
           />
         </label>
         <div className="segmented-control">
@@ -112,12 +114,12 @@ export function CompaniesPage() {
         </div>
         <select
           value={entityType}
-          onChange={(event) => setEntityType(event.target.value as EntityType | "All")}
+          onChange={(event) => setEntityType(event.target.value)}
           aria-label="Entity type"
         >
-          <option>All</option>
+          <option value="All">All Types</option>
           {entityTypeOptions.map((type) => (
-            <option key={type}>{type}</option>
+            <option key={type} value={type}>{type}</option>
           ))}
         </select>
       </section>
@@ -127,56 +129,74 @@ export function CompaniesPage() {
           <div className="panel-title-row compact">
             <div>
               <span>Entity coverage</span>
-              <h2>{filteredProfiles.length} matching entities</h2>
+              <h2>{filteredProfiles.length} honored entries</h2>
             </div>
-            <p>Sorted by cross-ranking presence</p>
+            <p>Sorted by overall Honor Score</p>
           </div>
 
           <div className="company-index" role="list">
-            {filteredProfiles.slice(0, 80).map((profile) => (
-              <button
-                key={profile.entity.id}
-                type="button"
-                role="listitem"
-                className={`company-index-row${
-                  activeProfile?.entity.id === profile.entity.id ? " is-active" : ""
-                }`}
-                onClick={() => setSelectedId(profile.entity.id)}
-              >
-                <div className="entity-title">
-                  <span className="entity-logo">{profile.entity.logoText}</span>
-                  <div>
-                    <h2>{profile.entity.name}</h2>
-                    <p>
-                      {profile.entity.country} / {profile.entity.entityType}
-                    </p>
+            {filteredProfiles.map((profile) => {
+              const isTop3 = profile.honorRank <= 3;
+              const rankColor = profile.honorRank === 1 ? "var(--gold)" : profile.honorRank === 2 ? "var(--line-2)" : profile.honorRank === 3 ? "var(--ink-3)" : "var(--ink-2)";
+              
+              return (
+                <button
+                  key={profile.entity.id}
+                  type="button"
+                  role="listitem"
+                  className={`company-index-row${
+                    activeProfile?.entity.id === profile.entity.id ? " is-active" : ""
+                  }`}
+                  onClick={() => setSelectedId(profile.entity.id)}
+                  style={isTop3 ? { borderColor: rankColor, background: `linear-gradient(90deg, ${rankColor}11, transparent)` } : {}}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "16px", minWidth: 0 }}>
+                    <div style={{ 
+                      width: "48px", 
+                      textAlign: "center", 
+                      fontSize: isTop3 ? "28px" : "20px", 
+                      fontWeight: 800, 
+                      fontFamily: "var(--mono)", 
+                      color: rankColor 
+                    }}>
+                      #{profile.honorRank}
+                    </div>
+                    <div className="entity-title" style={{ minWidth: 0 }}>
+                      <span className="entity-logo" style={isTop3 ? { borderColor: rankColor, color: rankColor } : {}}>{profile.entity.logoText}</span>
+                      <div style={{ minWidth: 0, overflow: "hidden" }}>
+                        <h2 style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{profile.entity.name}</h2>
+                        <p style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {profile.entity.country} / {profile.entity.entityType.charAt(0).toUpperCase() + profile.entity.entityType.slice(1)}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="company-score-stack compact">
-                  <div>
-                    <span>Appearances</span>
-                    <strong>{profile.rows.length}</strong>
+                  <div className="company-score-stack compact">
+                    <div>
+                      <span>Honor Score</span>
+                      <strong style={{ color: isTop3 ? rankColor : "inherit" }}>{profile.honorScore.toFixed(0)}</strong>
+                    </div>
+                    <div>
+                      <span>Appearances</span>
+                      <strong>{profile.rows.length}</strong>
+                    </div>
+                    <div>
+                      <span>Best Rank</span>
+                      <strong>#{profile.bestRank}</strong>
+                    </div>
                   </div>
-                  <div>
-                    <span>Best rank</span>
-                    <strong>#{profile.bestRank}</strong>
-                  </div>
-                  <div>
-                    <span>Avg score</span>
-                    <strong>{profile.averageScore.toFixed(1)}</strong>
-                  </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {activeProfile && (
-          <aside className="company-profile-panel">
+          <aside className="company-profile-panel" style={activeProfile.honorRank <= 3 ? { borderTop: `4px solid ${activeProfile.honorRank === 1 ? "var(--gold)" : activeProfile.honorRank === 2 ? "var(--line-2)" : "var(--ink-3)"}` } : {}}>
             <div className="entity-title">
               <span className="entity-logo large">{activeProfile.entity.logoText}</span>
               <div>
-                <span className="eyebrow">Selected profile</span>
+                <span className="eyebrow" style={{ color: "var(--gold)" }}>Honor Roll #{activeProfile.honorRank}</span>
                 <h2>{activeProfile.entity.name}</h2>
                 <p>
                   {activeProfile.entity.region} / {activeProfile.entity.stage}
@@ -186,8 +206,8 @@ export function CompaniesPage() {
 
             <div className="company-profile-metrics">
               <div>
-                <span>Ranking rows</span>
-                <strong>{activeProfile.rows.length}</strong>
+                <span>Honor Score</span>
+                <strong style={{ color: "var(--gold)" }}>{activeProfile.honorScore.toFixed(0)}</strong>
               </div>
               <div>
                 <span>Best rank</span>
