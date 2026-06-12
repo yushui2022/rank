@@ -37,17 +37,19 @@ function generateMockHistory(topRecords: RankingRecord[]) {
     return d;
   });
 
+  // Desaturated warm-neutral palette aligned with the editorial direction.
+  // Rank 1 gets the accent; the rest step down through muted slate/taupe tones.
   const colors = [
-    "#1d6fe0", // Blue
-    "#128a4f", // Green
-    "#c08a1e", // Amber
-    "#d23a4e", // Red
-    "#8a2be2", // Purple
-    "#20b2aa", // Light Sea Green
-    "#ff8c00", // Dark Orange
-    "#4682b4", // Steel Blue
-    "#9932cc", // Dark Orchid
-    "#e9967a", // Dark Salmon
+    "#1f6c9f", // accent (rank 1)
+    "#5c5f66", // slate
+    "#956400", // amber
+    "#346538", // moss
+    "#8a6d3b", // taupe
+    "#6b7280", // cool gray
+    "#9f6b53", // clay
+    "#4a6670", // steel
+    "#7a6a8a", // muted plum
+    "#8a8d93", // light gray
   ];
 
   topRecords.forEach((record, index) => {
@@ -95,8 +97,8 @@ export function RankHistoryChart({ records, selectedEntityId }: RankHistoryChart
   // Chart dimensions aligned with RankingTable
   const width = 800;
   const headerHeight = 48; // Matches .ranking-table th height
-  const rowHeight = 60; // Matches .ranking-table td height
-  const height = headerHeight + 10 * rowHeight; // Total height 648px
+  const rowHeight = 52; // Matches .ranking-table td height
+  const height = headerHeight + 10 * rowHeight;
   const padding = { top: 0, right: 140, bottom: 0, left: 40 };
   const innerWidth = width - padding.left - padding.right;
 
@@ -202,7 +204,8 @@ export function RankHistoryChart({ records, selectedEntityId }: RankHistoryChart
             // Set opacity: 
             // - If something is selected, selected gets 1.0, others get 0.15
             // - If nothing is selected, all get 0.8
-            const opacity = hasSelection ? (isSelected ? 1.0 : 0.15) : 0.8;
+            const opacity = hasSelection ? (isSelected ? 1.0 : 0.18) : 0.85;
+            const labelOpacity = hasSelection ? (isSelected ? 1.0 : 0.45) : 1.0;
 
             // Build step-after path
             let pathD = "";
@@ -248,9 +251,13 @@ export function RankHistoryChart({ records, selectedEntityId }: RankHistoryChart
                   y={getY(series.points[series.points.length - 1].rank)}
                   alignmentBaseline="middle"
                   fill={series.color}
-                  fontSize="14"
+                  fontSize="13"
                   fontWeight={isFocused ? "800" : "600"}
-                  opacity={opacity}
+                  opacity={labelOpacity}
+                  stroke="#ffffff"
+                  strokeWidth="3"
+                  paintOrder="stroke"
+                  style={{ strokeLinejoin: "round" }}
                 >
                   {series.name}
                 </text>

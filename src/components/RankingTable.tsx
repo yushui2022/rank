@@ -26,6 +26,9 @@ type RankingTableProps = {
 const sortSuffix = (active: boolean, direction: SortDirection): string =>
   active ? (direction === "desc" ? " desc" : " asc") : "";
 
+const changeTone = (value: number): string =>
+  value > 0 ? "positive" : value < 0 ? "negative" : "neutral";
+
 export function RankingTable({
   records,
   selectedEntityId,
@@ -145,12 +148,12 @@ export function RankingTable({
                     </div>
                   </td>
                   <td>
-                    <span className={`change-pill ${row.rank1mChange >= 0 ? "positive" : "negative"}`}>
+                    <span className={`change-pill ${changeTone(row.rank1mChange)}`}>
                       {formatSignedNumber(row.rank1mChange)}
                     </span>
                   </td>
                   <td>
-                    <span className={`change-pill ${row.rank3mChange >= 0 ? "positive" : "negative"}`}>
+                    <span className={`change-pill ${changeTone(row.rank3mChange)}`}>
                       {formatSignedNumber(row.rank3mChange)}
                     </span>
                   </td>

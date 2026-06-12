@@ -93,7 +93,7 @@ export function DownloadsPage() {
                     fontWeight: 700,
                     cursor: "pointer"
                   }}
-                  onMouseOver={(e) => { e.currentTarget.style.background = "#0d4fb0"; e.currentTarget.style.borderColor = "#0d4fb0"; }}
+                  onMouseOver={(e) => { e.currentTarget.style.background = "var(--accent-2)"; e.currentTarget.style.borderColor = "var(--accent-2)"; }}
                   onMouseOut={(e) => { e.currentTarget.style.background = "var(--accent)"; e.currentTarget.style.borderColor = "var(--accent)"; }}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
