@@ -17,8 +17,8 @@ import type {
 export const domains: Domain[] = [
   {
     "id": "foundation-models",
-    "name": "Foundation Models",
-    "description": "Foundation Models rankings imported from the workbook pipeline.",
+    "name": "Industry Rankings",
+    "description": "Industry Rankings rankings imported from the workbook pipeline.",
     "accent": "blue"
   },
   {
@@ -554,19 +554,19 @@ export const tracks: Track[] = [
     "id": "foundation_models_base_models_top10",
     "domainId": "foundation-models",
     "name": "Base foundation models",
-    "label": "Foundation Models",
-    "description": "Workbook-backed Top 10 ranking for Base foundation models within Foundation Models. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
+    "label": "Industry Rankings",
+    "description": "Workbook-backed Top 10 ranking for Base foundation models within Industry Rankings. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
     "segments": [
       "基础模型",
       "Top 10 ranking",
-      "Foundation Models",
+      "Industry Rankings",
       "Source-traced workbook"
     ],
-    "folder": "Foundation Models",
+    "folder": "Industry Rankings",
     "slug": "foundation_models_base_models_top10",
     "workbookTitle": "基模 Top 10 公司排名（2026-06-06）",
-    "workbookNote": "基模 按 Foundation Models 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
-    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Foundation Models\\foundation_models_base_models_top10.xlsx",
+    "workbookNote": "基模 按 Industry Rankings 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
+    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Industry Rankings\\foundation_models_base_models_top10.xlsx",
     "snapshotDate": "2026-06-06",
     "sourceCount": 12,
     "companyCount": 10,
@@ -576,19 +576,19 @@ export const tracks: Track[] = [
     "id": "foundation_models_biopharma_top10",
     "domainId": "foundation-models",
     "name": "Biopharma models",
-    "label": "Foundation Models",
-    "description": "Workbook-backed Top 10 ranking for Biopharma models within Foundation Models. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
+    "label": "Industry Rankings",
+    "description": "Workbook-backed Top 10 ranking for Biopharma models within Industry Rankings. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
     "segments": [
       "基础模型",
       "Top 10 ranking",
-      "Foundation Models",
+      "Industry Rankings",
       "Source-traced workbook"
     ],
-    "folder": "Foundation Models",
+    "folder": "Industry Rankings",
     "slug": "foundation_models_biopharma_top10",
     "workbookTitle": "生物医药大模型 Top 10 公司排名（2026-06-06）",
-    "workbookNote": "生物医药大模型 按 Foundation Models 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
-    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Foundation Models\\foundation_models_biopharma_top10.xlsx",
+    "workbookNote": "生物医药大模型 按 Industry Rankings 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
+    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Industry Rankings\\foundation_models_biopharma_top10.xlsx",
     "snapshotDate": "2026-06-06",
     "sourceCount": 10,
     "companyCount": 10,
@@ -598,19 +598,19 @@ export const tracks: Track[] = [
     "id": "foundation_models_edge_small_models_top10",
     "domainId": "foundation-models",
     "name": "Edge small models",
-    "label": "Foundation Models",
-    "description": "Workbook-backed Top 10 ranking for Edge small models within Foundation Models. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
+    "label": "Industry Rankings",
+    "description": "Workbook-backed Top 10 ranking for Edge small models within Industry Rankings. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
     "segments": [
       "基础模型",
       "Top 10 ranking",
-      "Foundation Models",
+      "Industry Rankings",
       "Source-traced workbook"
     ],
-    "folder": "Foundation Models",
+    "folder": "Industry Rankings",
     "slug": "foundation_models_edge_small_models_top10",
     "workbookTitle": "端侧小模型与嵌入模型 Top 10 公司排名（2026-06-06）",
-    "workbookNote": "端侧小模型与嵌入模型 按 Foundation Models 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
-    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Foundation Models\\foundation_models_edge_small_models_top10.xlsx",
+    "workbookNote": "端侧小模型与嵌入模型 按 Industry Rankings 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
+    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Industry Rankings\\foundation_models_edge_small_models_top10.xlsx",
     "snapshotDate": "2026-06-06",
     "sourceCount": 11,
     "companyCount": 10,
@@ -620,19 +620,19 @@ export const tracks: Track[] = [
     "id": "foundation_models_embedding_top10",
     "domainId": "foundation-models",
     "name": "Embedding models",
-    "label": "Foundation Models",
-    "description": "Workbook-backed Top 10 ranking for Embedding models within Foundation Models. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
+    "label": "Industry Rankings",
+    "description": "Workbook-backed Top 10 ranking for Embedding models within Industry Rankings. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
     "segments": [
       "基础模型",
       "Top 10 ranking",
-      "Foundation Models",
+      "Industry Rankings",
       "Source-traced workbook"
     ],
-    "folder": "Foundation Models",
+    "folder": "Industry Rankings",
     "slug": "foundation_models_embedding_top10",
     "workbookTitle": "Embedding 嵌入模型 Top 10 公司排名（2026-06-06）",
-    "workbookNote": "Embedding 嵌入模型 按 Foundation Models 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
-    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Foundation Models\\foundation_models_embedding_top10.xlsx",
+    "workbookNote": "Embedding 嵌入模型 按 Industry Rankings 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
+    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Industry Rankings\\foundation_models_embedding_top10.xlsx",
     "snapshotDate": "2026-06-06",
     "sourceCount": 12,
     "companyCount": 10,
@@ -642,19 +642,19 @@ export const tracks: Track[] = [
     "id": "foundation_models_industrial_top10",
     "domainId": "foundation-models",
     "name": "Industrial foundation models",
-    "label": "Foundation Models",
-    "description": "Workbook-backed Top 10 ranking for Industrial foundation models within Foundation Models. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
+    "label": "Industry Rankings",
+    "description": "Workbook-backed Top 10 ranking for Industrial foundation models within Industry Rankings. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
     "segments": [
       "基础模型",
       "Top 10 ranking",
-      "Foundation Models",
+      "Industry Rankings",
       "Source-traced workbook"
     ],
-    "folder": "Foundation Models",
+    "folder": "Industry Rankings",
     "slug": "foundation_models_industrial_top10",
     "workbookTitle": "工业领域基础大模型 Top 10 公司排名（2026-06-06）",
-    "workbookNote": "工业领域基础大模型 按 Foundation Models 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
-    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Foundation Models\\foundation_models_industrial_top10.xlsx",
+    "workbookNote": "工业领域基础大模型 按 Industry Rankings 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
+    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Industry Rankings\\foundation_models_industrial_top10.xlsx",
     "snapshotDate": "2026-06-06",
     "sourceCount": 10,
     "companyCount": 10,
@@ -664,19 +664,19 @@ export const tracks: Track[] = [
     "id": "foundation_models_math_science_top10",
     "domainId": "foundation-models",
     "name": "Math and science models",
-    "label": "Foundation Models",
-    "description": "Workbook-backed Top 10 ranking for Math and science models within Foundation Models. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
+    "label": "Industry Rankings",
+    "description": "Workbook-backed Top 10 ranking for Math and science models within Industry Rankings. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
     "segments": [
       "基础模型",
       "Top 10 ranking",
-      "Foundation Models",
+      "Industry Rankings",
       "Source-traced workbook"
     ],
-    "folder": "Foundation Models",
+    "folder": "Industry Rankings",
     "slug": "foundation_models_math_science_top10",
     "workbookTitle": "数学科研基模 Top 10 公司排名（2026-06-06）",
-    "workbookNote": "数学科研基模 按 Foundation Models 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
-    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Foundation Models\\foundation_models_math_science_top10.xlsx",
+    "workbookNote": "数学科研基模 按 Industry Rankings 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
+    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Industry Rankings\\foundation_models_math_science_top10.xlsx",
     "snapshotDate": "2026-06-06",
     "sourceCount": 12,
     "companyCount": 10,
@@ -686,19 +686,19 @@ export const tracks: Track[] = [
     "id": "foundation_models_weather_geo_rs_top10",
     "domainId": "foundation-models",
     "name": "Weather, geo and remote sensing",
-    "label": "Foundation Models",
-    "description": "Workbook-backed Top 10 ranking for Weather, geo and remote sensing within Foundation Models. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
+    "label": "Industry Rankings",
+    "description": "Workbook-backed Top 10 ranking for Weather, geo and remote sensing within Industry Rankings. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
     "segments": [
       "基础模型",
       "Top 10 ranking",
-      "Foundation Models",
+      "Industry Rankings",
       "Source-traced workbook"
     ],
-    "folder": "Foundation Models",
+    "folder": "Industry Rankings",
     "slug": "foundation_models_weather_geo_rs_top10",
     "workbookTitle": "气象地理遥感基模 Top 10 公司排名（2026-06-06）",
-    "workbookNote": "气象地理遥感基模 按 Foundation Models 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
-    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Foundation Models\\foundation_models_weather_geo_rs_top10.xlsx",
+    "workbookNote": "气象地理遥感基模 按 Industry Rankings 评分骨架生成。一级维度总分按研究判断录入，子指标按固定权重展开；未统一披露的数据全部明确标注为 public proxy。",
+    "workbookPath": "C:\\Users\\xiaoy\\Desktop\\榜单\\outputs\\019e910c-af91-7f70-b575-98ceeb8830a1\\industry_rankings\\Industry Rankings\\foundation_models_weather_geo_rs_top10.xlsx",
     "snapshotDate": "2026-06-06",
     "sourceCount": 10,
     "companyCount": 10,
@@ -994,7 +994,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Industrial foundation models",
       "industrial AI",
       "Robotics",
@@ -1078,7 +1078,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Biopharma models",
       "generative biologics"
     ],
@@ -1195,7 +1195,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Public / large platform",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Base foundation models",
       "Qwen",
       "Edge small models",
@@ -1388,7 +1388,7 @@ export const entities: Entity[] = [
       "Claude for financial workflows",
       "General LLM agents",
       "Claude agents / MCP ecosystem",
-      "Foundation Models",
+      "Industry Rankings",
       "Base foundation models",
       "Claude Opus / Sonnet",
       "Math and science models",
@@ -1475,7 +1475,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Public / large platform",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Edge small models",
       "Apple Intelligence / on-device models"
     ],
@@ -1552,7 +1552,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Edge small models",
       "Kleidi / edge AI stack"
     ],
@@ -1605,7 +1605,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Industrial foundation models",
       "process industry AI"
     ],
@@ -1731,7 +1731,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Embedding models",
       "BGE family"
     ],
@@ -1901,7 +1901,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Biopharma models",
       "biomed foundation models"
     ],
@@ -2448,7 +2448,7 @@ export const entities: Entity[] = [
       "AI Agents",
       "Financial AI agents",
       "enterprise retrieval agents",
-      "Foundation Models",
+      "Industry Rankings",
       "Embedding models",
       "Embed models"
     ],
@@ -2716,7 +2716,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Private scale-up",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Base foundation models",
       "DeepSeek",
       "Math and science models",
@@ -3431,7 +3431,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Industrial foundation models",
       "industrial AI for energy"
     ],
@@ -3617,7 +3617,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Biopharma models",
       "protein generative models"
     ],
@@ -3755,7 +3755,7 @@ export const entities: Entity[] = [
       "AI Infra",
       "AI development frameworks",
       "Vertex AI",
-      "Foundation Models",
+      "Industry Rankings",
       "Base foundation models",
       "Gemini",
       "Biopharma models",
@@ -4134,7 +4134,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Industrial foundation models",
       "Forge / industrial AI"
     ],
@@ -4216,7 +4216,7 @@ export const entities: Entity[] = [
       "campus logistics autonomy",
       "Passenger autonomous driving",
       "ADS",
-      "Foundation Models",
+      "Industry Rankings",
       "Industrial foundation models",
       "Pangu industry models",
       "Weather, geo and remote sensing",
@@ -4321,7 +4321,7 @@ export const entities: Entity[] = [
       "AI Trust & Governance",
       "Model deployment services",
       "watsonx services",
-      "Foundation Models",
+      "Industry Rankings",
       "Weather, geo and remote sensing",
       "The Weather Company / geospatial AI"
     ],
@@ -4422,7 +4422,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Biopharma models",
       "Pharma.AI"
     ],
@@ -4556,7 +4556,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Biopharma models",
       "drug discovery models"
     ],
@@ -4606,7 +4606,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Embedding models",
       "Jina embeddings"
     ],
@@ -5125,7 +5125,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Edge small models",
       "MediaTek edge AI stack"
     ],
@@ -5177,7 +5177,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Public / large platform",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Base foundation models",
       "Llama / Meta AI",
       "Edge small models",
@@ -5256,7 +5256,7 @@ export const entities: Entity[] = [
       "AI Infra",
       "AI development frameworks",
       "Azure AI Foundry",
-      "Foundation Models",
+      "Industry Rankings",
       "Edge small models",
       "Phi / Copilot+ PC",
       "Embedding models",
@@ -5353,7 +5353,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Private scale-up",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Base foundation models",
       "Mistral Large / open models",
       "Edge small models",
@@ -5470,7 +5470,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Base foundation models",
       "Kimi",
       "Math and science models",
@@ -5543,7 +5543,7 @@ export const entities: Entity[] = [
       "AI Infra",
       "Specialized industry platforms",
       "Isaac / Omniverse",
-      "Foundation Models",
+      "Industry Rankings",
       "Biopharma models",
       "BioNeMo",
       "Weather, geo and remote sensing",
@@ -5704,7 +5704,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Math and science models",
       "Math-specialized models"
     ],
@@ -5799,7 +5799,7 @@ export const entities: Entity[] = [
       "AI Infra",
       "AI development frameworks",
       "Responses / SDK / evals stack",
-      "Foundation Models",
+      "Industry Rankings",
       "Base foundation models",
       "GPT-5 / o-series",
       "Embedding models",
@@ -5851,7 +5851,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Edge small models",
       "MiniCPM"
     ],
@@ -5930,7 +5930,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Weather, geo and remote sensing",
       "geospatial analytics"
     ],
@@ -5980,7 +5980,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Industrial foundation models",
       "industrial AI stack"
     ],
@@ -6017,7 +6017,7 @@ export const entities: Entity[] = [
       "AI Trust & Governance",
       "Model deployment services",
       "AIP deployment",
-      "Foundation Models",
+      "Industry Rankings",
       "Industrial foundation models",
       "AIP for industry"
     ],
@@ -6157,7 +6157,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Public / large platform",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Weather, geo and remote sensing",
       "remote sensing platform"
     ],
@@ -6290,7 +6290,7 @@ export const entities: Entity[] = [
       "Autonomous Driving",
       "In-cabin AI interaction",
       "Snapdragon cockpit AI",
-      "Foundation Models",
+      "Industry Rankings",
       "Edge small models",
       "AI Hub / Snapdragon AI"
     ],
@@ -6418,7 +6418,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Biopharma models",
       "Recursion OS"
     ],
@@ -6493,7 +6493,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Public / large platform",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Biopharma models",
       "Genentech AI discovery stack"
     ],
@@ -6519,7 +6519,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Industrial foundation models",
       "FactoryTalk AI",
       "Robotics",
@@ -6835,7 +6835,7 @@ export const entities: Entity[] = [
       "AI Hardware",
       "AI supporting hardware",
       "power / cooling infra",
-      "Foundation Models",
+      "Industry Rankings",
       "Industrial foundation models",
       "industrial automation AI"
     ],
@@ -6997,7 +6997,7 @@ export const entities: Entity[] = [
       "AI Infra",
       "Specialized industry platforms",
       "industrial digital twin",
-      "Foundation Models",
+      "Industry Rankings",
       "Industrial foundation models",
       "Industrial Copilot / Xcelerator AI",
       "Robotics",
@@ -7129,7 +7129,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Public / large platform",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Weather, geo and remote sensing",
       "satellite weather data"
     ],
@@ -7592,7 +7592,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Weather, geo and remote sensing",
       "weather intelligence"
     ],
@@ -7859,7 +7859,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Embedding models",
       "Voyage embeddings"
     ],
@@ -7988,7 +7988,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Tracked company",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Weather, geo and remote sensing",
       "balloon observation + AI"
     ],
@@ -8064,7 +8064,7 @@ export const entities: Entity[] = [
     "foundedYear": "Not normalized",
     "stage": "Private scale-up",
     "tags": [
-      "Foundation Models",
+      "Industry Rankings",
       "Biopharma models",
       "foundation models for therapeutics"
     ],
@@ -8239,7 +8239,7 @@ export const entities: Entity[] = [
       "AutoGLM / agent platform",
       "Government and office agents",
       "GLM 办公 agent",
-      "Foundation Models",
+      "Industry Rankings",
       "Base foundation models",
       "GLM",
       "Embedding models",
@@ -8364,7 +8364,7 @@ export const entities: Entity[] = [
       "AI Agents",
       "General LLM agents",
       "Grok agents",
-      "Foundation Models",
+      "Industry Rankings",
       "Base foundation models",
       "Grok",
       "Math and science models",
@@ -47607,7 +47607,7 @@ export const sources: Source[] = [
     "notes": "综合领先，商业化与生态最强。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__C02",
@@ -47620,7 +47620,7 @@ export const sources: Source[] = [
     "notes": "安全与企业协作场景优势明显。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__C03",
@@ -47633,7 +47633,7 @@ export const sources: Source[] = [
     "notes": "多模态和全球分发能力强。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__C04",
@@ -47646,7 +47646,7 @@ export const sources: Source[] = [
     "notes": "生态影响力大，但直接商业化弱于前三。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__C05",
@@ -47659,7 +47659,7 @@ export const sources: Source[] = [
     "notes": "增长快，企业治理成熟度仍在补齐。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__C06",
@@ -47672,7 +47672,7 @@ export const sources: Source[] = [
     "notes": "云、开源与企业渠道兼具。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__C07",
@@ -47685,7 +47685,7 @@ export const sources: Source[] = [
     "notes": "技术性价比强，全球合规与商业化披露较弱。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__C08",
@@ -47698,7 +47698,7 @@ export const sources: Source[] = [
     "notes": "开源与企业部署兼顾。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__C09",
@@ -47711,7 +47711,7 @@ export const sources: Source[] = [
     "notes": "中国市场心智较强，全球化略弱。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__C10",
@@ -47724,7 +47724,7 @@ export const sources: Source[] = [
     "notes": "企业服务能力较强。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__artificial_analysis_benchmark",
@@ -47737,7 +47737,7 @@ export const sources: Source[] = [
     "notes": "用于模型能力、价格与速度 proxy。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_base_models_top10__lmarena",
@@ -47750,7 +47750,7 @@ export const sources: Source[] = [
     "notes": "用于基础模型赛道的公开模型偏好与榜单位置校准。",
     "trackId": "foundation_models_base_models_top10",
     "trackName": "Base foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_biopharma_top10__C01",
@@ -47763,7 +47763,7 @@ export const sources: Source[] = [
     "notes": "DeepMind 系科学 AI 路线最强。",
     "trackId": "foundation_models_biopharma_top10",
     "trackName": "Biopharma models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_biopharma_top10__C02",
@@ -47776,7 +47776,7 @@ export const sources: Source[] = [
     "notes": "平台化和产业化兼顾。",
     "trackId": "foundation_models_biopharma_top10",
     "trackName": "Biopharma models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_biopharma_top10__C03",
@@ -47789,7 +47789,7 @@ export const sources: Source[] = [
     "notes": "药研落地和对外合作活跃。",
     "trackId": "foundation_models_biopharma_top10",
     "trackName": "Biopharma models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_biopharma_top10__C04",
@@ -47802,7 +47802,7 @@ export const sources: Source[] = [
     "notes": "组织规模和产业化优势明显。",
     "trackId": "foundation_models_biopharma_top10",
     "trackName": "Biopharma models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_biopharma_top10__C05",
@@ -47815,7 +47815,7 @@ export const sources: Source[] = [
     "notes": "聚焦 biologics，能力专一。",
     "trackId": "foundation_models_biopharma_top10",
     "trackName": "Biopharma models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_biopharma_top10__C06",
@@ -47828,7 +47828,7 @@ export const sources: Source[] = [
     "notes": "科研与产业生态并进。",
     "trackId": "foundation_models_biopharma_top10",
     "trackName": "Biopharma models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_biopharma_top10__C07",
@@ -47841,7 +47841,7 @@ export const sources: Source[] = [
     "notes": "仍偏早期。",
     "trackId": "foundation_models_biopharma_top10",
     "trackName": "Biopharma models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_biopharma_top10__C08",
@@ -47854,7 +47854,7 @@ export const sources: Source[] = [
     "notes": "与药企合作具备亮点。",
     "trackId": "foundation_models_biopharma_top10",
     "trackName": "Biopharma models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_biopharma_top10__C09",
@@ -47867,7 +47867,7 @@ export const sources: Source[] = [
     "notes": "更偏平台层而非单一药企。",
     "trackId": "foundation_models_biopharma_top10",
     "trackName": "Biopharma models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_biopharma_top10__C10",
@@ -47880,7 +47880,7 @@ export const sources: Source[] = [
     "notes": "科学影响强，商业化路径更间接。",
     "trackId": "foundation_models_biopharma_top10",
     "trackName": "Biopharma models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__C01",
@@ -47893,7 +47893,7 @@ export const sources: Source[] = [
     "notes": "端侧模型与设备生态耦合最强。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__C02",
@@ -47906,7 +47906,7 @@ export const sources: Source[] = [
     "notes": "分发能力和硬件闭环优势明显。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__C03",
@@ -47919,7 +47919,7 @@ export const sources: Source[] = [
     "notes": "芯片平台与模型部署一体化。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__C04",
@@ -47932,7 +47932,7 @@ export const sources: Source[] = [
     "notes": "端云协同路线明确。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__C05",
@@ -47945,7 +47945,7 @@ export const sources: Source[] = [
     "notes": "开发者生态优势明显。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__C06",
@@ -47958,7 +47958,7 @@ export const sources: Source[] = [
     "notes": "本地化和多场景部署积极。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__C07",
@@ -47971,7 +47971,7 @@ export const sources: Source[] = [
     "notes": "学术与开源社区影响力强于商业化。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__C08",
@@ -47984,7 +47984,7 @@ export const sources: Source[] = [
     "notes": "作为基础平台方具备广泛渗透。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__C09",
@@ -47997,7 +47997,7 @@ export const sources: Source[] = [
     "notes": "量产与渠道覆盖强。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__C10",
@@ -48010,7 +48010,7 @@ export const sources: Source[] = [
     "notes": "欧洲市场与企业部署具备差异化。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_edge_small_models_top10__huggingface_benchmark",
@@ -48023,7 +48023,7 @@ export const sources: Source[] = [
     "notes": "用于开源生态和模型/框架可见度参考。",
     "trackId": "foundation_models_edge_small_models_top10",
     "trackName": "Edge small models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__C01",
@@ -48036,7 +48036,7 @@ export const sources: Source[] = [
     "notes": "嵌入能力与平台分发优势显著。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__C02",
@@ -48049,7 +48049,7 @@ export const sources: Source[] = [
     "notes": "embedding 场景口碑强。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__C03",
@@ -48062,7 +48062,7 @@ export const sources: Source[] = [
     "notes": "聚焦嵌入能力，产品聚焦度高。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__C04",
@@ -48075,7 +48075,7 @@ export const sources: Source[] = [
     "notes": "云平台和企业交付优势明显。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__C05",
@@ -48088,7 +48088,7 @@ export const sources: Source[] = [
     "notes": "开发者心智较强。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__C06",
@@ -48101,7 +48101,7 @@ export const sources: Source[] = [
     "notes": "国内开发者与企业采用积极。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__C07",
@@ -48114,7 +48114,7 @@ export const sources: Source[] = [
     "notes": "嵌入能力通常与平台一体化交付。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__C08",
@@ -48127,7 +48127,7 @@ export const sources: Source[] = [
     "notes": "平台化程度尚在扩展。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__C09",
@@ -48140,7 +48140,7 @@ export const sources: Source[] = [
     "notes": "研究与开源强，商业化较弱。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__C10",
@@ -48153,7 +48153,7 @@ export const sources: Source[] = [
     "notes": "政企客户渗透较好。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__artificial_analysis_benchmark",
@@ -48166,7 +48166,7 @@ export const sources: Source[] = [
     "notes": "用于模型能力、价格与速度 proxy。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_embedding_top10__mteb",
@@ -48179,7 +48179,7 @@ export const sources: Source[] = [
     "notes": "用于嵌入模型赛道的公开 benchmark。",
     "trackId": "foundation_models_embedding_top10",
     "trackName": "Embedding models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_industrial_top10__C01",
@@ -48192,7 +48192,7 @@ export const sources: Source[] = [
     "notes": "工业场景覆盖深。",
     "trackId": "foundation_models_industrial_top10",
     "trackName": "Industrial foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_industrial_top10__C02",
@@ -48205,7 +48205,7 @@ export const sources: Source[] = [
     "notes": "PLM/IoT 生态赋能明显。",
     "trackId": "foundation_models_industrial_top10",
     "trackName": "Industrial foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_industrial_top10__C03",
@@ -48218,7 +48218,7 @@ export const sources: Source[] = [
     "notes": "垂直场景交付强。",
     "trackId": "foundation_models_industrial_top10",
     "trackName": "Industrial foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_industrial_top10__C04",
@@ -48231,7 +48231,7 @@ export const sources: Source[] = [
     "notes": "企业客户深。",
     "trackId": "foundation_models_industrial_top10",
     "trackName": "Industrial foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_industrial_top10__C05",
@@ -48244,7 +48244,7 @@ export const sources: Source[] = [
     "notes": "全球工业渠道强。",
     "trackId": "foundation_models_industrial_top10",
     "trackName": "Industrial foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_industrial_top10__C06",
@@ -48257,7 +48257,7 @@ export const sources: Source[] = [
     "notes": "北美工业客户强势。",
     "trackId": "foundation_models_industrial_top10",
     "trackName": "Industrial foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_industrial_top10__C07",
@@ -48270,7 +48270,7 @@ export const sources: Source[] = [
     "notes": "垂直专精明显。",
     "trackId": "foundation_models_industrial_top10",
     "trackName": "Industrial foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_industrial_top10__C08",
@@ -48283,7 +48283,7 @@ export const sources: Source[] = [
     "notes": "全球工业部署广。",
     "trackId": "foundation_models_industrial_top10",
     "trackName": "Industrial foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_industrial_top10__C09",
@@ -48296,7 +48296,7 @@ export const sources: Source[] = [
     "notes": "平台化和交付能力较强。",
     "trackId": "foundation_models_industrial_top10",
     "trackName": "Industrial foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_industrial_top10__C10",
@@ -48309,7 +48309,7 @@ export const sources: Source[] = [
     "notes": "国产替代与行业化能力突出。",
     "trackId": "foundation_models_industrial_top10",
     "trackName": "Industrial foundation models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__C01",
@@ -48322,7 +48322,7 @@ export const sources: Source[] = [
     "notes": "复杂推理与科研协作能力强。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__C02",
@@ -48335,7 +48335,7 @@ export const sources: Source[] = [
     "notes": "通用推理与科研工作流覆盖广。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__C03",
@@ -48348,7 +48348,7 @@ export const sources: Source[] = [
     "notes": "理论研究与工程化都强。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__C04",
@@ -48361,7 +48361,7 @@ export const sources: Source[] = [
     "notes": "技术进步快但科研生态沉淀略弱。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__C05",
@@ -48374,7 +48374,7 @@ export const sources: Source[] = [
     "notes": "公开技术口碑强。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__C06",
@@ -48387,7 +48387,7 @@ export const sources: Source[] = [
     "notes": "专业度强但规模较小。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__C07",
@@ -48400,7 +48400,7 @@ export const sources: Source[] = [
     "notes": "国内场景适配强。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__C08",
@@ -48413,7 +48413,7 @@ export const sources: Source[] = [
     "notes": "科研专属性弱于头部。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__C09",
@@ -48426,7 +48426,7 @@ export const sources: Source[] = [
     "notes": "全球化好，专门科研生态较小。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__C10",
@@ -48439,7 +48439,7 @@ export const sources: Source[] = [
     "notes": "政企科研协作能力尚可。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__artificial_analysis_benchmark",
@@ -48452,7 +48452,7 @@ export const sources: Source[] = [
     "notes": "用于模型能力、价格与速度 proxy。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_math_science_top10__lmarena",
@@ -48465,7 +48465,7 @@ export const sources: Source[] = [
     "notes": "用于基础模型赛道的公开模型偏好与榜单位置校准。",
     "trackId": "foundation_models_math_science_top10",
     "trackName": "Math and science models",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_weather_geo_rs_top10__C01",
@@ -48478,7 +48478,7 @@ export const sources: Source[] = [
     "notes": "科研影响力与模型能力突出。",
     "trackId": "foundation_models_weather_geo_rs_top10",
     "trackName": "Weather, geo and remote sensing",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_weather_geo_rs_top10__C02",
@@ -48491,7 +48491,7 @@ export const sources: Source[] = [
     "notes": "平台和生态影响力强。",
     "trackId": "foundation_models_weather_geo_rs_top10",
     "trackName": "Weather, geo and remote sensing",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_weather_geo_rs_top10__C03",
@@ -48504,7 +48504,7 @@ export const sources: Source[] = [
     "notes": "企业客户和交付能力强。",
     "trackId": "foundation_models_weather_geo_rs_top10",
     "trackName": "Weather, geo and remote sensing",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_weather_geo_rs_top10__C04",
@@ -48517,7 +48517,7 @@ export const sources: Source[] = [
     "notes": "全球企业交付成熟。",
     "trackId": "foundation_models_weather_geo_rs_top10",
     "trackName": "Weather, geo and remote sensing",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_weather_geo_rs_top10__C05",
@@ -48530,7 +48530,7 @@ export const sources: Source[] = [
     "notes": "本地化和工程化都较突出。",
     "trackId": "foundation_models_weather_geo_rs_top10",
     "trackName": "Weather, geo and remote sensing",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_weather_geo_rs_top10__C06",
@@ -48543,7 +48543,7 @@ export const sources: Source[] = [
     "notes": "数据资产优势明显。",
     "trackId": "foundation_models_weather_geo_rs_top10",
     "trackName": "Weather, geo and remote sensing",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_weather_geo_rs_top10__C07",
@@ -48556,7 +48556,7 @@ export const sources: Source[] = [
     "notes": "专业能力强但规模有限。",
     "trackId": "foundation_models_weather_geo_rs_top10",
     "trackName": "Weather, geo and remote sensing",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_weather_geo_rs_top10__C08",
@@ -48569,7 +48569,7 @@ export const sources: Source[] = [
     "notes": "企业分发优势明显。",
     "trackId": "foundation_models_weather_geo_rs_top10",
     "trackName": "Weather, geo and remote sensing",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_weather_geo_rs_top10__C09",
@@ -48582,7 +48582,7 @@ export const sources: Source[] = [
     "notes": "更偏数据平台，但基础模型潜力强。",
     "trackId": "foundation_models_weather_geo_rs_top10",
     "trackName": "Weather, geo and remote sensing",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "foundation_models_weather_geo_rs_top10__C10",
@@ -48595,7 +48595,7 @@ export const sources: Source[] = [
     "notes": "规模较头部平台小。",
     "trackId": "foundation_models_weather_geo_rs_top10",
     "trackName": "Weather, geo and remote sensing",
-    "folder": "Foundation Models"
+    "folder": "Industry Rankings"
   },
   {
     "id": "generative_media_audio_video_models_top10__C01",
@@ -50176,7 +50176,7 @@ export const categorySummaries: CategorySummary[] = [
   },
   {
     "id": "foundation-models",
-    "name": "Foundation Models",
+    "name": "Industry Rankings",
     "domainId": "foundation-models",
     "trackCount": 7,
     "companyCount": 46,

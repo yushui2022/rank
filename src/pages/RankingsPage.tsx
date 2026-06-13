@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { CommunitySentimentVote } from "../components/CommunitySentimentVote";
 import { DomainSwitcher } from "../components/DomainSwitcher";
 import { RankingTable } from "../components/RankingTable";
 import { RankHistoryChart } from "../components/RankHistoryChart";
@@ -82,7 +83,7 @@ export function RankingsPage({
         filters,
         sortKey,
         sortDirection,
-      ),
+      ).slice(0, 12),
     [activeTrack.id, filters, sortKey, sortDirection],
   );
 
@@ -90,6 +91,20 @@ export function RankingsPage({
     records.find((record) => record.entity.id === selectedEntityId) ??
     records[0] ??
     null;
+
+  const highlights = useMemo(() => {
+    if (records.length === 0) return null;
+    const topGainer = [...records].sort(
+      (a, b) => b.row.rank1mChange - a.row.rank1mChange,
+    )[0];
+    const quarterMover = [...records].sort(
+      (a, b) => b.row.rank3mChange - a.row.rank3mChange,
+    )[0];
+    const scoreLeader = [...records].sort(
+      (a, b) => b.row.scoreChange - a.row.scoreChange,
+    )[0];
+    return { topGainer, quarterMover, scoreLeader };
+  }, [records]);
 
   const domainRows = rowsForDomain(activeDomainId);
   const regions = Array.from(new Set(entities.map((entity) => entity.region))).sort();
@@ -143,54 +158,7 @@ export function RankingsPage({
       />
 
       <main className="workspace">
-        <section className="market-bar">
-          <span className="live-dot" aria-hidden="true" />
-          <div className="market-bar-id">
-            <span className="eyebrow">
-              Imported ranking index / {activeTrack.snapshotDate}
-            </span>
-            <h1>{activeDomain.name} leaderboard</h1>
-            <p>{activeTrack.name}</p>
-          </div>
-          <div className="market-stats">
-            <div className="market-stat">
-              <span>Ranked</span>
-              <strong>{records.length}</strong>
-            </div>
-            <div className="market-stat">
-              <span>Domain rows</span>
-              <strong>{domainRows.length}</strong>
-            </div>
-            <div className="market-stat">
-              <span>Sources</span>
-              <strong>{activeTrack.sourceCount ?? selectedSources.length}</strong>
-            </div>
-            <div className="market-stat">
-              <span>Tracked</span>
-              <strong>{watchedIds.size + shortlistedIds.size}</strong>
-            </div>
-          </div>
-        </section>
-
         <div className="ranking-toolbar-container">
-          <div className="market-pulse-inline">
-            <div className="pulse-item-inline">
-              <span>Ranking workbooks</span>
-              <strong>40</strong>
-              <em>Imported</em>
-            </div>
-            <div className="pulse-item-inline tone-positive">
-              <span>Companies / labs</span>
-              <strong>266</strong>
-              <em>400 ranked rows</em>
-            </div>
-            <div className="pulse-item-inline">
-              <span>Snapshot</span>
-              <strong>2026-06-06</strong>
-              <em>Static import</em>
-            </div>
-          </div>
-
           <RankingToolbar
             filters={filters}
             regions={regions}
@@ -202,41 +170,120 @@ export function RankingsPage({
         </div>
 
         {records.length > 0 && (
-          <section className="leader-strip" aria-label="Top ranked leaders">
-            <div className="leader-strip-head">
-              <span className="eyebrow">Index desk / top of {activeTrack.name}</span>
-              <strong>Leaders</strong>
-            </div>
-            <div className="leader-podium">
-              {records.slice(0, 3).map(({ row, entity, viewScore }) => {
-                const tone = row.scoreChange >= 0 ? "positive" : "negative";
-                const selected = entity.id === selectedRecord?.entity.id;
-                return (
-                  <button
-                    key={`leader-${entity.id}`}
-                    type="button"
-                    className={`leader-card${selected ? " is-selected" : ""} podium-${row.rank}`}
-                    onClick={() => setSelectedEntityId(entity.id)}
-                  >
-                    <span className={`leader-rank rank-${row.rank}`}>#{row.rank}</span>
-                    <span className="leader-logo">{entity.logoText}</span>
-                    <span className="leader-id">
-                      <strong>{entity.name}</strong>
-                      <em>{row.category}</em>
-                    </span>
-                    <span className="leader-score">
-                      <b>{row.score}</b>
-                      <i>score</i>
-                    </span>
-                    <span className={`leader-change ${tone}`}>
-                      {formatSignedNumber(row.scoreChange)}
-                    </span>
-                    <span className="leader-evidence">
-                      {row.evidenceQuality} / {row.evidenceCount} src / view {viewScore}
-                    </span>
-                  </button>
-                );
-              })}
+          <section className="mini-boards-strip" aria-label="Sub-rankings">
+            <div className="mini-boards-grid">
+              {/* Fastest Growing */}
+              <div className="mini-board-card">
+                <div className="mini-board-head">
+                  <strong>Fastest Growing</strong>
+                  <span>Top 5 by rank progression (1M)</span>
+                </div>
+                <div className="mini-board-list">
+                  {[...records]
+                    .sort((a, b) => b.row.rank1mChange - a.row.rank1mChange)
+                    .slice(0, 5)
+                    .map(({ row, entity }, i) => (
+                      <div
+                        key={`fast-${entity.id}`}
+                        className={`mini-board-row${entity.id === selectedRecord?.entity.id ? " is-selected" : ""}`}
+                        onClick={() => setSelectedEntityId(entity.id)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            setSelectedEntityId(entity.id);
+                          }
+                        }}
+                      >
+                        <span className="mini-board-logo">{entity.logoText}</span>
+                        <div className="mini-board-entity-info">
+                          <span className="mini-board-name">{entity.name}</span>
+                          <span className="mini-board-rank">#{i + 1}</span>
+                        </div>
+                        <span className={`change-val ${row.rank1mChange > 0 ? "positive" : row.rank1mChange < 0 ? "negative" : "neutral"}`}>
+                          {row.rank1mChange > 0 ? "+" : ""}{row.rank1mChange}
+                        </span>
+                        <div onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto" }}>
+                          <CommunitySentimentVote entityId={entity.id} entityName={entity.name} variant="mini" />
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              {/* Most Watched */}
+              <div className="mini-board-card">
+                <div className="mini-board-head">
+                  <strong>Most Watched</strong>
+                  <span>Top 5 by momentum signal</span>
+                </div>
+                <div className="mini-board-list">
+                  {[...records]
+                    .sort((a, b) => b.row.momentum - a.row.momentum)
+                    .slice(0, 5)
+                    .map(({ row, entity }, i) => (
+                      <div
+                        key={`watch-${entity.id}`}
+                        className={`mini-board-row${entity.id === selectedRecord?.entity.id ? " is-selected" : ""}`}
+                        onClick={() => setSelectedEntityId(entity.id)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            setSelectedEntityId(entity.id);
+                          }
+                        }}
+                      >
+                        <span className="mini-board-logo">{entity.logoText}</span>
+                        <div className="mini-board-entity-info">
+                          <span className="mini-board-name">{entity.name}</span>
+                          <span className="mini-board-rank">#{i + 1}</span>
+                        </div>
+                        <span className="momentum-cell">{row.momentum.toFixed(1)}</span>
+                        <div onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto" }}>
+                          <CommunitySentimentVote entityId={entity.id} entityName={entity.name} variant="mini" />
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              {/* Most Influential */}
+              <div className="mini-board-card">
+                <div className="mini-board-head">
+                  <strong>Most Influential</strong>
+                  <span>Top 5 by cited evidence</span>
+                </div>
+                <div className="mini-board-list">
+                  {[...records]
+                    .sort((a, b) => b.row.evidenceCount - a.row.evidenceCount)
+                    .slice(0, 5)
+                    .map(({ row, entity }, i) => (
+                      <div
+                        key={`inf-${entity.id}`}
+                        className={`mini-board-row${entity.id === selectedRecord?.entity.id ? " is-selected" : ""}`}
+                        onClick={() => setSelectedEntityId(entity.id)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            setSelectedEntityId(entity.id);
+                          }
+                        }}
+                      >
+                        <span className="mini-board-logo">{entity.logoText}</span>
+                        <div className="mini-board-entity-info">
+                          <span className="mini-board-name">{entity.name}</span>
+                          <span className="mini-board-rank">#{i + 1}</span>
+                        </div>
+                        <span className="mini-board-metric">{row.evidenceCount} src</span>
+                        <div onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto" }}>
+                          <CommunitySentimentVote entityId={entity.id} entityName={entity.name} variant="mini" />
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
             </div>
           </section>
         )}
@@ -255,9 +302,11 @@ export function RankingsPage({
               onToggleWatchlist={onToggleWatchlist}
               onToggleShortlist={onToggleShortlist}
             />
-            
-            <RankHistoryChart records={records} selectedEntityId={selectedRecord?.entity.id ?? ""} />
           </div>
+          
+          <aside className="history-sidebar">
+            <RankHistoryChart records={records} selectedEntityId={selectedRecord?.entity.id ?? ""} />
+          </aside>
         </div>
       </main>
     </div>

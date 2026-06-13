@@ -1,7 +1,8 @@
-import { Suspense, lazy, useEffect, useState } from "react";
+﻿import { Suspense, lazy, useEffect, useState } from "react";
 import { TopNav } from "../components/TopNav";
 import type { AppPageId } from "../types/rankings";
 import "./app.css";
+import { DemoRankingPage } from "../pages/DemoRankingPage";
 
 const DownloadsPage = lazy(() =>
   import("../pages/DownloadsPage").then((module) => ({
@@ -37,6 +38,16 @@ const pageIds: AppPageId[] = [
   "sources",
 ];
 
+const categories = [
+  "Industry Rankings",
+  "AI Top 100 Influencers",
+  "AI Under 25",
+  "Top Contributors",
+  "Global AI Cities TOP 10",
+  "Top 10 AI Universities",
+  "Special Reports"
+];
+
 const pageFromHash = (): AppPageId => {
   const hash = window.location.hash.replace(/^#\/?/, "");
   return pageIds.includes(hash as AppPageId) ? (hash as AppPageId) : "rankings";
@@ -54,9 +65,10 @@ const toggleInSet = (current: Set<string>, entityId: string) => {
 
 export function App() {
   const [activePage, setActivePage] = useState<AppPageId>(pageFromHash);
+  const [activeCategory, setActiveCategory] = useState<string>(categories[0]);
   const [watchedIds, setWatchedIds] = useState<Set<string>>(new Set());
   const [shortlistedIds, setShortlistedIds] = useState<Set<string>>(new Set());
-
+  
   useEffect(() => {
     const onHashChange = () => setActivePage(pageFromHash());
     window.addEventListener("hashchange", onHashChange);
@@ -88,13 +100,15 @@ export function App() {
         return <SourcesPage />;
       case "rankings":
       default:
-        return (
+        return activeCategory === "Industry Rankings" ? (
           <RankingsPage
             watchedIds={watchedIds}
             shortlistedIds={shortlistedIds}
             onToggleWatchlist={toggleWatchlist}
             onToggleShortlist={toggleShortlist}
           />
+        ) : (
+          <DemoRankingPage categoryName={activeCategory} />
         );
     }
   };
@@ -111,14 +125,27 @@ export function App() {
         onPageChange={setPage}
       />
       <div id="main-content">
+        <div className="category-index-header">
+          <div className="category-index-container">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                className={"category-tab " + (activeCategory === cat ? "is-active" : "")}
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
         <Suspense
           fallback={
             <main className="page-shell">
-            <section className="page-loading">
-              <span className="eyebrow">Loading ranking surface</span>
-              <strong>Preparing imported workbook data</strong>
-            </section>
-          </main>
+              <section className="page-loading">
+                <span className="eyebrow">Loading ranking surface</span>
+                <strong>Preparing imported workbook data</strong>
+              </section>
+            </main>
           }
         >
           {renderPage()}

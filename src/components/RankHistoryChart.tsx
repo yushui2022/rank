@@ -119,13 +119,18 @@ export function RankHistoryChart({ records, selectedEntityId }: RankHistoryChart
   };
 
   return (
-    <section className="ranking-panel rank-history-panel" style={{ marginTop: "0" }}>
-      <div className="panel-title-row">
-        <div>
-          <span>History</span>
+    <section className="ranking-panel history-panel">
+      <div className="market-bar">
+        <div className="market-bar-id">
+          <span className="eyebrow">CONTEXT</span>
           <h2>Rank Trend (Top 10)</h2>
         </div>
-        <p>12-month trailing position</p>
+        <div className="market-stats">
+          <div className="market-stat">
+            <span>Window</span>
+            <strong>12-month trailing position</strong>
+          </div>
+        </div>
       </div>
       
       <div className="chart-container" style={{ overflowX: "auto", padding: "0 16px" }}>
