@@ -158,7 +158,7 @@ export type NewsEvent = {
     | "Company event"
     | "Model release"
     | "Robotics deployment"
-    | "Source watch"
+    | "Source monitor"
     | "Analyst brief";
   title: string;
   summary: string;

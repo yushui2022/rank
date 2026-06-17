@@ -13,7 +13,7 @@ export type RankingRecord = {
 
 export type ScoredRecord = RankingRecord & { viewScore: number };
 
-export type SortKey = "view" | "1m" | "3m" | "momentum";
+export type SortKey = "view" | "1w" | "momentum";
 export type SortDirection = "asc" | "desc";
 
 export const entityById = new Map(entities.map((entity) => [entity.id, entity]));
@@ -77,10 +77,8 @@ const sortValue = (
   activeView: LeaderboardViewId,
 ): number => {
   switch (sortKey) {
-    case "1m":
+    case "1w":
       return record.row.rank1mChange;
-    case "3m":
-      return record.row.rank3mChange;
     case "momentum":
       return record.row.momentum;
     case "view":
@@ -139,4 +137,3 @@ export const recordsForTrack = (
 
 export const rowsForDomain = (domainId: Entity["domainId"]) =>
   rankings.filter((row) => entityById.get(row.entityId)?.domainId === domainId);
-

@@ -3,6 +3,7 @@ import {
   displayDimensionLabel,
   formatSignedNumber,
 } from "../utils/displayText";
+import { CompanyLogo } from "./CompanyLogo";
 import { CommunitySentimentVote } from "./CommunitySentimentVote";
 import { RegionBadge } from "./RegionBadge";
 
@@ -10,25 +11,17 @@ type EntityDetailProps = {
   entity: Entity;
   row: RankingRow;
   sources: Source[];
-  watched: boolean;
-  shortlisted: boolean;
-  onToggleWatchlist: (entityId: string) => void;
-  onToggleShortlist: (entityId: string) => void;
 };
 
 export function EntityDetail({
   entity,
   row,
-  watched,
-  shortlisted,
-  onToggleWatchlist,
-  onToggleShortlist,
 }: EntityDetailProps) {
   return (
     <section className="entity-detail">
       <div className="entity-detail-header">
         <div className="entity-title">
-          <span className="entity-logo large">{entity.logoText}</span>
+          <CompanyLogo entity={entity} size="large" />
           <div>
             <span className="eyebrow">Entity detail</span>
             <h2>{entity.name}</h2>
@@ -36,22 +29,6 @@ export function EntityDetail({
               {entity.entityType} from {entity.country}
             </p>
           </div>
-        </div>
-        <div className="entity-actions">
-          <button
-            type="button"
-            className={watched ? "is-active" : ""}
-            onClick={() => onToggleWatchlist(entity.id)}
-          >
-            Watch
-          </button>
-          <button
-            type="button"
-            className={shortlisted ? "is-active" : ""}
-            onClick={() => onToggleShortlist(entity.id)}
-          >
-            Shortlist
-          </button>
         </div>
       </div>
 

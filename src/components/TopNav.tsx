@@ -1,8 +1,6 @@
 import type { AppPageId } from "../types/rankings";
 
 type TopNavProps = {
-  watchlistCount: number;
-  shortlistCount: number;
   activePage: AppPageId;
   onPageChange: (pageId: AppPageId) => void;
 };
@@ -16,8 +14,6 @@ const navItems: { id: AppPageId; label: string }[] = [
 ];
 
 export function TopNav({
-  watchlistCount,
-  shortlistCount,
   activePage,
   onPageChange,
 }: TopNavProps) {
@@ -46,8 +42,6 @@ export function TopNav({
       </nav>
 
       <div className="nav-actions">
-        <span className="nav-counter">Watchlist {watchlistCount}</span>
-        <span className="nav-counter">Shortlist {shortlistCount}</span>
         <button
           type="button"
           className="primary-action"

@@ -11,6 +11,7 @@ from openpyxl import load_workbook
 
 SNAPSHOT_DATE = "2026-06-06"
 OUTPUT_ID = "019e910c-af91-7f70-b575-98ceeb8830a1"
+DEFAULT_RANKING_SIZE = 20
 
 
 FOLDER_LABELS = {
@@ -77,9 +78,10 @@ def slugify(value: str) -> str:
 
 
 def track_name_from_slug(slug: str) -> str:
-    if slug in TRACK_LABEL_OVERRIDES:
-        return TRACK_LABEL_OVERRIDES[slug]
-    cleaned = re.sub(r"_top10$", "", slug)
+    normalized_slug = re.sub(r"_top20$", "_top10", slug)
+    if normalized_slug in TRACK_LABEL_OVERRIDES:
+        return TRACK_LABEL_OVERRIDES[normalized_slug]
+    cleaned = re.sub(r"_top(?:10|20)$", "", slug)
     for prefix in (
         "foundation_models_",
         "ai_agents_",
@@ -272,10 +274,11 @@ def main() -> None:
         sources_ws = wb["Sources"]
         methodology_ws = wb["Methodology"]
 
-        ranking_title = ranking_ws["A1"].value or f"{track_name} Top 10"
+        ranking_title = ranking_ws["A1"].value or f"{track_name} Top {DEFAULT_RANKING_SIZE}"
         ranking_description = ranking_ws["A2"].value or ""
         detailed_rows = read_table(detailed_ws)
         ranking_rows = read_table(ranking_ws)
+        ranking_size = len(ranking_rows) or DEFAULT_RANKING_SIZE
         raw_source_rows = read_table(sources_ws)
         raw_methodology_rows = read_table(methodology_ws)
 
@@ -288,7 +291,7 @@ def main() -> None:
             segments.append(category_cn)
         segments.extend(
             [
-                "Top 10 ranking",
+                f"Top {ranking_size} ranking",
                 FOLDER_LABELS.get(folder, folder),
                 "Source-traced workbook",
             ]
@@ -300,7 +303,7 @@ def main() -> None:
                 "domainId": domain_id,
                 "name": track_name,
                 "label": FOLDER_LABELS.get(folder, folder),
-                "description": f"Workbook-backed Top 10 ranking for {track_name} within {FOLDER_LABELS.get(folder, folder)}. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
+                "description": f"Workbook-backed Top {ranking_size} ranking for {track_name} within {FOLDER_LABELS.get(folder, folder)}. Scores, source IDs, methodology, and confidence are imported from the Excel workbook snapshot.",
                 "segments": segments,
                 "folder": folder,
                 "slug": track_slug,
@@ -433,6 +436,7 @@ def main() -> None:
                 for step in range(8)
             ]
 
+            rank_position_factor = ranking_size + 1 - rank
             rankings.append(
                 {
                     "entityId": entity_id,
@@ -441,8 +445,8 @@ def main() -> None:
                     "rank1mChange": int(((trend_seed % 5) - 2) * (1 if rank > 3 else 0)),
                     "rank3mChange": int(((trend_seed % 9) - 4) * (1 if rank > 2 else 0)),
                     "score": round(total_score, 2),
-                    "scoreChange": round((11 - rank) * 0.18 - 0.75 + ((len(track_slug) % 5) * 0.06), 2),
-                    "momentum": round(max(50, min(99, total_score * 0.72 + (11 - rank) * 2.1)), 1),
+                    "scoreChange": round(rank_position_factor * 0.11 - 1.05 + ((len(track_slug) % 5) * 0.06), 2),
+                    "momentum": round(max(50, min(99, total_score * 0.72 + rank_position_factor * 1.18)), 1),
                     "category": str(row.get("representative_product") or track_name),
                     "trafficProxy": f"{confidence} confidence",
                     "fundingProxy": "Workbook signal",
@@ -451,7 +455,7 @@ def main() -> None:
                     "githubSignal": "Source-linked",
                     "researchSignal": f"{len(row_source_ids)} refs",
                     "patentSignal": "Not normalized",
-                    "sentiment": round(max(50, min(99, total_score * 0.82 + (11 - rank))), 1),
+                    "sentiment": round(max(50, min(99, total_score * 0.82 + rank_position_factor * 0.6)), 1),
                     "status": "Imported workbook",
                     "sparkline": sparkline,
                     "dimensionScores": dimension_scores,
@@ -500,7 +504,7 @@ def main() -> None:
 
     topic_prompts = [
         "Which AI companies appear across the most ranking tracks?",
-        "Which robotics vendors lead the imported Top 10 workbooks?",
+        "Which robotics vendors lead the imported Top 20 workbooks?",
         "Which categories have the highest source coverage?",
         "What changed in the latest ranking snapshot?",
         "Which imported sources support this company profile?",
@@ -516,7 +520,7 @@ def main() -> None:
                 "trackCount": stats["tracks"],
                 "companyCount": len(stats["companies"]),
                 "sourceCount": stats["sources"],
-                "description": f"{stats['tracks']} imported Top 10 workbooks with {len(stats['companies'])} unique ranked entities.",
+                "description": f"{stats['tracks']} imported Top 20 workbooks with {len(stats['companies'])} unique ranked entities.",
             }
         )
 
@@ -529,7 +533,7 @@ def main() -> None:
                 "id": f"news-{track['id']}",
                 "date": SNAPSHOT_DATE,
                 "eventType": "Ranking update",
-                "title": f"{track['name']} Top 10 workbook imported",
+                "title": f"{track['name']} Top 20 workbook imported",
                 "summary": f"{leader} leads the {track['name']} ranking in the {SNAPSHOT_DATE} workbook snapshot.",
                 "domainId": track["domainId"],
                 "trackId": track["id"],

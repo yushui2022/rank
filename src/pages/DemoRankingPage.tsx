@@ -1,5 +1,5 @@
 ﻿import { useState } from "react";
-import { mockInfluencers, type Influencer } from "../data/mockDemoData";
+import { mockInfluencers } from "../data/mockDemoData";
 import { CommunitySentimentVote } from "../components/CommunitySentimentVote";
 
 type DemoRankingPageProps = {

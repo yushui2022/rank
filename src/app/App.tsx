@@ -1,8 +1,8 @@
-﻿import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { TopNav } from "../components/TopNav";
+import { CategoryDemoPage } from "../pages/CategoryDemoPage";
 import type { AppPageId } from "../types/rankings";
 import "./app.css";
-import { DemoRankingPage } from "../pages/DemoRankingPage";
 
 const DownloadsPage = lazy(() =>
   import("../pages/DownloadsPage").then((module) => ({
@@ -38,14 +38,23 @@ const pageIds: AppPageId[] = [
   "sources",
 ];
 
-const categories = [
-  "Industry Rankings",
-  "AI Top 100 Influencers",
-  "AI Under 25",
-  "Top Contributors",
-  "Global AI Cities TOP 10",
-  "Top 10 AI Universities",
-  "Special Reports"
+export type RankingCategoryId =
+  | "industry"
+  | "ai-top100"
+  | "a25"
+  | "contributors"
+  | "cities"
+  | "universities"
+  | "reports";
+
+const rankingCategories: { id: RankingCategoryId; label: string }[] = [
+  { id: "industry", label: "Industry Rankings" },
+  { id: "ai-top100", label: "AI Top 100 Influencers" },
+  { id: "a25", label: "AI Under 25" },
+  { id: "contributors", label: "Top Contributors" },
+  { id: "cities", label: "Global AI Cities TOP 10" },
+  { id: "universities", label: "Top 10 AI Universities" },
+  { id: "reports", label: "Special Reports" },
 ];
 
 const pageFromHash = (): AppPageId => {
@@ -53,22 +62,11 @@ const pageFromHash = (): AppPageId => {
   return pageIds.includes(hash as AppPageId) ? (hash as AppPageId) : "rankings";
 };
 
-const toggleInSet = (current: Set<string>, entityId: string) => {
-  const next = new Set(current);
-  if (next.has(entityId)) {
-    next.delete(entityId);
-  } else {
-    next.add(entityId);
-  }
-  return next;
-};
-
 export function App() {
   const [activePage, setActivePage] = useState<AppPageId>(pageFromHash);
-  const [activeCategory, setActiveCategory] = useState<string>(categories[0]);
-  const [watchedIds, setWatchedIds] = useState<Set<string>>(new Set());
-  const [shortlistedIds, setShortlistedIds] = useState<Set<string>>(new Set());
-  
+  const [activeCategoryId, setActiveCategoryId] =
+    useState<RankingCategoryId>("industry");
+
   useEffect(() => {
     const onHashChange = () => setActivePage(pageFromHash());
     window.addEventListener("hashchange", onHashChange);
@@ -78,14 +76,6 @@ export function App() {
   const setPage = (pageId: AppPageId) => {
     setActivePage(pageId);
     window.location.hash = pageId === "rankings" ? "" : pageId;
-  };
-
-  const toggleWatchlist = (entityId: string) => {
-    setWatchedIds((current) => toggleInSet(current, entityId));
-  };
-
-  const toggleShortlist = (entityId: string) => {
-    setShortlistedIds((current) => toggleInSet(current, entityId));
   };
 
   const renderPage = () => {
@@ -100,16 +90,11 @@ export function App() {
         return <SourcesPage />;
       case "rankings":
       default:
-        return activeCategory === "Industry Rankings" ? (
-          <RankingsPage
-            watchedIds={watchedIds}
-            shortlistedIds={shortlistedIds}
-            onToggleWatchlist={toggleWatchlist}
-            onToggleShortlist={toggleShortlist}
-          />
-        ) : (
-          <DemoRankingPage categoryName={activeCategory} />
-        );
+        if (activeCategoryId !== "industry") {
+          return <CategoryDemoPage categoryId={activeCategoryId} />;
+        }
+
+        return <RankingsPage />;
     }
   };
 
@@ -118,26 +103,29 @@ export function App() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <TopNav
-        watchlistCount={watchedIds.size}
-        shortlistCount={shortlistedIds.size}
-        activePage={activePage}
-        onPageChange={setPage}
-      />
+      <TopNav activePage={activePage} onPageChange={setPage} />
       <div id="main-content">
-        <div className="category-index-header">
-          <div className="category-index-container">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                className={"category-tab " + (activeCategory === cat ? "is-active" : "")}
-                onClick={() => setActiveCategory(cat)}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
+        {activePage === "rankings" && (
+          <nav className="category-index-header" aria-label="Ranking category">
+            <div className="category-index-container">
+              {rankingCategories.map((category) => (
+                <button
+                  key={category.id}
+                  type="button"
+                  className={`category-tab${
+                    activeCategoryId === category.id ? " is-active" : ""
+                  }`}
+                  aria-current={
+                    activeCategoryId === category.id ? "page" : undefined
+                  }
+                  onClick={() => setActiveCategoryId(category.id)}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
+          </nav>
+        )}
         <Suspense
           fallback={
             <main className="page-shell">

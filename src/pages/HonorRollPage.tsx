@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Badge } from "../components/Badge";
+import { CompanyLogo } from "../components/CompanyLogo";
 import { entities, rankings, sources, tracks } from "../data/rankingData";
 import type { DomainId, RankingRow } from "../types/rankings";
 
@@ -162,7 +163,7 @@ export function HonorRollPage() {
                       #{profile.honorRank}
                     </div>
                     <div className="entity-title" style={{ minWidth: 0 }}>
-                      <span className="entity-logo" style={isTop3 ? { borderColor: rankColor, color: rankColor } : {}}>{profile.entity.logoText}</span>
+                      <CompanyLogo entity={profile.entity} />
                       <div style={{ minWidth: 0, overflow: "hidden" }}>
                         <h2 style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{profile.entity.name}</h2>
                         <p style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
@@ -194,7 +195,7 @@ export function HonorRollPage() {
         {activeProfile && (
           <aside className="company-profile-panel" style={activeProfile.honorRank <= 3 ? { borderTop: `4px solid ${activeProfile.honorRank === 1 ? "var(--gold)" : activeProfile.honorRank === 2 ? "var(--line-2)" : "var(--ink-3)"}` } : {}}>
             <div className="entity-title">
-              <span className="entity-logo large">{activeProfile.entity.logoText}</span>
+              <CompanyLogo entity={activeProfile.entity} size="large" />
               <div>
                 <span className="eyebrow" style={{ color: "var(--gold)" }}>Honor Roll #{activeProfile.honorRank}</span>
                 <h2>{activeProfile.entity.name}</h2>
