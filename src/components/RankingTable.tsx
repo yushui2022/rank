@@ -18,7 +18,7 @@ type RankingTableProps = {
   sortKey: SortKey;
   sortDirection: SortDirection;
   onSort: (key: SortKey) => void;
-  onSelectEntity: (entityId: string) => void;
+  onSelectEntity: (entityId: string, trackId: string) => void;
 };
 
 const sortSuffix = (active: boolean, direction: SortDirection): string =>
@@ -73,7 +73,7 @@ export function RankingTable({
           <tr
             key={`${row.trackId}-${entity.id}`}
             className={selected ? "is-selected" : ""}
-            onClick={() => onSelectEntity(entity.id)}
+            onClick={() => onSelectEntity(entity.id, row.trackId)}
           >
             <td className="rank-cell">
               <div className="rank-wrap">
@@ -142,7 +142,7 @@ export function RankingTable({
               <th>Country</th>
               <th>{renderSortButton("1w", "1W")}</th>
               <th>{renderSortButton("momentum", "Momentum")}</th>
-              <th>Sentiment</th>
+              <th>Votes</th>
             </tr>
           </thead>
           <tbody>{renderRows(splitRecords, emptyMessage)}</tbody>

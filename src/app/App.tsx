@@ -1,22 +1,11 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import { TopNav } from "../components/TopNav";
 import { CategoryDemoPage } from "../pages/CategoryDemoPage";
-import type { AppPageId } from "../types/rankings";
 import "./app.css";
 
-const DownloadsPage = lazy(() =>
-  import("../pages/DownloadsPage").then((module) => ({
-    default: module.DownloadsPage,
-  })),
-);
-const HonorRollPage = lazy(() =>
-  import("../pages/HonorRollPage").then((module) => ({
-    default: module.HonorRollPage,
-  })),
-);
-const NewsPage = lazy(() =>
-  import("../pages/NewsPage").then((module) => ({
-    default: module.NewsPage,
+const CompanyDetailPage = lazy(() =>
+  import("../pages/CompanyDetailPage").then((module) => ({
+    default: module.CompanyDetailPage,
   })),
 );
 const RankingsPage = lazy(() =>
@@ -24,19 +13,12 @@ const RankingsPage = lazy(() =>
     default: module.RankingsPage,
   })),
 );
-const SourcesPage = lazy(() =>
-  import("../pages/SourcesPage").then((module) => ({
-    default: module.SourcesPage,
-  })),
-);
 
-const pageIds: AppPageId[] = [
-  "rankings",
-  "news",
-  "downloads",
-  "honor-roll",
-  "sources",
-];
+type AppPageId = "rankings";
+
+type AppRoute =
+  | { type: "page"; pageId: AppPageId }
+  | { type: "company-detail"; entityId: string; trackId?: string };
 
 export type RankingCategoryId =
   | "industry"
@@ -57,45 +39,64 @@ const rankingCategories: { id: RankingCategoryId; label: string }[] = [
   { id: "reports", label: "Special Reports" },
 ];
 
-const pageFromHash = (): AppPageId => {
+const routeFromHash = (): AppRoute => {
   const hash = window.location.hash.replace(/^#\/?/, "");
-  return pageIds.includes(hash as AppPageId) ? (hash as AppPageId) : "rankings";
+  const [path, queryString = ""] = hash.split("?");
+  const segments = path.split("/").filter(Boolean);
+
+  if (segments[0] === "company" && segments[1]) {
+    const params = new URLSearchParams(queryString);
+
+    return {
+      type: "company-detail",
+      entityId: decodeURIComponent(segments[1]),
+      trackId: params.get("track") ?? undefined,
+    };
+  }
+
+  return {
+    type: "page",
+    pageId: "rankings",
+  };
 };
 
 export function App() {
-  const [activePage, setActivePage] = useState<AppPageId>(pageFromHash);
+  const [route, setRoute] = useState<AppRoute>(routeFromHash);
   const [activeCategoryId, setActiveCategoryId] =
     useState<RankingCategoryId>("industry");
 
   useEffect(() => {
-    const onHashChange = () => setActivePage(pageFromHash());
+    const onHashChange = () => setRoute(routeFromHash());
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
 
   const setPage = (pageId: AppPageId) => {
-    setActivePage(pageId);
-    window.location.hash = pageId === "rankings" ? "" : pageId;
+    setRoute({ type: "page", pageId });
+    window.location.hash = "";
+  };
+
+  const openCompanyDetail = (entityId: string, trackId: string) => {
+    window.location.hash = `/company/${encodeURIComponent(entityId)}?track=${encodeURIComponent(trackId)}`;
   };
 
   const renderPage = () => {
-    switch (activePage) {
-      case "downloads":
-        return <DownloadsPage />;
-      case "honor-roll":
-        return <HonorRollPage />;
-      case "news":
-        return <NewsPage />;
-      case "sources":
-        return <SourcesPage />;
-      case "rankings":
-      default:
-        if (activeCategoryId !== "industry") {
-          return <CategoryDemoPage categoryId={activeCategoryId} />;
-        }
-
-        return <RankingsPage />;
+    if (route.type === "company-detail") {
+      return (
+        <CompanyDetailPage
+          entityId={route.entityId}
+          trackId={route.trackId}
+          onBack={() => setPage("rankings")}
+          onOpenCompany={openCompanyDetail}
+        />
+      );
     }
+
+    if (activeCategoryId !== "industry") {
+      return <CategoryDemoPage categoryId={activeCategoryId} />;
+    }
+
+    return <RankingsPage />;
   };
 
   return (
@@ -103,9 +104,9 @@ export function App() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <TopNav activePage={activePage} onPageChange={setPage} />
+      <TopNav onRankingsClick={() => setPage("rankings")} />
       <div id="main-content">
-        {activePage === "rankings" && (
+        {route.type === "page" && (
           <nav className="category-index-header" aria-label="Ranking category">
             <div className="category-index-container">
               {rankingCategories.map((category) => (

@@ -1,45 +1,22 @@
-import type { AppPageId } from "../types/rankings";
-
 type TopNavProps = {
-  activePage: AppPageId;
-  onPageChange: (pageId: AppPageId) => void;
+  onRankingsClick: () => void;
 };
 
-const navItems: { id: AppPageId; label: string }[] = [
-  { id: "rankings", label: "Rankings" },
-  { id: "news", label: "News" },
-  { id: "downloads", label: "Downloads" },
-  { id: "honor-roll", label: "Honor Roll" },
-  { id: "sources", label: "Sources" },
-];
-
-export function TopNav({
-  activePage,
-  onPageChange,
-}: TopNavProps) {
+export function TopNav({ onRankingsClick }: TopNavProps) {
   return (
     <header className="top-nav">
-      <div className="brand-mark">
+      <button
+        type="button"
+        className="brand-mark brand-home-button"
+        onClick={onRankingsClick}
+        aria-label="Back to rankings"
+      >
         <span className="brand-symbol">R</span>
         <div>
           <strong>Rank Intelligence</strong>
           <span>Industry ranking exchange</span>
         </div>
-      </div>
-
-      <nav className="nav-links" aria-label="Primary navigation">
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            className={activePage === item.id ? "is-active" : ""}
-            aria-current={activePage === item.id ? "page" : undefined}
-            onClick={() => onPageChange(item.id)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </nav>
+      </button>
 
       <div className="nav-actions">
         <button

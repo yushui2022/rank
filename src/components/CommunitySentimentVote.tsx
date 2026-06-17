@@ -80,7 +80,6 @@ export function CommunitySentimentVote({
   const renderVoteButton = (
     option: VoteOption,
     label: string,
-    shortLabel: string,
     helperLabel: string,
   ) => {
     const count = currentStats[option];
@@ -90,31 +89,6 @@ export function CommunitySentimentVote({
     const voteStyle = {
       "--vote-pct": showResults ? `${pct}%` : "0%",
     } as CSSProperties;
-
-    if (variant === "inline" || variant === "mini") {
-      const displayLabel =
-        variant === "mini" && option === "lower" ? "DN" : shortLabel;
-
-      return (
-        <button
-          type="button"
-          className={`sentiment-vote-inline-btn vote-${option} ${
-            isSelected ? "is-voted" : ""
-          } ${isLeading ? "is-leading" : ""}`}
-          onClick={(event) => {
-            event.stopPropagation();
-            handleVote(option);
-          }}
-          style={voteStyle}
-          title={`${entityName}: ${label}`}
-          aria-label={`${entityName}: ${label}`}
-          aria-pressed={isSelected}
-        >
-          <span className="vote-inline-icon">{displayLabel}</span>
-          {showResults && <span className="vote-inline-pct">{pct}%</span>}
-        </button>
-      );
-    }
 
     return (
       <button
@@ -140,25 +114,75 @@ export function CommunitySentimentVote({
   };
 
   if (variant === "inline" || variant === "mini") {
+    const higherWidth = showResults ? higherPct : 50;
+    const lowerWidth = showResults ? lowerPct : 50;
+
     return (
       <div
-        className={`sentiment-vote-inline-group sentiment-${dominantVote} ${
-          showResults ? "has-voted" : ""
-        } variant-${variant}`}
+        className={`sentiment-vote-rect-container sentiment-${dominantVote} variant-${variant} ${
+          showResults ? "is-merged" : "is-split"
+        } ${userVote ? `is-user-${userVote}` : ""}`}
         aria-label={`Community sentiment for ${entityName}`}
+        onClick={(event) => event.stopPropagation()}
       >
-        {renderVoteButton(
-          "higher",
-          "UP",
-          "UP",
-          "Company is under-ranked",
-        )}
-        {renderVoteButton(
-          "lower",
-          "DOWN",
-          "DOWN",
-          "Company is over-ranked",
-        )}
+        <button
+          type="button"
+          className={`vote-rect-half vote-rect-up vote-higher ${
+            userVote === "higher" ? "is-voted" : ""
+          }`}
+          style={{ width: `${higherWidth}%` }}
+          onClick={(event) => {
+            event.stopPropagation();
+            if (showResults) return;
+            handleVote("higher");
+          }}
+          disabled={showResults}
+          title={
+            showResults
+              ? `${higherPct}% think rank should be higher`
+              : `${entityName}: UP`
+          }
+          aria-label={`${entityName}: UP`}
+          aria-pressed={userVote === "higher"}
+        >
+          <span className="vote-content-layer vote-icon" aria-hidden={showResults}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 19V5M5 12l7-7 7 7"/>
+            </svg>
+          </span>
+          <span className="vote-content-layer vote-text" aria-hidden={!showResults}>
+            {higherPct >= 18 ? `${higherPct}%` : ""}
+          </span>
+        </button>
+        <button
+          type="button"
+          className={`vote-rect-half vote-rect-down vote-lower ${
+            userVote === "lower" ? "is-voted" : ""
+          }`}
+          style={{ width: `${lowerWidth}%` }}
+          onClick={(event) => {
+            event.stopPropagation();
+            if (showResults) return;
+            handleVote("lower");
+          }}
+          disabled={showResults}
+          title={
+            showResults
+              ? `${lowerPct}% think rank should be lower`
+              : `${entityName}: DOWN`
+          }
+          aria-label={`${entityName}: DOWN`}
+          aria-pressed={userVote === "lower"}
+        >
+          <span className="vote-content-layer vote-icon" aria-hidden={showResults}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+          </span>
+          <span className="vote-content-layer vote-text" aria-hidden={!showResults}>
+            {lowerPct >= 18 ? `${lowerPct}%` : ""}
+          </span>
+        </button>
       </div>
     );
   }
@@ -186,12 +210,10 @@ export function CommunitySentimentVote({
         {renderVoteButton(
           "higher",
           "UP",
-          "UP",
           "This company looks under-ranked",
         )}
         {renderVoteButton(
           "lower",
-          "DOWN",
           "DOWN",
           "This company looks over-ranked",
         )}

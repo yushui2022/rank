@@ -1,12 +1,9 @@
 import { useMemo, useState } from "react";
 import { CompanyLogo } from "../components/CompanyLogo";
-import { CommunitySentimentVote } from "../components/CommunitySentimentVote";
 import { DomainSwitcher } from "../components/DomainSwitcher";
 import { RankingTable } from "../components/RankingTable";
-import { RankingToolbar } from "../components/RankingToolbar";
 import {
   domains,
-  entities,
   tracks,
 } from "../data/rankingData";
 import type {
@@ -38,10 +35,14 @@ export function RankingsPage() {
   const [activeTrackId, setActiveTrackId] = useState(
     preferredTrackForDomain(domains[0]?.id ?? "ai").id,
   );
-  const [filters, setFilters] = useState<FilterState>(initialFilters);
+  const [filters] = useState<FilterState>(initialFilters);
   const [selectedEntityId, setSelectedEntityId] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("view");
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
+
+  const openCompanyDetail = (entityId: string, trackId: string) => {
+    window.location.hash = `/company/${encodeURIComponent(entityId)}?track=${encodeURIComponent(trackId)}`;
+  };
 
   const toggleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -72,12 +73,6 @@ export function RankingsPage() {
     records.find((record) => record.entity.id === selectedEntityId) ??
     records[0] ??
     null;
-
-  const regions = Array.from(new Set(entities.map((entity) => entity.region))).sort();
-  const stages = Array.from(new Set(entities.map((entity) => entity.stage))).sort();
-  const entityTypes = Array.from(
-    new Set(entities.map((entity) => entity.entityType)),
-  ).sort();
 
   const setDomain = (domainId: DomainId) => {
     const nextTrack = preferredTrackForDomain(domainId);
@@ -118,17 +113,6 @@ export function RankingsPage() {
       />
 
       <main className="workspace">
-        <div className="ranking-toolbar-container">
-          <RankingToolbar
-            filters={filters}
-            regions={regions}
-            stages={stages}
-            entityTypes={entityTypes}
-            onFiltersChange={setFilters}
-            onReset={() => setFilters(initialFilters)}
-          />
-        </div>
-
         {records.length > 0 && (
           <section className="mini-boards-strip" aria-label="Sub-rankings">
             <div className="mini-boards-grid industry-mini-boards">
@@ -146,12 +130,12 @@ export function RankingsPage() {
                       <div
                         key={`momentum-${entity.id}`}
                         className={`mini-board-row${entity.id === selectedRecord?.entity.id ? " is-selected" : ""}`}
-                        onClick={() => setSelectedEntityId(entity.id)}
+                        onClick={() => openCompanyDetail(entity.id, row.trackId)}
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
-                            setSelectedEntityId(entity.id);
+                            openCompanyDetail(entity.id, row.trackId);
                           }
                         }}
                       >
@@ -161,9 +145,6 @@ export function RankingsPage() {
                           <span className="mini-board-rank">#{i + 1}</span>
                         </div>
                         <span className="momentum-cell">{row.momentum.toFixed(1)}</span>
-                        <div onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto" }}>
-                          <CommunitySentimentVote entityId={entity.id} entityName={entity.name} variant="mini" />
-                        </div>
                       </div>
                     ))}
                 </div>
@@ -183,12 +164,12 @@ export function RankingsPage() {
                       <div
                         key={`score-${entity.id}`}
                         className={`mini-board-row${entity.id === selectedRecord?.entity.id ? " is-selected" : ""}`}
-                        onClick={() => setSelectedEntityId(entity.id)}
+                        onClick={() => openCompanyDetail(entity.id, row.trackId)}
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
-                            setSelectedEntityId(entity.id);
+                            openCompanyDetail(entity.id, row.trackId);
                           }
                         }}
                       >
@@ -198,9 +179,6 @@ export function RankingsPage() {
                           <span className="mini-board-rank">#{i + 1}</span>
                         </div>
                         <span className="mini-board-metric">{row.score.toFixed(1)}</span>
-                        <div onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto" }}>
-                          <CommunitySentimentVote entityId={entity.id} entityName={entity.name} variant="mini" />
-                        </div>
                       </div>
                     ))}
                 </div>
@@ -220,12 +198,12 @@ export function RankingsPage() {
                       <div
                         key={`inf-${entity.id}`}
                         className={`mini-board-row${entity.id === selectedRecord?.entity.id ? " is-selected" : ""}`}
-                        onClick={() => setSelectedEntityId(entity.id)}
+                        onClick={() => openCompanyDetail(entity.id, row.trackId)}
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
-                            setSelectedEntityId(entity.id);
+                            openCompanyDetail(entity.id, row.trackId);
                           }
                         }}
                       >
@@ -235,9 +213,6 @@ export function RankingsPage() {
                           <span className="mini-board-rank">#{i + 1}</span>
                         </div>
                         <span className="mini-board-metric">{row.evidenceCount} src</span>
-                        <div onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto" }}>
-                          <CommunitySentimentVote entityId={entity.id} entityName={entity.name} variant="mini" />
-                        </div>
                       </div>
                     ))}
                 </div>
@@ -254,7 +229,7 @@ export function RankingsPage() {
               sortKey={sortKey}
               sortDirection={sortDirection}
               onSort={toggleSort}
-              onSelectEntity={setSelectedEntityId}
+              onSelectEntity={openCompanyDetail}
             />
           </div>
         </div>

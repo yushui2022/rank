@@ -1,9 +1,11 @@
-import { entities, rankings } from "../data/rankingData";
+import { entities, rankings, sources, tracks } from "../data/rankingData";
 import type {
   Entity,
   FilterState,
   LeaderboardViewId,
   RankingRow,
+  Source,
+  Track,
 } from "../types/rankings";
 
 export type RankingRecord = {
@@ -12,11 +14,14 @@ export type RankingRecord = {
 };
 
 export type ScoredRecord = RankingRecord & { viewScore: number };
+export type CompanyDetailRecord = ScoredRecord & { track: Track };
 
 export type SortKey = "view" | "1w" | "momentum";
 export type SortDirection = "asc" | "desc";
 
 export const entityById = new Map(entities.map((entity) => [entity.id, entity]));
+export const trackById = new Map(tracks.map((track) => [track.id, track]));
+export const sourceById = new Map(sources.map((source) => [source.id, source]));
 
 const clamp100 = (value: number) => Math.max(0, Math.min(100, value));
 
@@ -137,3 +142,83 @@ export const recordsForTrack = (
 
 export const rowsForDomain = (domainId: Entity["domainId"]) =>
   rankings.filter((row) => entityById.get(row.entityId)?.domainId === domainId);
+
+export const resolveEntityTrackId = (
+  entityId: string,
+  preferredTrackId?: string,
+): string => {
+  const entity = entityById.get(entityId);
+  const hasRowForTrack = (trackId: string) =>
+    rankings.some((row) => row.entityId === entityId && row.trackId === trackId);
+
+  if (preferredTrackId && hasRowForTrack(preferredTrackId)) {
+    return preferredTrackId;
+  }
+
+  const entityTrack = entity?.trackIds.find(hasRowForTrack);
+  if (entityTrack) return entityTrack;
+
+  return rankings.find((row) => row.entityId === entityId)?.trackId ?? "";
+};
+
+export const recordForEntityInTrack = (
+  entityId: string,
+  preferredTrackId?: string,
+): CompanyDetailRecord | null => {
+  const entity = entityById.get(entityId);
+  if (!entity) return null;
+
+  const trackId = resolveEntityTrackId(entityId, preferredTrackId);
+  const row = rankings.find(
+    (ranking) => ranking.entityId === entityId && ranking.trackId === trackId,
+  );
+  if (!row) return null;
+
+  const track = trackById.get(row.trackId);
+  if (!track) return null;
+
+  return {
+    row,
+    entity,
+    track,
+    viewScore: Math.round(row.score),
+  };
+};
+
+export const sourcesForRecord = (
+  row: RankingRow,
+  entity: Entity,
+): Source[] => {
+  const sourceIds = [...row.sourceIds, ...entity.sourceIds];
+  const uniqueIds = Array.from(new Set(sourceIds));
+
+  return uniqueIds
+    .map((sourceId) => sourceById.get(sourceId))
+    .filter((source): source is Source => Boolean(source));
+};
+
+export const peerRecordsForTrack = (
+  entityId: string,
+  trackId: string,
+): ScoredRecord[] => {
+  const records = recordsForTrack(
+    trackId,
+    "top",
+    {
+      query: "",
+      region: "All",
+      stage: "All",
+      entityType: "All",
+    },
+    "view",
+    "desc",
+  );
+  const activeIndex = records.findIndex((record) => record.entity.id === entityId);
+
+  if (activeIndex < 0) return records.slice(0, 4);
+
+  return records
+    .slice(Math.max(0, activeIndex - 2), activeIndex + 3)
+    .filter((record) => record.entity.id !== entityId)
+    .slice(0, 4);
+};

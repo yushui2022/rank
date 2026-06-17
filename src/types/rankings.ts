@@ -125,14 +125,6 @@ export type RankingRow = {
   confidence?: string;
 };
 
-export type MarketPulseMetric = {
-  id: string;
-  label: string;
-  value: string;
-  change: string;
-  tone: "positive" | "negative" | "neutral" | "warning";
-};
-
 export type FilterState = {
   query: string;
   region: string;
@@ -149,41 +141,3 @@ export type CategorySummary = {
   sourceCount: number;
   description: string;
 };
-
-export type NewsEvent = {
-  id: string;
-  date: string;
-  eventType:
-    | "Ranking update"
-    | "Company event"
-    | "Model release"
-    | "Robotics deployment"
-    | "Source monitor"
-    | "Analyst brief";
-  title: string;
-  summary: string;
-  domainId: DomainId;
-  trackId: string;
-  relatedEntity: string;
-  affectedRanking: string;
-  impact: "Low" | "Medium" | "High";
-  sourceQuality: SourceQuality;
-  sourceIds: string[];
-  dataStatus: DataStatus;
-};
-
-export type TrackMethodologyItem = {
-  item: string;
-  value: string;
-  description: string;
-  dataHandling: string;
-  refreshCycle: string;
-  notes: string;
-};
-
-export type AppPageId =
-  | "rankings"
-  | "news"
-  | "downloads"
-  | "honor-roll"
-  | "sources";
