@@ -1,5 +1,5 @@
 import { CompanyLogo } from "../company/CompanyLogo";
-import type { ScoredRecord } from "../../utils/rankingLogic";
+import type { ScoredRecord } from "../../types/rankingRuntime";
 
 type MiniBoardCardProps = {
   title: string;

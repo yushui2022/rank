@@ -1,33 +1,24 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { DomainSwitcher } from "../components/rankings/DomainSwitcher";
 import { MiniBoardsStrip } from "../components/rankings/MiniBoardsStrip";
 import { RankingTable } from "../components/rankings/RankingTable";
 import {
   domains,
+  preferredTrackForDomain,
   tracks,
-} from "../data/rankingData";
+} from "../data/rankingRepository";
+import { useTrackRecords } from "../hooks/useTrackRecords";
 import type {
   DomainId,
   FilterState,
 } from "../types/rankings";
-import {
-  recordsForTrack,
-  type SortDirection,
-  type SortKey,
-} from "../utils/rankingLogic";
+import type { SortDirection, SortKey } from "../types/rankingRuntime";
 
 const initialFilters: FilterState = {
   query: "",
   region: "All",
   stage: "All",
   entityType: "All",
-};
-
-const preferredTrackForDomain = (domainId: DomainId) => {
-  return (
-    tracks.find((track) => track.domainId === domainId) ??
-    tracks[0]
-  );
 };
 
 export function RankingsPage() {
@@ -57,16 +48,11 @@ export function RankingsPage() {
     tracks.find((track) => track.id === activeTrackId) ??
     preferredTrackForDomain(activeDomainId);
 
-  const records = useMemo(
-    () =>
-      recordsForTrack(
-        activeTrack.id,
-        "top", // fixed view
-        filters,
-        sortKey,
-        sortDirection,
-      ).slice(0, 20),
-    [activeTrack.id, filters, sortKey, sortDirection],
+  const records = useTrackRecords(
+    activeTrack.id,
+    filters,
+    sortKey,
+    sortDirection,
   );
 
   const selectedRecord =
@@ -79,26 +65,12 @@ export function RankingsPage() {
 
     setActiveDomainId(domainId);
     setActiveTrackId(nextTrack.id);
-    const firstRow = recordsForTrack(
-      nextTrack.id,
-      "top",
-      initialFilters,
-      sortKey,
-      sortDirection,
-    )[0];
-    setSelectedEntityId(firstRow?.entity.id ?? "");
+    setSelectedEntityId("");
   };
 
   const setTrack = (trackId: string) => {
     setActiveTrackId(trackId);
-    const firstRow = recordsForTrack(
-      trackId,
-      "top",
-      filters,
-      sortKey,
-      sortDirection,
-    )[0];
-    setSelectedEntityId(firstRow?.entity.id ?? "");
+    setSelectedEntityId("");
   };
 
   return (

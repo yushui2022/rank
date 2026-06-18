@@ -1,4 +1,3 @@
-import { entities, rankings, sources, tracks } from "../data/rankingData";
 import type {
   Entity,
   FilterState,
@@ -7,21 +6,14 @@ import type {
   Source,
   Track,
 } from "../types/rankings";
-
-export type RankingRecord = {
-  row: RankingRow;
-  entity: Entity;
-};
-
-export type ScoredRecord = RankingRecord & { viewScore: number };
-export type CompanyDetailRecord = ScoredRecord & { track: Track };
-
-export type SortKey = "view" | "1w" | "momentum";
-export type SortDirection = "asc" | "desc";
-
-export const entityById = new Map(entities.map((entity) => [entity.id, entity]));
-export const trackById = new Map(tracks.map((track) => [track.id, track]));
-export const sourceById = new Map(sources.map((source) => [source.id, source]));
+import type {
+  CompanyDetailRecord,
+  RankingRecord,
+  ScoredRecord,
+  SortDirection,
+  SortKey,
+  TrackDataset,
+} from "../types/rankingRuntime";
 
 const clamp100 = (value: number) => Math.max(0, Math.min(100, value));
 
@@ -101,17 +93,17 @@ export const compareRecords =
     return direction === "desc" ? delta : -delta;
   };
 
-export const recordsForTrack = (
-  activeTrackId: string,
+export const recordsForDataset = (
+  dataset: TrackDataset,
   activeView: LeaderboardViewId,
   filters: FilterState,
   sortKey: SortKey,
   sortDirection: SortDirection,
 ): ScoredRecord[] => {
   const query = filters.query.trim().toLowerCase();
+  const entityById = new Map(dataset.entities.map((entity) => [entity.id, entity]));
 
-  return rankings
-    .filter((row) => row.trackId === activeTrackId)
+  return dataset.rankings
     .map((row) => {
       const entity = entityById.get(row.entityId);
       if (!entity) return null;
@@ -140,42 +132,19 @@ export const recordsForTrack = (
     .sort(compareRecords(sortKey, sortDirection, activeView));
 };
 
-export const rowsForDomain = (domainId: Entity["domainId"]) =>
-  rankings.filter((row) => entityById.get(row.entityId)?.domainId === domainId);
-
-export const resolveEntityTrackId = (
+export const recordForEntityInDataset = (
+  dataset: TrackDataset,
+  track: Track,
   entityId: string,
-  preferredTrackId?: string,
-): string => {
-  const entity = entityById.get(entityId);
-  const hasRowForTrack = (trackId: string) =>
-    rankings.some((row) => row.entityId === entityId && row.trackId === trackId);
-
-  if (preferredTrackId && hasRowForTrack(preferredTrackId)) {
-    return preferredTrackId;
-  }
-
-  const entityTrack = entity?.trackIds.find(hasRowForTrack);
-  if (entityTrack) return entityTrack;
-
-  return rankings.find((row) => row.entityId === entityId)?.trackId ?? "";
-};
-
-export const recordForEntityInTrack = (
-  entityId: string,
-  preferredTrackId?: string,
 ): CompanyDetailRecord | null => {
+  const entityById = new Map(dataset.entities.map((entity) => [entity.id, entity]));
   const entity = entityById.get(entityId);
   if (!entity) return null;
 
-  const trackId = resolveEntityTrackId(entityId, preferredTrackId);
-  const row = rankings.find(
-    (ranking) => ranking.entityId === entityId && ranking.trackId === trackId,
+  const row = dataset.rankings.find(
+    (ranking) => ranking.entityId === entityId && ranking.trackId === track.id,
   );
   if (!row) return null;
-
-  const track = trackById.get(row.trackId);
-  if (!track) return null;
 
   return {
     row,
@@ -186,9 +155,11 @@ export const recordForEntityInTrack = (
 };
 
 export const sourcesForRecord = (
+  dataset: TrackDataset,
   row: RankingRow,
   entity: Entity,
 ): Source[] => {
+  const sourceById = new Map(dataset.sources.map((source) => [source.id, source]));
   const sourceIds = [...row.sourceIds, ...entity.sourceIds];
   const uniqueIds = Array.from(new Set(sourceIds));
 
@@ -197,12 +168,12 @@ export const sourcesForRecord = (
     .filter((source): source is Source => Boolean(source));
 };
 
-export const peerRecordsForTrack = (
+export const peerRecordsForDataset = (
+  dataset: TrackDataset,
   entityId: string,
-  trackId: string,
 ): ScoredRecord[] => {
-  const records = recordsForTrack(
-    trackId,
+  const records = recordsForDataset(
+    dataset,
     "top",
     {
       query: "",

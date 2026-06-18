@@ -251,15 +251,10 @@ def main() -> None:
     
     domains = list(domains_map.values())
 
-    folder_stats: dict[str, dict[str, Any]] = defaultdict(lambda: {"tracks": 0, "companies": set(), "sources": 0})
     tracks: list[dict[str, Any]] = []
     entities_by_name: dict[str, dict[str, Any]] = {}
     rankings: list[dict[str, Any]] = []
     sources_by_id: dict[str, dict[str, Any]] = {}
-    source_rows_by_track: dict[str, list[dict[str, Any]]] = {}
-    methodology_by_track: dict[str, list[dict[str, Any]]] = {}
-    source_count_by_track: dict[str, int] = {}
-    track_leaders: dict[str, str] = {}
 
     for workbook in workbooks:
         folder = workbook.parent.name
@@ -272,7 +267,6 @@ def main() -> None:
         ranking_ws = wb["Ranking"]
         detailed_ws = wb["Detailed Scoring"]
         sources_ws = wb["Sources"]
-        methodology_ws = wb["Methodology"]
 
         ranking_title = ranking_ws["A1"].value or f"{track_name} Top {DEFAULT_RANKING_SIZE}"
         ranking_description = ranking_ws["A2"].value or ""
@@ -280,7 +274,6 @@ def main() -> None:
         ranking_rows = read_table(ranking_ws)
         ranking_size = len(ranking_rows) or DEFAULT_RANKING_SIZE
         raw_source_rows = read_table(sources_ws)
-        raw_methodology_rows = read_table(methodology_ws)
 
         category_cn = ""
         if detailed_rows:
@@ -317,11 +310,6 @@ def main() -> None:
             }
         )
 
-        source_count_by_track[track_id] = len(raw_source_rows)
-        folder_stats[folder]["tracks"] += 1
-        folder_stats[folder]["sources"] += len(raw_source_rows)
-
-        source_rows_by_track[track_id] = []
         for source_row in raw_source_rows:
             raw_id = str(source_row.get("source_id") or "").strip()
             if not raw_id:
@@ -342,19 +330,6 @@ def main() -> None:
                 "folder": folder,
             }
             sources_by_id[mapped_id] = source
-            source_rows_by_track[track_id].append(source)
-
-        methodology_by_track[track_id] = [
-            {
-                "item": str(row.get("item") or ""),
-                "value": str(row.get("value") or ""),
-                "description": str(row.get("description") or ""),
-                "dataHandling": str(row.get("data_handling") or ""),
-                "refreshCycle": str(row.get("refresh_cycle") or ""),
-                "notes": str(row.get("notes") or ""),
-            }
-            for row in raw_methodology_rows
-        ]
 
         dimension_labels = [
             "市场地位",
@@ -374,7 +349,6 @@ def main() -> None:
             entity_id = slugify(company)
             row_source_ids = source_ids(row.get("source_ids"), track_slug)
             country = str(row.get("country_region") or "Global")
-            folder_stats[folder]["companies"].add(company)
 
             if entity_id not in entities_by_name:
                 entities_by_name[entity_id] = {
@@ -414,8 +388,6 @@ def main() -> None:
             total_score = safe_number(row.get("total_score"))
             rank = int(safe_number(row.get("rank"), index + 1))
             confidence = str(row.get("confidence") or "Medium")
-            if rank == 1:
-                track_leaders[track_id] = company
 
             dimension_scores = []
             for label in dimension_labels:
@@ -475,130 +447,143 @@ def main() -> None:
     tracks = sorted(tracks, key=lambda item: (item["domainId"], item["folder"], item["name"]))
     rankings = sorted(rankings, key=lambda item: (item["trackId"], item["rank"]))
 
-    leaderboard_views = [
-        {"id": "top", "label": "Top", "description": "Composite score from imported workbook rankings."},
-        {"id": "trending", "label": "Trending", "description": "Prototype momentum view using score movement and workbook strength."},
-        {"id": "new", "label": "New", "description": "Recent workbook additions and newly listed tracks."},
-        {"id": "most-visited", "label": "Most visited", "description": "Proxy view for public attention and source-linked visibility."},
-        {"id": "fastest-growing", "label": "Fastest growing", "description": "Prototype growth lens for rising entities."},
-        {"id": "most-funded", "label": "Most funded", "description": "Capital and organization maturity proxy view."},
-        {"id": "open-source", "label": "Open source", "description": "Open ecosystem and community adoption lens."},
-        {"id": "enterprise-ready", "label": "Enterprise ready", "description": "Deployment and commercial readiness lens."},
-        {"id": "community-sentiment", "label": "Community sentiment", "description": "Prototype sentiment and attention blend."},
-        {"id": "robotics", "label": "Robotics", "description": "Robotics-only entities and tracks."},
-    ]
-
     total_companies = len(entities)
     total_tracks = len(tracks)
     total_rows = len(rankings)
     total_sources = len(sources)
-    robotics_tracks = sum(1 for track in tracks if track["domainId"] == "robotics")
 
-    market_pulse = [
-        {"id": "tracks", "label": "Ranking workbooks", "value": str(total_tracks), "change": "Imported", "tone": "positive"},
-        {"id": "entities", "label": "Companies / labs", "value": str(total_companies), "change": f"{total_rows} ranked rows", "tone": "positive"},
-        {"id": "sources", "label": "Source ledger", "value": str(total_sources), "change": "Workbook-linked", "tone": "neutral"},
-        {"id": "robotics", "label": "Robotics tracks", "value": str(robotics_tracks), "change": "First-class domain", "tone": "positive"},
-        {"id": "snapshot", "label": "Snapshot", "value": SNAPSHOT_DATE, "change": "Static import", "tone": "warning"},
-    ]
+    generated_root = repo_root / "src" / "data" / "generated"
+    tracks_root = generated_root / "tracks"
+    generated_root.mkdir(parents=True, exist_ok=True)
+    tracks_root.mkdir(parents=True, exist_ok=True)
 
-    topic_prompts = [
-        "Which AI companies appear across the most ranking tracks?",
-        "Which robotics vendors lead the imported Top 20 workbooks?",
-        "Which categories have the highest source coverage?",
-        "What changed in the latest ranking snapshot?",
-        "Which imported sources support this company profile?",
-    ]
+    for stale_track_file in tracks_root.glob("*.ts"):
+        stale_track_file.unlink()
 
-    category_summaries = []
-    for folder, stats in sorted(folder_stats.items()):
-        category_summaries.append(
-            {
-                "id": slugify(folder),
-                "name": FOLDER_LABELS.get(folder, folder),
-                "domainId": domain_for_folder(folder),
-                "trackCount": stats["tracks"],
-                "companyCount": len(stats["companies"]),
-                "sourceCount": stats["sources"],
-                "description": f"{stats['tracks']} imported Top 20 workbooks with {len(stats['companies'])} unique ranked entities.",
-            }
+    def write_payload(path: Path, header: str, name: str, type_name: str, payload: Any) -> None:
+        path.write_text(
+            "".join(
+                [
+                    header,
+                    f"export const {name}: {type_name} = ",
+                    json.dumps(payload, ensure_ascii=False, indent=2),
+                    ";\n",
+                ]
+            ),
+            encoding="utf-8",
         )
 
-    news_events = []
-    for track in tracks:
-        leader = track_leaders.get(track["id"], "Track leader")
-        source_count = source_count_by_track.get(track["id"], 0)
-        news_events.append(
-            {
-                "id": f"news-{track['id']}",
-                "date": SNAPSHOT_DATE,
-                "eventType": "Ranking update",
-                "title": f"{track['name']} Top 20 workbook imported",
-                "summary": f"{leader} leads the {track['name']} ranking in the {SNAPSHOT_DATE} workbook snapshot.",
-                "domainId": track["domainId"],
-                "trackId": track["id"],
-                "relatedEntity": leader,
-                "affectedRanking": track["name"],
-                "impact": "Medium" if source_count < 12 else "High",
-                "sourceQuality": "high" if source_count >= 10 else "medium",
-                "sourceIds": [source["id"] for source in source_rows_by_track.get(track["id"], [])[:3]],
-                "dataStatus": "imported",
-            }
-        )
+    entities_by_id = {entity["id"]: entity for entity in entities}
+    sources_by_final_id = {source["id"]: source for source in sources}
+    rankings_by_track: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for ranking in rankings:
+        rankings_by_track[ranking["trackId"]].append(ranking)
 
-    out = repo_root / "src" / "data" / "industryData.ts"
-    payloads = {
-        "domains": domains,
-        "tracks": tracks,
-        "entities": entities,
-        "rankings": rankings,
-        "sources": sources,
-        "leaderboardViews": leaderboard_views,
-        "marketPulse": market_pulse,
-        "topicPrompts": topic_prompts,
-        "categorySummaries": category_summaries,
-        "newsEvents": news_events,
-        "methodologyByTrack": methodology_by_track,
+    frontend_tracks = [
+        {
+            "id": track["id"],
+            "domainId": track["domainId"],
+            "name": track["name"],
+            "label": track["label"],
+            "description": track["description"],
+            "segments": track["segments"],
+            "sourceCount": track["sourceCount"],
+            "companyCount": track["companyCount"],
+        }
+        for track in tracks
+    ]
+
+    entity_track_index = {
+        entity["id"]: entity["trackIds"]
+        for entity in entities
+        if entity.get("trackIds")
     }
 
-    header = """import type {
-  CategorySummary,
-  Domain,
-  Entity,
-  LeaderboardView,
-  MarketPulseMetric,
-  NewsEvent,
-  RankingRow,
-  Source,
-  Track,
-  TrackMethodologyItem,
-} from "../types/rankings";
+    manifest_header = """import type { Domain, Track } from "../../types/rankings";
 
 // Generated from outputs/019e910c-af91-7f70-b575-98ceeb8830a1/industry_rankings.
 // Regenerate with: python scripts/generate_frontend_data.py
 
 """
-    chunks = [header]
-    type_names = {
-        "domains": "Domain[]",
-        "tracks": "Track[]",
-        "entities": "Entity[]",
-        "rankings": "RankingRow[]",
-        "sources": "Source[]",
-        "leaderboardViews": "LeaderboardView[]",
-        "marketPulse": "MarketPulseMetric[]",
-        "topicPrompts": "string[]",
-        "categorySummaries": "CategorySummary[]",
-        "newsEvents": "NewsEvent[]",
-        "methodologyByTrack": "Record<string, TrackMethodologyItem[]>",
-    }
-    for name, payload in payloads.items():
-        chunks.append(f"export const {name}: {type_names[name]} = ")
-        chunks.append(json.dumps(payload, ensure_ascii=False, indent=2))
-        chunks.append(";\n\n")
+    manifest = "".join(
+        [
+            manifest_header,
+            "export const domains: Domain[] = ",
+            json.dumps(domains, ensure_ascii=False, indent=2),
+            ";\n\n",
+            "export const tracks: Track[] = ",
+            json.dumps(frontend_tracks, ensure_ascii=False, indent=2),
+            ";\n\n",
+            "export const entityTrackIndex: Record<string, string[]> = ",
+            json.dumps(entity_track_index, ensure_ascii=False, indent=2),
+            ";\n",
+        ]
+    )
+    (generated_root / "manifest.ts").write_text(manifest, encoding="utf-8")
 
-    out.write_text("".join(chunks), encoding="utf-8")
-    print(f"Wrote {out}")
+    track_ids = [track["id"] for track in tracks]
+    for track in tracks:
+        track_id = track["id"]
+        track_rankings = rankings_by_track.get(track_id, [])
+        track_entity_ids = {ranking["entityId"] for ranking in track_rankings}
+        track_entities = [
+            entities_by_id[entity_id]
+            for entity_id in sorted(track_entity_ids, key=lambda item: entities_by_id[item]["name"])
+            if entity_id in entities_by_id
+        ]
+
+        source_ids_for_track = set()
+        for ranking in track_rankings:
+            source_ids_for_track.update(ranking.get("sourceIds", []))
+        for entity in track_entities:
+            source_ids_for_track.update(entity.get("sourceIds", []))
+
+        track_sources = [
+            sources_by_final_id[source_id]
+            for source_id in sorted(source_ids_for_track)
+            if source_id in sources_by_final_id
+        ]
+
+        dataset = {
+            "trackId": track_id,
+            "entities": track_entities,
+            "rankings": track_rankings,
+            "sources": track_sources,
+        }
+        write_payload(
+            tracks_root / f"{track_id}.ts",
+            """import type { TrackDataset } from "../../../types/rankingRuntime";
+
+// Generated from outputs/019e910c-af91-7f70-b575-98ceeb8830a1/industry_rankings.
+// Regenerate with: python scripts/generate_frontend_data.py
+
+""",
+            "trackDataset",
+            "TrackDataset",
+            dataset,
+        )
+
+    loader_lines = [
+        'import type { TrackDataset } from "../../types/rankingRuntime";',
+        "",
+        "// Generated from outputs/019e910c-af91-7f70-b575-98ceeb8830a1/industry_rankings.",
+        "// Regenerate with: python scripts/generate_frontend_data.py",
+        "",
+        "export type TrackDataModule = { trackDataset: TrackDataset };",
+        "export type TrackDataLoader = () => Promise<TrackDataModule>;",
+        "",
+        "export const trackDataLoaders: Record<string, TrackDataLoader> = {",
+    ]
+    for track_id in track_ids:
+        loader_lines.append(f'  "{track_id}": () => import("./tracks/{track_id}"),')
+    loader_lines.append("};\n")
+    (generated_root / "trackLoaders.ts").write_text("\n".join(loader_lines), encoding="utf-8")
+
+    legacy_out = repo_root / "src" / "data" / "industryData.ts"
+    if legacy_out.exists():
+        legacy_out.unlink()
+
+    print(f"Wrote {generated_root}")
     print(f"tracks={total_tracks} entities={total_companies} rows={total_rows} sources={total_sources}")
 
 

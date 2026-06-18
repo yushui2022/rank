@@ -1,8 +1,12 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import { TopNav } from "../components/navigation/TopNav";
-import { CategoryDemoPage } from "../pages/CategoryDemoPage";
 import "../styles/index.css";
 
+const CategoryDemoPage = lazy(() =>
+  import("../pages/CategoryDemoPage").then((module) => ({
+    default: module.CategoryDemoPage,
+  })),
+);
 const CompanyDetailPage = lazy(() =>
   import("../pages/CompanyDetailPage").then((module) => ({
     default: module.CompanyDetailPage,

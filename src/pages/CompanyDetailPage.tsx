@@ -3,13 +3,9 @@ import { CompanyLogo } from "../components/company/CompanyLogo";
 import { CompanyMetricGrid } from "../components/company/CompanyMetricGrid";
 import { CompanyPeerContext } from "../components/company/CompanyPeerContext";
 import { RegionBadge } from "../components/shared/RegionBadge";
+import { useCompanyDetail } from "../hooks/useCompanyDetail";
 import type { DimensionScore, Entity, RankingRow, Track } from "../types/rankings";
 import { displayDimensionLabel } from "../utils/displayText";
-import {
-  peerRecordsForTrack,
-  recordForEntityInTrack,
-  sourcesForRecord,
-} from "../utils/rankingLogic";
 
 type CompanyDetailPageProps = {
   entityId: string;
@@ -78,12 +74,10 @@ export function CompanyDetailPage({
   onBack,
   onOpenCompany,
 }: CompanyDetailPageProps) {
-  const detail = recordForEntityInTrack(entityId, trackId);
+  const { detail, evidence, peers } = useCompanyDetail(entityId, trackId);
   if (!detail) return <NotFoundState onBack={onBack} />;
 
   const { entity, row, track } = detail;
-  const evidence = sourcesForRecord(row, entity);
-  const peers = peerRecordsForTrack(entity.id, row.trackId);
   const strongest = topDimension(row.dimensionScores);
   const weakest = lowDimension(row.dimensionScores);
   const tags = cleanList(entity.tags);

@@ -1,5 +1,5 @@
 import { MiniBoardCard } from "./MiniBoardCard";
-import type { ScoredRecord } from "../../utils/rankingLogic";
+import type { ScoredRecord } from "../../types/rankingRuntime";
 
 type MiniBoardsStripProps = {
   records: ScoredRecord[];

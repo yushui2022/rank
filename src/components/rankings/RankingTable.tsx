@@ -1,19 +1,10 @@
-import type { Entity, RankingRow } from "../../types/rankings";
+import type { ScoredRecord, SortDirection, SortKey } from "../../types/rankingRuntime";
 import { CompanyLogo } from "../company/CompanyLogo";
 import { RegionBadge } from "../shared/RegionBadge";
 import { CommunitySentimentVote } from "../voting/CommunitySentimentVote";
 
-type RankingRecord = {
-  row: RankingRow;
-  entity: Entity;
-  viewScore: number;
-};
-
-type SortKey = "view" | "1w" | "momentum";
-type SortDirection = "asc" | "desc";
-
 type RankingTableProps = {
-  records: RankingRecord[];
+  records: ScoredRecord[];
   selectedEntityId: string;
   sortKey: SortKey;
   sortDirection: SortDirection;
@@ -59,7 +50,7 @@ export function RankingTable({
     </button>
   );
 
-  const renderRows = (splitRecords: RankingRecord[], emptyMessage: string) => (
+  const renderRows = (splitRecords: ScoredRecord[], emptyMessage: string) => (
     <>
       {splitRecords.length === 0 && (
         <tr className="empty-row">
@@ -115,7 +106,7 @@ export function RankingTable({
   );
 
   const renderTable = (
-    splitRecords: RankingRecord[],
+    splitRecords: ScoredRecord[],
     title: string,
     range: string,
     emptyMessage: string,

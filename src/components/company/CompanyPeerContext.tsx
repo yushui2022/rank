@@ -1,5 +1,5 @@
 import type { Track } from "../../types/rankings";
-import type { ScoredRecord } from "../../utils/rankingLogic";
+import type { ScoredRecord } from "../../types/rankingRuntime";
 import { CompanyLogo } from "./CompanyLogo";
 
 type CompanyPeerContextProps = {

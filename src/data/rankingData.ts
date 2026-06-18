@@ -1,1 +1,1 @@
-export * from "./industryData";
+export { domains, entityTrackIndex, tracks } from "./generated/manifest";
