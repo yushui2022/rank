@@ -38,7 +38,6 @@ export function DomainSwitcher({
               >
                 <span className="tick" aria-hidden="true" />
                 <span>{domain.name}</span>
-                <em>{domain.description}</em>
               </button>
 
               {isActiveDomain && (
