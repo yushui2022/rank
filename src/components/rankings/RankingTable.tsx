@@ -1,4 +1,5 @@
 import type { ScoredRecord, SortDirection, SortKey } from "../../types/rankingRuntime";
+import type { Track } from "../../types/rankings";
 import { CompanyLogo } from "../company/CompanyLogo";
 import { RegionBadge } from "../shared/RegionBadge";
 import { CommunitySentimentVote } from "../voting/CommunitySentimentVote";
@@ -6,6 +7,8 @@ import { CommunitySentimentVote } from "../voting/CommunitySentimentVote";
 type RankingTableProps = {
   records: ScoredRecord[];
   selectedEntityId: string;
+  activeTrack: Track;
+  activeDomainName: string;
   sortKey: SortKey;
   sortDirection: SortDirection;
   onSort: (key: SortKey) => void;
@@ -24,6 +27,8 @@ const rankChangeTone = (value: number) =>
 export function RankingTable({
   records,
   selectedEntityId,
+  activeTrack,
+  activeDomainName,
   sortKey,
   sortDirection,
   onSort,
@@ -31,6 +36,12 @@ export function RankingTable({
 }: RankingTableProps) {
   const leftRecords = records.slice(0, 10);
   const rightRecords = records.slice(10, 20);
+  const regionCount = new Set(
+    records.map((record) => record.entity.country).filter(Boolean),
+  ).size;
+  const sourceCount =
+    activeTrack.sourceCount ??
+    records.reduce((total, record) => total + record.row.evidenceCount, 0);
 
   const renderSortButton = (key: SortKey, label: string) => (
     <button
@@ -130,7 +141,7 @@ export function RankingTable({
             <tr>
               <th className="rank-cell">{renderSortButton("view", "Rank")}</th>
               <th>Entity</th>
-              <th>Country</th>
+              <th>HQ</th>
               <th>{renderSortButton("1w", "1W")}</th>
               <th>{renderSortButton("momentum", "Momentum")}</th>
               <th>Votes</th>
@@ -145,14 +156,26 @@ export function RankingTable({
   return (
     <section className="ranking-panel">
       <div className="panel-title-row">
-        <div>
+        <div className="ranking-title-block">
           <span>Leaderboard</span>
-          <h2>Ranking index</h2>
+          <h2>{activeTrack.name} Top 20</h2>
+          <p>{activeDomainName} / Global company ranking</p>
         </div>
-        <div className="market-insight">
-          <strong>Market Insight:</strong> AI and Fintech sectors are driving positive momentum this month.
+        <div className="ranking-snapshot-strip" aria-label="Current track summary">
+          <span>
+            <strong>{records.length}</strong>
+            listed
+          </span>
+          <span>
+            <strong>{regionCount}</strong>
+            regions
+          </span>
+          <span>
+            <strong>{sourceCount}</strong>
+            sources
+          </span>
+          <span>Live composite</span>
         </div>
-        <p>{records.length} listed / live composite</p>
       </div>
 
       <div className="dual-ranking-grid">

@@ -325,10 +325,15 @@ trend. */
 }
 
 @media (max-width: 1320px) {
-.company-detail-grid,
-.company-lower-grid {
+  .company-profile-strip,
+  .company-detail-grid,
+  .company-lower-grid {
     grid-template-columns: 1fr;
-  }.company-metrics-grid {
-    grid-template-columns: repeat(5, minmax(140px, 1fr));
+  }.company-profile-identity,
+  .company-profile-summary {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }.company-profile-metrics .company-metrics-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }

@@ -47,6 +47,9 @@ export function RankingsPage() {
   const activeTrack =
     tracks.find((track) => track.id === activeTrackId) ??
     preferredTrackForDomain(activeDomainId);
+  const activeDomain =
+    domains.find((domain) => domain.id === activeTrack.domainId) ??
+    domains.find((domain) => domain.id === activeDomainId);
 
   const records = useTrackRecords(
     activeTrack.id,
@@ -96,6 +99,8 @@ export function RankingsPage() {
             <RankingTable
               records={records}
               selectedEntityId={selectedRecord?.entity.id ?? ""}
+              activeTrack={activeTrack}
+              activeDomainName={activeDomain?.name ?? "Global AI"}
               sortKey={sortKey}
               sortDirection={sortDirection}
               onSort={toggleSort}

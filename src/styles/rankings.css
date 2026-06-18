@@ -2,7 +2,7 @@
 
 .product-layout {
   display: grid;
-  grid-template-columns: 520px minmax(0, 1fr);
+  grid-template-columns: clamp(390px, 30vw, 440px) minmax(0, 1fr);
   min-height: calc(100vh - 113px);
 }
 
@@ -134,7 +134,10 @@
 
 .workspace {
   min-width: 0;
-  padding: 16px 48px 32px;
+  padding: 16px clamp(24px, 2.4vw, 36px) 32px;
+  background:
+    linear-gradient(180deg, rgba(47, 52, 55, 0.06), rgba(47, 52, 55, 0) 320px),
+    var(--bg);
 }
 
 .track-context p,

@@ -428,6 +428,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  border-color: var(--line-strong);
 }
 
 .table-wrap,
@@ -444,11 +445,73 @@
 }
 
 .ranking-panel {
-  box-shadow: none;
+  box-shadow: 0 10px 30px rgba(47, 52, 55, 0.06);
 }
 
 .ranking-panel {
   overflow: hidden;
+}
+
+.ranking-panel .panel-title-row {
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  min-height: 0;
+  border-bottom: 1px solid var(--line-strong);
+  background: #fbfaf7;
+  padding: 11px 14px;
+}
+
+.ranking-panel .panel-title-row::after {
+  content: none;
+}
+
+.ranking-panel .ranking-title-block {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ranking-panel .ranking-title-block span {
+  display: none;
+}
+
+.ranking-panel .panel-title-row h2 {
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 820;
+  line-height: 1.1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.ranking-panel .panel-title-row p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ranking-panel .ranking-snapshot-strip span {
+  min-height: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--ink-3);
+  backdrop-filter: none;
+}
+
+.ranking-panel .ranking-snapshot-strip strong {
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.ranking-panel .dual-ranking-grid {
+  gap: 12px;
+  background: #f1efe8;
+  padding: 12px;
 }
 
 .table-wrap {
@@ -457,8 +520,8 @@
 
 .ranking-split {
   min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
   background: var(--panel);
   overflow: hidden;
 }
@@ -468,15 +531,15 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 40px;
+  min-height: 44px;
   border-bottom: 1px solid var(--line);
-  background: var(--panel-2);
-  padding: 0 12px;
+  background: #fbfaf7;
+  padding: 0 14px;
 }
 
 .split-table-title strong {
   color: var(--ink);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
 }
 
@@ -501,7 +564,7 @@
 .ranking-table th,
 .ranking-table td {
   border-bottom: 1px solid var(--line);
-  padding: 0 16px;
+  padding: 0 14px;
   height: 68px;
   color: var(--ink-2);
   font-size: 16px;
@@ -514,36 +577,44 @@
   top: 0;
   z-index: 1;
   height: 56px;
-  background: var(--panel-2);
+  background: #efede6;
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--line-strong);
+  border-bottom: 1px solid #d6d1c6;
 }
 
 .ranking-table tbody tr {
-  transition: background 0.12s ease;
+  transition: background 0.16s ease, box-shadow 0.16s ease;
   cursor: pointer;
 }
 
 .ranking-table tr:hover td {
-  background: var(--panel-2);
+  background: #eeeae0;
 }
 
 .ranking-table tr.is-selected td {
-  background: var(--accent-soft);
-  border-bottom: 1px solid var(--line);
+  background: #e8e3d7;
+  border-bottom: 1px solid #d6d1c6;
 }
 
 .ranking-table tr.is-selected .rank-cell {
-  box-shadow: inset 4px 0 0 var(--accent);
+  box-shadow: inset 4px 0 0 var(--ink);
 }
 
 .ranking-table tr.is-selected .entity-cell strong {
-  color: var(--accent);
+  color: var(--ink);
+}
+
+.ranking-table.zebra-striped tbody tr:hover td {
+  background: #eeeae0 !important;
+}
+
+.ranking-table.zebra-striped tbody tr.is-selected td {
+  background: #e8e3d7 !important;
 }
 
 .rank-cell {
@@ -568,20 +639,20 @@
 }
 
 .rank-badge.rank-1 {
-  background: var(--gold);
-  border-color: var(--line);
+  background: var(--ink);
+  border-color: var(--ink);
   color: #ffffff;
 }
 
 .rank-badge.rank-2 {
-  background: var(--line-2);
-  border-color: var(--line);
+  background: #777b80;
+  border-color: #777b80;
   color: #ffffff;
 }
 
 .rank-badge.rank-3 {
-  background: var(--ink-3);
-  border-color: var(--line);
+  background: #96938d;
+  border-color: #96938d;
   color: #ffffff;
 }
 
@@ -611,8 +682,8 @@
 
 .compact-ranking-table th,
 .compact-ranking-table td {
-  height: 82px;
-  padding: 0 8px;
+  height: 80px;
+  padding: 0 7px;
   font-size: 14px;
 }
 
@@ -621,34 +692,43 @@
 }
 
 .compact-ranking-table col.rank-col {
-  width: 6%;
+  width: 52px;
 }
 
 .compact-ranking-table col.entity-col {
-  width: 30%;
+  width: auto;
 }
 
 .compact-ranking-table col.country-col {
-  width: 18%;
+  width: 58px;
 }
 
 .compact-ranking-table col.change-col {
-  width: 9%;
+  width: 54px;
 }
 
 .compact-ranking-table col.momentum-col {
-  width: 15%;
+  width: 78px;
+}
+
+.compact-ranking-table col.sentiment-col {
+  width: 96px;
 }
 
 .compact-ranking-table th {
   height: 48px;
-  font-size: 11px;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 10px;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .compact-ranking-table th:nth-child(3),
 .compact-ranking-table th:nth-child(4),
 .compact-ranking-table th:nth-child(5) {
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .compact-ranking-table th:nth-child(3),
@@ -694,8 +774,8 @@
 }
 
 .compact-ranking-table .entity-cell strong {
-  max-width: 210px;
-  font-size: 18px;
+  max-width: 100%;
+  font-size: 17px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -711,8 +791,8 @@
 }
 
 .compact-ranking-table .entity-logo {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
 }
 
 .compact-ranking-table .country-cell {
@@ -722,10 +802,11 @@
 }
 
 .compact-ranking-table .country-cell .region-badge {
+  justify-content: center;
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  gap: 6px;
+  gap: 0;
   font-size: 14px;
 }
 
@@ -737,12 +818,7 @@
 }
 
 .compact-ranking-table .country-cell .region-badge-name {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 14px;
-  line-height: 1.1;
+  display: none;
 }
 
 .compact-ranking-table .change-cell {
@@ -750,8 +826,8 @@
 }
 
 .compact-ranking-table .change-pill {
-  min-width: 44px;
-  padding: 6px 8px;
+  min-width: 40px;
+  padding: 6px 6px;
   font-size: 14px;
   font-weight: 750;
 }
@@ -765,8 +841,8 @@
 }
 
 .compact-ranking-table .momentum-value {
-  min-width: 52px;
-  font-size: 21px;
+  min-width: 48px;
+  font-size: 20px;
 }
 
 .entity-cell {

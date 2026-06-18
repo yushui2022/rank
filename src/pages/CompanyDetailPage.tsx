@@ -99,31 +99,39 @@ export function CompanyDetailPage({
         </div>
       </section>
 
-      <section className="company-hero">
-        <div className="company-identity">
-          <CompanyLogo entity={entity} size="large" />
-          <div>
-            <span className="eyebrow">Company intelligence profile</span>
-            <h1>{entity.name}</h1>
-            <div className="company-identity-meta">
-              <RegionBadge countryCode={entity.country} />
-              <span>{entity.stage}</span>
-              <span>{entity.entityType}</span>
-            </div>
+      <section className="company-profile-shell">
+        <div className="company-profile-bar">
+          <span>Company profile</span>
+          <div className="company-profile-bar-actions">
+            <strong>
+              #{row.rank} / {row.category}
+            </strong>
+            <a href={entity.website} target="_blank" rel="noreferrer" className="company-website-link">
+              Official website
+            </a>
           </div>
         </div>
 
-        <div className="company-hero-actions">
-          <a href={entity.website} target="_blank" rel="noreferrer" className="company-website-link">
-            Official website
-          </a>
-        </div>
+        <div className="company-profile-strip">
+          <div className="company-profile-identity">
+            <CompanyLogo entity={entity} size="large" />
+            <div className="company-profile-title">
+              <span className="eyebrow">Company intelligence profile</span>
+              <h1>{entity.name}</h1>
+              <div className="company-identity-meta">
+                <RegionBadge countryCode={entity.country} />
+                <span>{entity.stage}</span>
+                <span>{entity.entityType}</span>
+              </div>
+            </div>
+          </div>
 
-        <div className="company-hero-copy">
-          <p>{marketPosition}</p>
-        </div>
+          <p className="company-profile-summary">{marketPosition}</p>
 
-        <CompanyMetricGrid row={row} />
+          <aside className="company-profile-metrics">
+            <CompanyMetricGrid row={row} />
+          </aside>
+        </div>
       </section>
 
       <section className="company-detail-grid">
@@ -137,12 +145,22 @@ export function CompanyDetailPage({
           <div className="company-dimension-list">
             {row.dimensionScores.map((dimension, index) => {
               const label = displayDimensionLabel(dimension.label);
-              const width = Math.max(3, Math.min(100, dimension.score));
+              const width = Math.max(
+                3,
+                Math.min(
+                  100,
+                  dimension.weight > 0
+                    ? (dimension.score / dimension.weight) * 100
+                    : dimension.score,
+                ),
+              );
               return (
                 <div className="company-dimension-row" key={`${label}-${index}`}>
                   <div>
                     <strong>{label}</strong>
-                    <span>{dimension.weight.toFixed(1)} weight</span>
+                    <span>
+                      {dimension.score.toFixed(1)} / {dimension.weight.toFixed(1)}
+                    </span>
                   </div>
                   <i>
                     <b style={{ width: `${width}%` }} />
