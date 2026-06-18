@@ -12,8 +12,17 @@ Use the installed taste skills as design constraints:
 Codex should act as product and engineering controller:
 
 - Define the product goal, task boundaries, allowed files, and acceptance criteria.
-- Delegate visual implementation to Claude when useful.
 - Review diffs, run builds, and verify with screenshots before finalizing.
+
+Engineering boundaries:
+
+- Do not hand-edit `src/data/generated/**`. Those files are generated from the workbook pipeline.
+- Change generated ranking data by editing `scripts/generate_frontend_data.py`, then run `python scripts/generate_frontend_data.py`.
+- Treat `src/data/rankingRepository.ts` as the runtime data boundary.
+- Treat `src/utils/rankingLogic.ts` as pure ranking computation.
+- Use `src/hooks/useTrackRecords.ts` for leaderboard records and `src/hooks/useCompanyDetail.ts` for company detail records.
+- Product UI, copy, ranking semantics, and interaction behavior are sensitive. Do not change them during engineering-only refactors.
+- Run `npm.cmd run check` after data or runtime refactors.
 
 Design acceptance criteria:
 

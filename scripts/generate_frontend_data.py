@@ -473,8 +473,6 @@ def main() -> None:
             encoding="utf-8",
         )
 
-    entities_by_id = {entity["id"]: entity for entity in entities}
-    sources_by_final_id = {source["id"]: source for source in sources}
     rankings_by_track: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for ranking in rankings:
         rankings_by_track[ranking["trackId"]].append(ranking)
@@ -521,55 +519,61 @@ def main() -> None:
     )
     (generated_root / "manifest.ts").write_text(manifest, encoding="utf-8")
 
+    write_payload(
+        generated_root / "entities.ts",
+        """import type { Entity } from "../../types/rankings";
+
+// Generated from outputs/019e910c-af91-7f70-b575-98ceeb8830a1/industry_rankings.
+// Regenerate with: python scripts/generate_frontend_data.py
+
+""",
+        "entities",
+        "Entity[]",
+        entities,
+    )
+
+    write_payload(
+        generated_root / "sources.ts",
+        """import type { Source } from "../../types/rankings";
+
+// Generated from outputs/019e910c-af91-7f70-b575-98ceeb8830a1/industry_rankings.
+// Regenerate with: python scripts/generate_frontend_data.py
+
+""",
+        "sources",
+        "Source[]",
+        sources,
+    )
+
     track_ids = [track["id"] for track in tracks]
     for track in tracks:
         track_id = track["id"]
         track_rankings = rankings_by_track.get(track_id, [])
-        track_entity_ids = {ranking["entityId"] for ranking in track_rankings}
-        track_entities = [
-            entities_by_id[entity_id]
-            for entity_id in sorted(track_entity_ids, key=lambda item: entities_by_id[item]["name"])
-            if entity_id in entities_by_id
-        ]
-
-        source_ids_for_track = set()
-        for ranking in track_rankings:
-            source_ids_for_track.update(ranking.get("sourceIds", []))
-        for entity in track_entities:
-            source_ids_for_track.update(entity.get("sourceIds", []))
-
-        track_sources = [
-            sources_by_final_id[source_id]
-            for source_id in sorted(source_ids_for_track)
-            if source_id in sources_by_final_id
-        ]
 
         dataset = {
             "trackId": track_id,
-            "entities": track_entities,
             "rankings": track_rankings,
-            "sources": track_sources,
         }
         write_payload(
             tracks_root / f"{track_id}.ts",
-            """import type { TrackDataset } from "../../../types/rankingRuntime";
+            """import type { TrackRankingDataset } from "../../../types/rankingRuntime";
 
 // Generated from outputs/019e910c-af91-7f70-b575-98ceeb8830a1/industry_rankings.
 // Regenerate with: python scripts/generate_frontend_data.py
 
 """,
             "trackDataset",
-            "TrackDataset",
+            "TrackRankingDataset",
             dataset,
         )
 
     loader_lines = [
-        'import type { TrackDataset } from "../../types/rankingRuntime";',
+        'import type { TrackRankingDataset } from "../../types/rankingRuntime";',
         "",
         "// Generated from outputs/019e910c-af91-7f70-b575-98ceeb8830a1/industry_rankings.",
         "// Regenerate with: python scripts/generate_frontend_data.py",
         "",
-        "export type TrackDataModule = { trackDataset: TrackDataset };",
+        "export type TrackDataModule = { trackDataset: TrackRankingDataset };",
         "export type TrackDataLoader = () => Promise<TrackDataModule>;",
         "",
         "export const trackDataLoaders: Record<string, TrackDataLoader> = {",

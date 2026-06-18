@@ -31,19 +31,31 @@ def fail(message: str) -> None:
 
 def main() -> None:
     manifest_path = GENERATED_ROOT / "manifest.ts"
+    entities_path = GENERATED_ROOT / "entities.ts"
+    sources_path = GENERATED_ROOT / "sources.ts"
     if not manifest_path.exists():
         fail(f"missing manifest: {manifest_path}")
+    if not entities_path.exists():
+        fail(f"missing entities dataset: {entities_path}")
+    if not sources_path.exists():
+        fail(f"missing sources dataset: {sources_path}")
     if not TRACKS_ROOT.exists():
         fail(f"missing track data directory: {TRACKS_ROOT}")
 
     domains = extract_const(manifest_path, "domains")
     tracks = extract_const(manifest_path, "tracks")
     entity_track_index = extract_const(manifest_path, "entityTrackIndex")
+    entities = {entity["id"]: entity for entity in extract_const(entities_path, "entities")}
+    sources = {source["id"]: source for source in extract_const(sources_path, "sources")}
 
     if not domains:
         fail("manifest has no domains")
     if not tracks:
         fail("manifest has no tracks")
+    if not entities:
+        fail("entities dataset is empty")
+    if not sources:
+        fail("sources dataset is empty")
 
     domain_ids = {domain["id"] for domain in domains}
     track_ids = {track["id"] for track in tracks}
@@ -63,9 +75,7 @@ def main() -> None:
         if dataset.get("trackId") != track_id:
             fail(f"track dataset id mismatch in {track_path}")
 
-        entities = {entity["id"]: entity for entity in dataset.get("entities", [])}
         rankings = dataset.get("rankings", [])
-        sources = {source["id"]: source for source in dataset.get("sources", [])}
 
         if not rankings:
             fail(f"track {track_id} has no ranking rows")
@@ -105,14 +115,18 @@ def main() -> None:
                 if source_id not in sources:
                     fail(f"row {track_id}/{entity_id} references missing source {source_id}")
 
-        for entity in entities.values():
+        checked_entity_ids = {row.get("entityId") for row in rankings}
+        for entity_id in checked_entity_ids:
+            entity = entities.get(entity_id)
+            if not entity:
+                fail(f"track {track_id} references missing entity {entity_id}")
             if track_id not in entity.get("trackIds", []):
                 fail(f"entity {entity['id']} missing active track {track_id}")
             for source_id in entity.get("sourceIds", []):
                 if source_id not in sources:
                     fail(f"entity {entity['id']} references missing source {source_id}")
 
-        checked_sources += len(sources)
+        checked_sources += track_source_count
 
     extra_track_files = {
         path.stem for path in TRACKS_ROOT.glob("*.ts")
@@ -123,7 +137,8 @@ def main() -> None:
     print(
         "Generated data verified: "
         f"{len(domains)} domains, {len(tracks)} tracks, "
-        f"{checked_rows} ranking rows, {checked_sources} dataset source links."
+        f"{len(entities)} entities, {checked_rows} ranking rows, "
+        f"{len(sources)} sources, {checked_sources} track-owned source links."
     )
 
 

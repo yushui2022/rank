@@ -1,9 +1,9 @@
-import type { TrackDataset } from "../../types/rankingRuntime";
+import type { TrackRankingDataset } from "../../types/rankingRuntime";
 
 // Generated from outputs/019e910c-af91-7f70-b575-98ceeb8830a1/industry_rankings.
 // Regenerate with: python scripts/generate_frontend_data.py
 
-export type TrackDataModule = { trackDataset: TrackDataset };
+export type TrackDataModule = { trackDataset: TrackRankingDataset };
 export type TrackDataLoader = () => Promise<TrackDataModule>;
 
 export const trackDataLoaders: Record<string, TrackDataLoader> = {

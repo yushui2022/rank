@@ -7,10 +7,13 @@ export type RankingRecord = {
 
 export type ScoredRecord = RankingRecord & { viewScore: number };
 
-export type TrackDataset = {
+export type TrackRankingDataset = {
   trackId: string;
-  entities: Entity[];
   rankings: RankingRow[];
+};
+
+export type TrackDataset = TrackRankingDataset & {
+  entities: Entity[];
   sources: Source[];
 };
 

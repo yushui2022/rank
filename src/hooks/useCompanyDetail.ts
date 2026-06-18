@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import {
-  readTrackDataset,
+  readTrackEvidenceDataset,
   resolveEntityTrackId,
   trackById,
 } from "../data/rankingRepository";
@@ -23,7 +23,7 @@ export const useCompanyDetail = (
   preferredTrackId?: string,
 ): CompanyDetailState => {
   const trackId = resolveEntityTrackId(entityId, preferredTrackId);
-  const dataset = trackId ? readTrackDataset(trackId) : null;
+  const dataset = trackId ? readTrackEvidenceDataset(trackId) : null;
 
   return useMemo(() => {
     if (!dataset) {
