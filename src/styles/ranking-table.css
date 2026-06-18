@@ -1,0 +1,800 @@
+/* ranking table */
+
+/* Professional Region Badge */
+.region-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.region-badge-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 800;
+  letter-spacing: 0.5px !important;
+}
+
+.region-badge-name {
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Region Themes */
+.region-badge.theme-blue .region-badge-code {
+  background: rgba(29, 111, 224, 0.15);
+  color: var(--accent-2);
+  border: 1px solid rgba(29, 111, 224, 0.3);
+}
+
+.region-badge.theme-red .region-badge-code {
+  background: rgba(210, 58, 78, 0.12);
+  color: var(--neg);
+  border: 1px solid rgba(210, 58, 78, 0.3);
+}
+
+.region-badge.theme-amber .region-badge-code {
+  background: rgba(192, 138, 30, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(192, 138, 30, 0.3);
+}
+
+.region-badge.theme-neutral .region-badge-code {
+  background: var(--line-2);
+  color: #ffffff;
+  border: 1px solid var(--line-strong);
+}
+
+/* Professional Region Badge */
+.region-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.region-badge-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 800;
+  letter-spacing: 0.5px !important;
+}
+
+.region-badge-name {
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Region Themes */
+.region-badge.theme-blue .region-badge-code {
+  background: rgba(29, 111, 224, 0.15);
+  color: var(--accent-2);
+  border: 1px solid rgba(29, 111, 224, 0.3);
+}
+
+.region-badge.theme-red .region-badge-code {
+  background: rgba(210, 58, 78, 0.12);
+  color: var(--neg);
+  border: 1px solid rgba(210, 58, 78, 0.3);
+}
+
+.region-badge.theme-amber .region-badge-code {
+  background: rgba(192, 138, 30, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(192, 138, 30, 0.3);
+}
+
+.region-badge.theme-neutral .region-badge-code {
+  background: var(--line-2);
+  color: #ffffff;
+  border: 1px solid var(--line-strong);
+}
+
+/* Professional Region Badge */
+.region-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.region-badge-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 800;
+  letter-spacing: 0.5px !important;
+}
+
+.region-badge-name {
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Region Themes */
+.region-badge.theme-blue .region-badge-code {
+  background: rgba(29, 111, 224, 0.15);
+  color: var(--accent-2);
+  border: 1px solid rgba(29, 111, 224, 0.3);
+}
+
+.region-badge.theme-red .region-badge-code {
+  background: rgba(210, 58, 78, 0.12);
+  color: var(--neg);
+  border: 1px solid rgba(210, 58, 78, 0.3);
+}
+
+.region-badge.theme-amber .region-badge-code {
+  background: rgba(192, 138, 30, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(192, 138, 30, 0.3);
+}
+
+.region-badge.theme-neutral .region-badge-code {
+  background: var(--line-2);
+  color: #ffffff;
+  border: 1px solid var(--line-strong);
+}
+
+/* Professional Region Badge */
+.region-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.region-badge-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 800;
+  letter-spacing: 0.5px !important;
+}
+
+.region-badge-name {
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Region Themes */
+.region-badge.theme-blue .region-badge-code {
+  background: rgba(29, 111, 224, 0.15);
+  color: var(--accent-2);
+  border: 1px solid rgba(29, 111, 224, 0.3);
+}
+
+.region-badge.theme-red .region-badge-code {
+  background: rgba(210, 58, 78, 0.12);
+  color: var(--neg);
+  border: 1px solid rgba(210, 58, 78, 0.3);
+}
+
+.region-badge.theme-amber .region-badge-code {
+  background: rgba(192, 138, 30, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(192, 138, 30, 0.3);
+}
+
+.region-badge.theme-neutral .region-badge-code {
+  background: var(--line-2);
+  color: #ffffff;
+  border: 1px solid var(--line-strong);
+}
+
+/* Professional Region Badge */
+.region-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.region-badge-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 800;
+  letter-spacing: 0.5px !important;
+}
+
+.region-badge-name {
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Region Themes */
+.region-badge.theme-blue .region-badge-code {
+  background: rgba(29, 111, 224, 0.15);
+  color: var(--accent-2);
+  border: 1px solid rgba(29, 111, 224, 0.3);
+}
+
+.region-badge.theme-red .region-badge-code {
+  background: rgba(210, 58, 78, 0.12);
+  color: var(--neg);
+  border: 1px solid rgba(210, 58, 78, 0.3);
+}
+
+.region-badge.theme-amber .region-badge-code {
+  background: rgba(192, 138, 30, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(192, 138, 30, 0.3);
+}
+
+.region-badge.theme-neutral .region-badge-code {
+  background: var(--line-2);
+  color: #ffffff;
+  border: 1px solid var(--line-strong);
+}
+
+/* Professional Region Badge */
+.region-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.region-badge-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 800;
+  letter-spacing: 0.5px !important;
+}
+
+.region-badge-name {
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Region Themes */
+.region-badge.theme-blue .region-badge-code {
+  background: rgba(29, 111, 224, 0.15);
+  color: var(--accent-2);
+  border: 1px solid rgba(29, 111, 224, 0.3);
+}
+
+.region-badge.theme-red .region-badge-code {
+  background: rgba(210, 58, 78, 0.12);
+  color: var(--neg);
+  border: 1px solid rgba(210, 58, 78, 0.3);
+}
+
+.region-badge.theme-amber .region-badge-code {
+  background: rgba(192, 138, 30, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(192, 138, 30, 0.3);
+}
+
+.region-badge.theme-neutral .region-badge-code {
+  background: var(--line-2);
+  color: #ffffff;
+  border: 1px solid var(--line-strong);
+}
+
+/* Professional Region Badge */
+.region-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.region-badge-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 800;
+  letter-spacing: 0.5px !important;
+}
+
+.region-badge-name {
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Region Themes */
+.region-badge.theme-blue .region-badge-code {
+  background: rgba(29, 111, 224, 0.15);
+  color: var(--accent-2);
+  border: 1px solid rgba(29, 111, 224, 0.3);
+}
+
+.region-badge.theme-red .region-badge-code {
+  background: rgba(210, 58, 78, 0.12);
+  color: var(--neg);
+  border: 1px solid rgba(210, 58, 78, 0.3);
+}
+
+.region-badge.theme-amber .region-badge-code {
+  background: rgba(192, 138, 30, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(192, 138, 30, 0.3);
+}
+
+.region-badge.theme-neutral .region-badge-code {
+  background: var(--line-2);
+  color: #ffffff;
+  border: 1px solid var(--line-strong);
+}
+
+/* Professional Region Badge */
+.region-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.region-badge-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 800;
+  letter-spacing: 0.5px !important;
+}
+
+.region-badge-name {
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Region Themes */
+.region-badge.theme-blue .region-badge-code {
+  background: rgba(29, 111, 224, 0.15);
+  color: var(--accent-2);
+  border: 1px solid rgba(29, 111, 224, 0.3);
+}
+
+.region-badge.theme-red .region-badge-code {
+  background: rgba(210, 58, 78, 0.12);
+  color: var(--neg);
+  border: 1px solid rgba(210, 58, 78, 0.3);
+}
+
+.region-badge.theme-amber .region-badge-code {
+  background: rgba(192, 138, 30, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(192, 138, 30, 0.3);
+}
+
+.region-badge.theme-neutral .region-badge-code {
+  background: var(--line-2);
+  color: #ffffff;
+  border: 1px solid var(--line-strong);
+}
+
+.ranking-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.table-wrap,
+.chart-container {
+  flex: 1;
+}
+
+.ranking-panel,
+.rail-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.ranking-panel {
+  box-shadow: none;
+}
+
+.ranking-panel {
+  overflow: hidden;
+}
+
+.table-wrap {
+  overflow-x: hidden;
+}
+
+.ranking-split {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.split-table-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-2);
+  padding: 0 12px;
+}
+
+.split-table-title strong {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.split-table-title span {
+  color: var(--ink-3);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.split-table-wrap {
+  overflow-x: hidden;
+}
+
+.ranking-table {
+  width: 100%;
+  min-width: 0;
+  border-collapse: collapse;
+}
+
+.ranking-table th,
+.ranking-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 0 16px;
+  height: 68px;
+  color: var(--ink-2);
+  font-size: 16px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.ranking-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 56px;
+  background: var(--panel-2);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.ranking-table tbody tr {
+  transition: background 0.12s ease;
+  cursor: pointer;
+}
+
+.ranking-table tr:hover td {
+  background: var(--panel-2);
+}
+
+.ranking-table tr.is-selected td {
+  background: var(--accent-soft);
+  border-bottom: 1px solid var(--line);
+}
+
+.ranking-table tr.is-selected .rank-cell {
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+
+.ranking-table tr.is-selected .entity-cell strong {
+  color: var(--accent);
+}
+
+.rank-cell {
+  width: 72px;
+  padding-left: 16px !important;
+}
+
+.rank-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 36px;
+  height: 32px;
+  padding: 0 6px;
+  border-radius: 0;
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.rank-badge.rank-1 {
+  background: var(--gold);
+  border-color: var(--line);
+  color: #ffffff;
+}
+
+.rank-badge.rank-2 {
+  background: var(--line-2);
+  border-color: var(--line);
+  color: #ffffff;
+}
+
+.rank-badge.rank-3 {
+  background: var(--ink-3);
+  border-color: var(--line);
+  color: #ffffff;
+}
+
+.score-cell {
+  width: 110px;
+}
+
+.momentum-cell {
+  width: 104px;
+  text-align: right;
+}
+
+.ranking-table td.category-cell,
+.ranking-table td.proxy-cell {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.ranking-table tr.empty-row td {
+  text-align: center;
+  color: var(--ink-3);
+  height: auto;
+  padding: 28px 12px;
+  font-weight: 600;
+}
+
+.compact-ranking-table th,
+.compact-ranking-table td {
+  height: 82px;
+  padding: 0 8px;
+  font-size: 14px;
+}
+
+.compact-ranking-table {
+  table-layout: fixed;
+}
+
+.compact-ranking-table col.rank-col {
+  width: 6%;
+}
+
+.compact-ranking-table col.entity-col {
+  width: 30%;
+}
+
+.compact-ranking-table col.country-col {
+  width: 18%;
+}
+
+.compact-ranking-table col.change-col {
+  width: 9%;
+}
+
+.compact-ranking-table col.momentum-col {
+  width: 15%;
+}
+
+.compact-ranking-table th {
+  height: 48px;
+  font-size: 11px;
+}
+
+.compact-ranking-table th:nth-child(3),
+.compact-ranking-table th:nth-child(4),
+.compact-ranking-table th:nth-child(5) {
+  font-size: 11px;
+}
+
+.compact-ranking-table th:nth-child(3),
+.compact-ranking-table td:nth-child(3) {
+  text-align: left;
+}
+
+.compact-ranking-table th:nth-child(4),
+.compact-ranking-table td:nth-child(4) {
+  text-align: center;
+}
+
+.compact-ranking-table th:nth-child(5),
+.compact-ranking-table td:nth-child(5) {
+  text-align: center;
+}
+
+.compact-ranking-table th:nth-child(6),
+.compact-ranking-table td:nth-child(6) {
+  text-align: center;
+}
+
+.compact-ranking-table .rank-cell {
+  width: auto;
+  padding-left: 6px !important;
+  padding-right: 2px !important;
+}
+
+.compact-ranking-table .rank-badge {
+  min-width: 30px;
+  height: 30px;
+  font-size: 14px;
+}
+
+.compact-ranking-table .entity-cell {
+  gap: 8px;
+}
+
+.compact-ranking-table .entity-copy {
+  display: grid;
+  align-content: center;
+  min-width: 0;
+}
+
+.compact-ranking-table .entity-cell strong {
+  max-width: 210px;
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compact-ranking-table .entity-meta {
+  max-width: 160px;
+  margin-top: 5px;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compact-ranking-table .entity-logo {
+  width: 38px;
+  height: 38px;
+}
+
+.compact-ranking-table .country-cell {
+  min-width: 0;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.compact-ranking-table .country-cell .region-badge {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.compact-ranking-table .country-cell .region-badge-code {
+  min-width: 23px;
+  height: 17px;
+  font-size: 10px;
+  flex: 0 0 auto;
+}
+
+.compact-ranking-table .country-cell .region-badge-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+.compact-ranking-table .change-cell {
+  text-align: center;
+}
+
+.compact-ranking-table .change-pill {
+  min-width: 44px;
+  padding: 6px 8px;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.compact-ranking-table .momentum-cell {
+  text-align: center;
+}
+
+.compact-ranking-table .momentum-indicator {
+  justify-content: center;
+}
+
+.compact-ranking-table .momentum-value {
+  min-width: 52px;
+  font-size: 21px;
+}
+
+.entity-cell {
+  border: 0;
+  padding: 0;
+  text-align: left;
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
+}
+
+.ranking-table .entity-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.entity-logo.large {
+  width: 52px;
+  height: 52px;
+  border-radius: 0;
+  font-size: 16px;
+}
+
+.entity-logo.is-person {
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--panel);
+  border: none;
+}

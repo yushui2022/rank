@@ -1,4 +1,4 @@
-import type { Domain, Track } from "../types/rankings";
+import type { Domain, Track } from "../../types/rankings";
 
 type DomainSwitcherProps = {
   domains: Domain[];

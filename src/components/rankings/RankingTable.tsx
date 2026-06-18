@@ -1,7 +1,7 @@
-import type { Entity, RankingRow } from "../types/rankings";
-import { CompanyLogo } from "./CompanyLogo";
-import { CommunitySentimentVote } from "./CommunitySentimentVote";
-import { RegionBadge } from "./RegionBadge";
+import type { Entity, RankingRow } from "../../types/rankings";
+import { CompanyLogo } from "../company/CompanyLogo";
+import { RegionBadge } from "../shared/RegionBadge";
+import { CommunitySentimentVote } from "../voting/CommunitySentimentVote";
 
 type RankingRecord = {
   row: RankingRow;

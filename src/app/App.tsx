@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from "react";
-import { TopNav } from "../components/TopNav";
+import { TopNav } from "../components/navigation/TopNav";
 import { CategoryDemoPage } from "../pages/CategoryDemoPage";
-import "./app.css";
+import "../styles/index.css";
 
 const CompanyDetailPage = lazy(() =>
   import("../pages/CompanyDetailPage").then((module) => ({

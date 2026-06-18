@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
-import { CompanyLogo } from "../components/CompanyLogo";
-import { DomainSwitcher } from "../components/DomainSwitcher";
-import { RankingTable } from "../components/RankingTable";
+import { DomainSwitcher } from "../components/rankings/DomainSwitcher";
+import { MiniBoardsStrip } from "../components/rankings/MiniBoardsStrip";
+import { RankingTable } from "../components/rankings/RankingTable";
 import {
   domains,
   tracks,
@@ -113,113 +113,11 @@ export function RankingsPage() {
       />
 
       <main className="workspace">
-        {records.length > 0 && (
-          <section className="mini-boards-strip" aria-label="Sub-rankings">
-            <div className="mini-boards-grid industry-mini-boards">
-              {/* Global Attention Hotlist */}
-              <div className="mini-board-card">
-                <div className="mini-board-head">
-                  <strong>Global Attention Hotlist</strong>
-                  <span>Top 5 by attention signal</span>
-                </div>
-                <div className="mini-board-list">
-                  {[...records]
-                    .sort((a, b) => b.row.momentum - a.row.momentum)
-                    .slice(0, 5)
-                    .map(({ row, entity }, i) => (
-                      <div
-                        key={`momentum-${entity.id}`}
-                        className={`mini-board-row${entity.id === selectedRecord?.entity.id ? " is-selected" : ""}`}
-                        onClick={() => openCompanyDetail(entity.id, row.trackId)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            openCompanyDetail(entity.id, row.trackId);
-                          }
-                        }}
-                      >
-                        <CompanyLogo entity={entity} />
-                        <div className="mini-board-entity-info">
-                          <span className="mini-board-name">{entity.name}</span>
-                          <span className="mini-board-rank">#{i + 1}</span>
-                        </div>
-                        <span className="momentum-cell">{row.momentum.toFixed(1)}</span>
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              {/* Rising Hotlist */}
-              <div className="mini-board-card">
-                <div className="mini-board-head">
-                  <strong>Rising Hotlist</strong>
-                  <span>Top 5 by upward momentum</span>
-                </div>
-                <div className="mini-board-list">
-                  {[...records]
-                    .sort((a, b) => b.row.score - a.row.score)
-                    .slice(0, 5)
-                    .map(({ row, entity }, i) => (
-                      <div
-                        key={`score-${entity.id}`}
-                        className={`mini-board-row${entity.id === selectedRecord?.entity.id ? " is-selected" : ""}`}
-                        onClick={() => openCompanyDetail(entity.id, row.trackId)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            openCompanyDetail(entity.id, row.trackId);
-                          }
-                        }}
-                      >
-                        <CompanyLogo entity={entity} />
-                        <div className="mini-board-entity-info">
-                          <span className="mini-board-name">{entity.name}</span>
-                          <span className="mini-board-rank">#{i + 1}</span>
-                        </div>
-                        <span className="mini-board-metric">{row.score.toFixed(1)}</span>
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              {/* Influence Leaderboard */}
-              <div className="mini-board-card">
-                <div className="mini-board-head">
-                  <strong>Influence Leaderboard</strong>
-                  <span>Top 5 by cited evidence</span>
-                </div>
-                <div className="mini-board-list">
-                  {[...records]
-                    .sort((a, b) => b.row.evidenceCount - a.row.evidenceCount)
-                    .slice(0, 5)
-                    .map(({ row, entity }, i) => (
-                      <div
-                        key={`inf-${entity.id}`}
-                        className={`mini-board-row${entity.id === selectedRecord?.entity.id ? " is-selected" : ""}`}
-                        onClick={() => openCompanyDetail(entity.id, row.trackId)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            openCompanyDetail(entity.id, row.trackId);
-                          }
-                        }}
-                      >
-                        <CompanyLogo entity={entity} />
-                        <div className="mini-board-entity-info">
-                          <span className="mini-board-name">{entity.name}</span>
-                          <span className="mini-board-rank">#{i + 1}</span>
-                        </div>
-                        <span className="mini-board-metric">{row.evidenceCount} src</span>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
+        <MiniBoardsStrip
+          records={records}
+          selectedEntityId={selectedRecord?.entity.id ?? ""}
+          onOpenCompany={openCompanyDetail}
+        />
 
         <div className="content-grid leaderboard-content-grid">
           <div className="ranking-layout">

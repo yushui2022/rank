@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import type { Entity } from "../types/rankings";
+import type { Entity } from "../../types/rankings";
 
 type CompanyLogoProps = {
   entity: Entity;

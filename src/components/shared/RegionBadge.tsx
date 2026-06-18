@@ -1,4 +1,4 @@
-import { getRegionData } from "../utils/countryUtils";
+import { getRegionData } from "../../utils/countryUtils";
 
 type RegionBadgeProps = {
   countryCode: string;

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CommunitySentimentVote } from "../components/CommunitySentimentVote";
+import { CommunitySentimentVote } from "../components/voting/CommunitySentimentVote";
 
 import {
   demoBoardConfigs,

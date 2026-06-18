@@ -1,6 +1,9 @@
-import { CompanyLogo } from "../components/CompanyLogo";
-import { RegionBadge } from "../components/RegionBadge";
-import type { DimensionScore, Entity, RankingRow, Source, Track } from "../types/rankings";
+import { CompanyEvidenceList } from "../components/company/CompanyEvidenceList";
+import { CompanyLogo } from "../components/company/CompanyLogo";
+import { CompanyMetricGrid } from "../components/company/CompanyMetricGrid";
+import { CompanyPeerContext } from "../components/company/CompanyPeerContext";
+import { RegionBadge } from "../components/shared/RegionBadge";
+import type { DimensionScore, Entity, RankingRow, Track } from "../types/rankings";
 import { displayDimensionLabel } from "../utils/displayText";
 import {
   peerRecordsForTrack,
@@ -17,12 +20,6 @@ type CompanyDetailPageProps = {
 
 const isReadableText = (text?: string) =>
   Boolean(text && !/[�]|[銆€锛绂]/.test(text) && text.trim().length > 8);
-
-const formatRankChange = (value: number) =>
-  value === 0 ? "-" : `${value > 0 ? "+" : ""}${value}`;
-
-const sourceTone = (quality: Source["quality"]) =>
-  quality === "high" ? "high" : quality === "medium" ? "medium" : "proxy";
 
 const topDimension = (dimensions: DimensionScore[]) =>
   [...dimensions].sort((left, right) => right.score - left.score)[0] ?? null;
@@ -60,24 +57,6 @@ const scoringRationale = (
   return `${entity.name} scores ${row.score.toFixed(1)} in ${track.name}, led by ${strongLabel.toLowerCase()} and moderated by ${weakLabel.toLowerCase()}. Evidence count, current rank, momentum, and source quality are used as the main public proxy signals for this snapshot.`;
 };
 
-function MetricBlock({
-  label,
-  value,
-  note,
-}: {
-  label: string;
-  value: string;
-  note: string;
-}) {
-  return (
-    <div className="company-metric-block">
-      <span>{label}</span>
-      <strong>{value}</strong>
-      <em>{note}</em>
-    </div>
-  );
-}
-
 function NotFoundState({ onBack }: { onBack: () => void }) {
   return (
     <main className="company-detail-page">
@@ -90,40 +69,6 @@ function NotFoundState({ onBack }: { onBack: () => void }) {
         </button>
       </section>
     </main>
-  );
-}
-
-function EvidenceList({ sources }: { sources: Source[] }) {
-  if (sources.length === 0) {
-    return (
-      <div className="company-empty-evidence">
-        <strong>Evidence pending import</strong>
-        <span>This company does not yet have attached source records in the workbook snapshot.</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="company-evidence-list">
-      {sources.slice(0, 8).map((source) => (
-        <a
-          key={source.id}
-          href={source.url}
-          target="_blank"
-          rel="noreferrer"
-          className="company-evidence-row"
-        >
-          <span className={`source-quality-dot ${sourceTone(source.quality)}`} />
-          <div>
-            <strong>{source.title}</strong>
-            <span>
-              {source.publisher} / {source.type} / checked {source.lastChecked}
-            </span>
-          </div>
-          <em>{source.quality}</em>
-        </a>
-      ))}
-    </div>
   );
 }
 
@@ -184,13 +129,7 @@ export function CompanyDetailPage({
           <p>{marketPosition}</p>
         </div>
 
-        <div className="company-metrics-grid" aria-label="Company ranking metrics">
-          <MetricBlock label="Rank" value={`#${row.rank}`} note="Current track" />
-          <MetricBlock label="Score" value={row.score.toFixed(1)} note="Composite" />
-          <MetricBlock label="1W" value={formatRankChange(row.rank1mChange)} note="Rank move" />
-          <MetricBlock label="Momentum" value={row.momentum.toFixed(1)} note="Signal velocity" />
-          <MetricBlock label="Evidence" value={`${row.evidenceCount}`} note={row.evidenceQuality} />
-        </div>
+        <CompanyMetricGrid row={row} />
       </section>
 
       <section className="company-detail-grid">
@@ -259,29 +198,10 @@ export function CompanyDetailPage({
             <span>Evidence</span>
             <strong>{evidence.length}</strong>
           </div>
-          <EvidenceList sources={evidence} />
+          <CompanyEvidenceList sources={evidence} />
         </article>
 
-        <article className="company-section">
-          <div className="company-section-head compact">
-            <span>Peer context</span>
-            <strong>{track.name}</strong>
-          </div>
-          <div className="company-peer-list">
-            {peers.map((peer) => (
-              <button
-                key={`${peer.row.trackId}-${peer.entity.id}`}
-                type="button"
-                onClick={() => onOpenCompany(peer.entity.id, peer.row.trackId)}
-              >
-                <span>#{peer.row.rank}</span>
-                <CompanyLogo entity={peer.entity} />
-                <strong>{peer.entity.name}</strong>
-                <em>{peer.row.score.toFixed(1)}</em>
-              </button>
-            ))}
-          </div>
-        </article>
+        <CompanyPeerContext track={track} peers={peers} onOpenCompany={onOpenCompany} />
       </section>
     </main>
   );

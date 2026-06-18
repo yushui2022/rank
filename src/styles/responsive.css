@@ -1,0 +1,334 @@
+/* responsive */
+
+@media (max-width: 1600px) {
+.content-grid {
+    grid-template-columns: minmax(640px, 1.6fr) minmax(360px, 1fr);
+  }.leaderboard-content-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1480px) {
+.content-grid {
+    grid-template-columns: 1fr;
+  }.history-sidebar {
+    position: static;
+    height: auto;
+    overflow-y: visible;
+  }.compact-ranking-table .country-cell .region-badge-name {
+    display: none;
+  }.compact-ranking-table .country-cell .region-badge {
+    justify-content: center;
+  }.compact-ranking-table col.entity-col {
+    width: 34%;
+  }.compact-ranking-table col.country-col {
+    width: 10%;
+  }.compact-ranking-table col.sentiment-col {
+    width: 24%;
+  }
+}
+
+@media (max-width: 1100px) {
+.dual-ranking-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1280px) {
+.top-nav {
+    grid-template-columns: minmax(220px, auto) auto;
+  }.nav-actions {
+    justify-content: flex-end;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }.content-grid,
+.support-grid {
+    grid-template-columns: 1fr;
+  }.intelligence-rail {
+    position: static;
+  }.method-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.product-layout {
+    grid-template-columns: 1fr;
+  }.domain-switcher {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 16px 20px;
+  }.domain-accordion {
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    padding-bottom: 8px;
+  }.accordion-group {
+    min-width: 240px;
+    flex-shrink: 0;
+  }.track-list.nested {
+    margin-left: 0;
+    border-left: 0;
+    padding-left: 0;
+  }/* 修复?IDE/Pad 屏幕下因为右侧表格被强制 800px 挤出的问?*/
+  .ranking-table {
+    min-width: 800px;
+  }.compact-ranking-table {
+    min-width: 0;
+  }.table-wrap {
+    overflow-x: auto;
+    width: 100%;
+  }.split-table-wrap {
+    overflow-x: hidden;
+  }.mini-boards-grid {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }.mini-board-card {
+    min-width: 320px;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 1180px) {
+.industry-mini-boards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 980px) {
+.domain-buttons,
+.track-list {
+    display: flex;
+    overflow-x: auto;
+  }.domain-buttons button,
+.track-list button {
+    min-width: 220px;
+  }.market-bar,
+.market-stats,
+.track-context,
+.detail-grid,
+.two-columns,
+.leader-podium,
+.mini-boards-grid,
+.page-hero {
+    grid-template-columns: 1fr;
+  }.hero-metrics {
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 14px;
+  }.ranking-toolbar-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }.ranking-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }.ranking-toolbar > label {
+    flex: 1 1 120px;
+  }.ranking-toolbar > label:first-child {
+    flex: 1 1 100%;
+  }.ranking-toolbar > button {
+    flex: 1 1 100%;
+  }.channel-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.page-hero p {
+    max-width: min(640px, 60vw);
+  }
+}
+
+@media (max-width: 680px) {
+.page-shell {
+    width: 100%;
+    max-width: 100vw;
+    padding: 14px;
+    overflow: hidden;
+  }.page-hero {
+    width: 100%;
+    max-width: 100%;
+  }.page-hero p {
+    max-width: calc(100vw - 56px);
+  }.workspace {
+    padding: 14px;
+  }.top-nav {
+    padding: 10px 14px;
+  }.market-bar {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    overflow: hidden;
+  }.market-bar-id {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+  }.market-bar h1 {
+    font-size: 20px;
+    overflow-wrap: anywhere;
+  }.market-bar-id p {
+    overflow-wrap: anywhere;
+  }.market-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    margin-left: 0;
+  }.market-stat {
+    min-width: 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }.leader-card {
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: start;
+  }.leader-score {
+    grid-column: 1 / span 2;
+    grid-row: 3;
+    justify-self: start;
+    text-align: left;
+  }.leader-change {
+    grid-column: 1 / span 2;
+    grid-row: 4;
+    justify-self: start;
+  }.leader-evidence {
+    grid-column: 1 / -1;
+  }.ranking-toolbar,
+.method-grid,
+.intelligence-rail {
+    grid-template-columns: 1fr;
+  }.panel-title-row,
+.company-score-stack {
+    grid-template-columns: 1fr;
+  }.panel-title-row {
+    flex-direction: column;
+  }.dimension-row {
+    grid-template-columns: 1fr;
+  }.category-track-row,
+.company-score-stack.compact {
+    grid-template-columns: 1fr;
+  }.sparkline {
+    width: 108px;
+  }/* Drop secondary columns on small screens to reduce horizontal scroll.
+     Keep: rank,
+name,
+score,
+7d change,
+category,
+trend. */
+  .ranking-table {
+    min-width: 0;
+  }.dual-ranking-grid {
+    gap: 10px;
+    padding: 10px;
+  }.compact-ranking-table .sentiment-vote-inline-group {
+    width: 108px;
+  }.ranking-table th:nth-child(4),
+.ranking-table td:nth-child(4),
+.ranking-table th:nth-child(7),
+.ranking-table td:nth-child(7),
+.ranking-table th:nth-child(8),
+.ranking-table td:nth-child(8),
+.ranking-table th:nth-child(9),
+.ranking-table td:nth-child(9),
+.ranking-table th:nth-child(10),
+.ranking-table td:nth-child(10),
+.ranking-table th:nth-child(11),
+.ranking-table td:nth-child(11),
+.ranking-table th:nth-child(13),
+.ranking-table td:nth-child(13) {
+    display: none;
+  }
+}
+
+@media (max-width: 1480px) {
+.demo-profile-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 980px) {
+.demo-board-hero,
+.demo-board-metrics,
+.demo-profile-stats {
+    grid-template-columns: 1fr;
+  }.demo-board-switcher {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }.demo-board-switcher .demo-rail-label {
+    grid-column: 1 / -1;
+  }.demo-ranking-surface .domain-accordion {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 8px;
+  }.demo-segment-rail .demo-rail-label {
+    display: none;
+  }.demo-ranking-surface .domain-toggle {
+    flex: 0 0 260px;
+  }
+}
+
+@media (max-width: 680px) {
+.demo-board-hero {
+    padding: 16px;
+  }.demo-board-hero h1 {
+    font-size: 28px;
+  }.demo-board-switcher {
+    grid-template-columns: 1fr;
+  }.demo-board-switcher .demo-rail-label,
+.demo-segment-rail .demo-rail-label {
+    display: block;
+    grid-column: 1 / -1;
+  }.demo-ranking-surface .domain-accordion {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+  }.demo-ranking-surface .domain-toggle {
+    width: 100%;
+    min-width: 0;
+    flex: initial;
+  }.demo-ranking-surface .domain-toggle em {
+    display: none;
+  }.demo-ranking-surface .domain-toggle.is-active {
+    grid-column: 1 / -1;
+  }.demo-ranking-surface .domain-toggle.is-active em {
+    display: block;
+  }.demo-ranking-surface .ranking-table th,
+.demo-ranking-surface .ranking-table td {
+    display: table-cell;
+  }.demo-ranking-surface .ranking-table th:nth-child(3),
+.demo-ranking-surface .ranking-table td:nth-child(3),
+.demo-ranking-surface .ranking-table th:nth-child(6),
+.demo-ranking-surface .ranking-table td:nth-child(6) {
+    display: none;
+  }.demo-ranking-surface .entity-cell {
+    min-width: 136px;
+  }.demo-ranking-surface .demo-score-cell {
+    min-width: 78px;
+  }
+}
+
+@media (max-width: 980px) {
+.sentiment-vote-rect-container {
+    width: 112px;
+    min-width: 112px;
+    height: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+.sentiment-vote-rect-container,
+.sentiment-vote-rect-container .vote-rect-half,
+.sentiment-vote-rect-container .vote-content-layer,
+.sentiment-vote-rect-container .vote-rect-up::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 1320px) {
+.company-detail-grid,
+.company-lower-grid {
+    grid-template-columns: 1fr;
+  }.company-metrics-grid {
+    grid-template-columns: repeat(5, minmax(140px, 1fr));
+  }
+}
