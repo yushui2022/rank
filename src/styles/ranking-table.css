@@ -733,7 +733,7 @@
 
 .compact-ranking-table th:nth-child(3),
 .compact-ranking-table td:nth-child(3) {
-  text-align: left;
+  text-align: center;
 }
 
 .compact-ranking-table th:nth-child(4),
@@ -797,8 +797,8 @@
 
 .compact-ranking-table .country-cell {
   min-width: 0;
-  padding-left: 3px;
-  padding-right: 3px;
+  padding-left: 0;
+  padding-right: 6px;
 }
 
 .compact-ranking-table .country-cell .region-badge {
@@ -808,6 +808,7 @@
   min-width: 0;
   gap: 0;
   font-size: 14px;
+  transform: translateX(-3px);
 }
 
 .compact-ranking-table .country-cell .region-badge-code {

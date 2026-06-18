@@ -1,20 +1,17 @@
 import { useMemo } from "react";
 import {
-  readTrackEvidenceDataset,
+  readTrackDataset,
   resolveEntityTrackId,
   trackById,
 } from "../data/rankingRepository";
-import type { Source } from "../types/rankings";
 import type { CompanyDetailRecord, ScoredRecord } from "../types/rankingRuntime";
 import {
   peerRecordsForDataset,
   recordForEntityInDataset,
-  sourcesForRecord,
 } from "../utils/rankingLogic";
 
 type CompanyDetailState = {
   detail: CompanyDetailRecord | null;
-  evidence: Source[];
   peers: ScoredRecord[];
 };
 
@@ -23,13 +20,12 @@ export const useCompanyDetail = (
   preferredTrackId?: string,
 ): CompanyDetailState => {
   const trackId = resolveEntityTrackId(entityId, preferredTrackId);
-  const dataset = trackId ? readTrackEvidenceDataset(trackId) : null;
+  const dataset = trackId ? readTrackDataset(trackId) : null;
 
   return useMemo(() => {
     if (!dataset) {
       return {
         detail: null,
-        evidence: [],
         peers: [],
       };
     }
@@ -38,7 +34,6 @@ export const useCompanyDetail = (
     if (!track) {
       return {
         detail: null,
-        evidence: [],
         peers: [],
       };
     }
@@ -47,14 +42,12 @@ export const useCompanyDetail = (
     if (!detail) {
       return {
         detail: null,
-        evidence: [],
         peers: [],
       };
     }
 
     return {
       detail,
-      evidence: sourcesForRecord(dataset, detail.row, detail.entity),
       peers: peerRecordsForDataset(dataset, detail.entity.id),
     };
   }, [dataset, entityId]);

@@ -35,13 +35,7 @@
 }
 
 @media (max-width: 1280px) {
-.top-nav {
-    grid-template-columns: minmax(220px, auto) auto;
-  }.nav-actions {
-    justify-content: flex-end;
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }.content-grid,
+.content-grid,
 .support-grid {
     grid-template-columns: 1fr;
   }.intelligence-rail {
@@ -136,6 +130,16 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }.page-hero p {
     max-width: min(640px, 60vw);
+  }.category-index-container {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+    min-height: 62px;
+    padding: 8px 12px;
+  }.category-brand-copy {
+    display: none;
+  }.category-brand-logo {
+    width: 46px;
+    height: 46px;
   }
 }
 
@@ -152,8 +156,6 @@
     max-width: calc(100vw - 56px);
   }.workspace {
     padding: 14px;
-  }.top-nav {
-    padding: 10px 14px;
   }.market-bar {
     display: grid;
     grid-template-columns: 1fr;

@@ -1,8 +1,10 @@
-import { CompanyEvidenceList } from "../components/company/CompanyEvidenceList";
 import { CompanyLogo } from "../components/company/CompanyLogo";
 import { CompanyMetricGrid } from "../components/company/CompanyMetricGrid";
 import { CompanyPeerContext } from "../components/company/CompanyPeerContext";
+import { CompanyPeopleNetwork } from "../components/company/CompanyPeopleNetwork";
+import { CompanyScoreRadar } from "../components/company/CompanyScoreRadar";
 import { RegionBadge } from "../components/shared/RegionBadge";
+import { peopleForEntity } from "../data/companyPeople";
 import { useCompanyDetail } from "../hooks/useCompanyDetail";
 import type { DimensionScore, Entity, RankingRow, Track } from "../types/rankings";
 import { displayDimensionLabel } from "../utils/displayText";
@@ -27,7 +29,7 @@ const cleanList = (items: string[]) =>
   items.filter((item) => isReadableText(item)).slice(0, 6);
 
 const fallbackPositioning = (entity: Entity, row: RankingRow, track: Track) =>
-  `${entity.name} is tracked in ${track.label} for ${row.category}. The ranking combines market position, product depth, commercial traction, delivery maturity, ecosystem reach, and evidence quality.`;
+  `${entity.name} is tracked in ${track.label} for ${row.category}. The ranking combines market position, product depth, commercial traction, delivery maturity, ecosystem reach, and source confidence.`;
 
 const productSummary = (entity: Entity, row: RankingRow, track: Track) =>
   isReadableText(row.representativeProduct)
@@ -50,7 +52,7 @@ const scoringRationale = (
     ? displayDimensionLabel(weakest.label)
     : "coverage depth";
 
-  return `${entity.name} scores ${row.score.toFixed(1)} in ${track.name}, led by ${strongLabel.toLowerCase()} and moderated by ${weakLabel.toLowerCase()}. Evidence count, current rank, momentum, and source quality are used as the main public proxy signals for this snapshot.`;
+  return `${entity.name} scores ${row.score.toFixed(1)} in ${track.name}, led by ${strongLabel.toLowerCase()} and moderated by ${weakLabel.toLowerCase()}. Current rank, momentum, source confidence, and public proxy signals are used for this snapshot.`;
 };
 
 function NotFoundState({ onBack }: { onBack: () => void }) {
@@ -74,13 +76,14 @@ export function CompanyDetailPage({
   onBack,
   onOpenCompany,
 }: CompanyDetailPageProps) {
-  const { detail, evidence, peers } = useCompanyDetail(entityId, trackId);
+  const { detail, peers } = useCompanyDetail(entityId, trackId);
   if (!detail) return <NotFoundState onBack={onBack} />;
 
   const { entity, row, track } = detail;
   const strongest = topDimension(row.dimensionScores);
   const weakest = lowDimension(row.dimensionScores);
   const tags = cleanList(entity.tags);
+  const people = peopleForEntity(entity.id);
   const marketPosition = isReadableText(row.marketPositioning)
     ? row.marketPositioning!
     : isReadableText(entity.summary)
@@ -142,34 +145,7 @@ export function CompanyDetailPage({
           </div>
           <p>{scoringRationale(entity, row, track)}</p>
 
-          <div className="company-dimension-list">
-            {row.dimensionScores.map((dimension, index) => {
-              const label = displayDimensionLabel(dimension.label);
-              const width = Math.max(
-                3,
-                Math.min(
-                  100,
-                  dimension.weight > 0
-                    ? (dimension.score / dimension.weight) * 100
-                    : dimension.score,
-                ),
-              );
-              return (
-                <div className="company-dimension-row" key={`${label}-${index}`}>
-                  <div>
-                    <strong>{label}</strong>
-                    <span>
-                      {dimension.score.toFixed(1)} / {dimension.weight.toFixed(1)}
-                    </span>
-                  </div>
-                  <i>
-                    <b style={{ width: `${width}%` }} />
-                  </i>
-                  <em>{dimension.score.toFixed(1)}</em>
-                </div>
-              );
-            })}
-          </div>
+          <CompanyScoreRadar dimensions={row.dimensionScores} domainId={track.domainId} />
         </article>
 
         <aside className="company-side-panel">
@@ -205,14 +181,10 @@ export function CompanyDetailPage({
       </section>
 
       <section className="company-lower-grid">
-        <article className="company-section">
-          <div className="company-section-head compact">
-            <span>Evidence</span>
-            <strong>{evidence.length}</strong>
-          </div>
-          <CompanyEvidenceList sources={evidence} />
-        </article>
+        <CompanyPeopleNetwork entity={entity} people={people} />
+      </section>
 
+      <section className="company-peer-section-row">
         <CompanyPeerContext track={track} peers={peers} onOpenCompany={onOpenCompany} />
       </section>
     </main>

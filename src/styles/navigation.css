@@ -1,6 +1,5 @@
 /* navigation */
 
-.top-nav > *,
 .page-shell,
 .page-hero,
 .category-track-row,
@@ -28,23 +27,6 @@
   transform: translateY(0);
 }
 
-.top-nav {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  display: grid;
-  grid-template-columns: minmax(220px, auto) auto;
-  gap: 18px;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 56px;
-  padding: 8px 20px;
-  border-bottom: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(14px);
-}
-
-.brand-mark,
 .entity-title,
 .entity-cell {
   display: flex;
@@ -52,20 +34,6 @@
   gap: 12px;
 }
 
-.brand-home-button {
-  width: fit-content;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  text-align: left;
-  cursor: pointer;
-}
-
-.brand-home-button:hover strong {
-  color: var(--accent);
-}
-
-.brand-symbol,
 .entity-logo {
   display: grid;
   flex: 0 0 auto;
@@ -82,13 +50,6 @@
   letter-spacing: 0;
 }
 
-.brand-symbol {
-  background: var(--accent);
-  border: 0;
-  color: #ffffff;
-}
-
-.brand-mark strong,
 .entity-cell strong {
   display: block;
   font-size: 18px;
@@ -96,7 +57,6 @@
   letter-spacing: 0;
 }
 
-.brand-mark span:not(.brand-symbol),
 .entity-meta {
   display: flex;
   align-items: center;
@@ -107,14 +67,6 @@
   font-style: normal;
 }
 
-.nav-links {
-  display: flex;
-  gap: 4px;
-  overflow-x: auto;
-}
-
-.nav-links button,
-.nav-actions button,
 .ghost-button {
   min-height: 36px;
   border: 1px solid transparent;
@@ -129,57 +81,101 @@
   background: transparent;
 }
 
-.nav-links button:hover,
-.nav-actions button:hover:hover,
 .ghost-button:hover {
   background: var(--panel-2);
   color: var(--ink);
   border-color: transparent;
 }
 
-.nav-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-}
-
-.nav-actions button {
-  border-color: var(--line);
-}
-
-.nav-actions .primary-action {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #ffffff;
-  font-weight: 700;
-}
-
-.nav-actions .primary-action:hover:not(:disabled) {
-  background: var(--accent-2);
-  border-color: var(--accent-2);
-  color: #ffffff;
-}
-
-.nav-actions .primary-action:disabled {
-  cursor: default;
-  opacity: 0.78;
-}
-
 .category-index-header {
   background: var(--panel);
   border-bottom: 1px solid var(--line-strong);
   position: sticky;
-  top: 56px;
+  top: 0;
   z-index: 15;
 }
 
 .category-index-container {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  gap: 34px;
+  width: 100%;
+  min-height: 76px;
+  padding: 10px 18px 10px 16px;
+  max-width: none;
+  margin: 0;
+}
+
+.category-brand-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  width: fit-content;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.category-brand-logo {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  transition:
+    transform 180ms ease;
+}
+
+.category-brand-logo svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 10px 18px rgba(47, 52, 55, 0.18));
+}
+
+.category-brand-copy {
+  display: grid;
+  gap: 5px;
+}
+
+.category-brand-copy strong {
+  color: var(--ink);
+  font-size: 26px;
+  font-weight: 850;
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+.category-brand-copy em {
+  color: var(--ink-3);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.category-brand-button:hover .category-brand-logo {
+  transform: translateY(-1px);
+}
+
+.category-tab-list {
   display: flex;
-  overflow-x: auto;
+  justify-content: flex-start;
   gap: 8px;
-  padding: 12px 24px;
-  max-width: 1920px;
-  margin: 0 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.category-tab-list::-webkit-scrollbar {
+  display: none;
 }
 
 .category-tab {
@@ -204,11 +200,4 @@
   background: var(--ink);
   color: var(--panel);
   font-weight: 700;
-}
-
-.nav-links button.is-active {
-  background: var(--ink);
-  color: var(--panel);
-  font-weight: 700;
-  border-color: transparent;
 }

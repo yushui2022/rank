@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useState } from "react";
-import { TopNav } from "../components/navigation/TopNav";
+import { BrandMark } from "../components/navigation/BrandMark";
 import "../styles/index.css";
 
 const CategoryDemoPage = lazy(() =>
@@ -80,6 +80,11 @@ export function App() {
     window.location.hash = "";
   };
 
+  const openRankingsHome = () => {
+    setActiveCategoryId("industry");
+    setPage("rankings");
+  };
+
   const openCompanyDetail = (entityId: string, trackId: string) => {
     window.location.hash = `/company/${encodeURIComponent(entityId)}?track=${encodeURIComponent(trackId)}`;
   };
@@ -108,26 +113,29 @@ export function App() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <TopNav onRankingsClick={() => setPage("rankings")} />
       <div id="main-content">
         {route.type === "page" && (
           <nav className="category-index-header" aria-label="Ranking category">
             <div className="category-index-container">
-              {rankingCategories.map((category) => (
-                <button
-                  key={category.id}
-                  type="button"
-                  className={`category-tab${
-                    activeCategoryId === category.id ? " is-active" : ""
-                  }`}
-                  aria-current={
-                    activeCategoryId === category.id ? "page" : undefined
-                  }
-                  onClick={() => setActiveCategoryId(category.id)}
-                >
-                  {category.label}
-                </button>
-              ))}
+              <BrandMark onClick={openRankingsHome} />
+
+              <div className="category-tab-list">
+                {rankingCategories.map((category) => (
+                  <button
+                    key={category.id}
+                    type="button"
+                    className={`category-tab${
+                      activeCategoryId === category.id ? " is-active" : ""
+                    }`}
+                    aria-current={
+                      activeCategoryId === category.id ? "page" : undefined
+                    }
+                    onClick={() => setActiveCategoryId(category.id)}
+                  >
+                    {category.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </nav>
         )}

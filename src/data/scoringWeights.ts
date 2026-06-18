@@ -1,0 +1,92 @@
+import type { DomainId } from "../types/rankings";
+
+export type DimensionMaxScoreMap = Record<string, number>;
+
+export const scoringWeightsByDomain: Record<DomainId, DimensionMaxScoreMap> = {
+  "foundation-models": {
+    "Market position": 15,
+    "Commercial traction": 15,
+    "Product and technology": 25,
+    "Delivery and operations": 10,
+    "Ecosystem and channels": 15,
+    "Global reach": 8,
+    "Financial and organizational health": 5,
+    "Risk control": 7,
+  },
+  "ai-agents": {
+    "Market position": 12,
+    "Commercial traction": 18,
+    "Product and technology": 22,
+    "Delivery and operations": 18,
+    "Ecosystem and channels": 15,
+    "Global reach": 5,
+    "Financial and organizational health": 5,
+    "Risk control": 5,
+  },
+  "ai-infra": {
+    "Market position": 18,
+    "Commercial traction": 20,
+    "Product and technology": 18,
+    "Delivery and operations": 18,
+    "Ecosystem and channels": 12,
+    "Global reach": 6,
+    "Financial and organizational health": 4,
+    "Risk control": 4,
+  },
+  "ai-hardware": {
+    "Market position": 20,
+    "Commercial traction": 15,
+    "Product and technology": 22,
+    "Delivery and operations": 15,
+    "Ecosystem and channels": 10,
+    "Global reach": 5,
+    "Financial and organizational health": 5,
+    "Risk control": 8,
+  },
+  "generative-media": {
+    "Market position": 20,
+    "Commercial traction": 18,
+    "Product and technology": 22,
+    "Delivery and operations": 10,
+    "Ecosystem and channels": 12,
+    "Global reach": 6,
+    "Financial and organizational health": 5,
+    "Risk control": 7,
+  },
+  robotics: {
+    "Market position": 18,
+    "Commercial traction": 18,
+    "Product and technology": 20,
+    "Delivery and operations": 20,
+    "Ecosystem and channels": 8,
+    "Global reach": 6,
+    "Financial and organizational health": 5,
+    "Risk control": 5,
+  },
+  "autonomous-driving": {
+    "Market position": 12,
+    "Commercial traction": 15,
+    "Product and technology": 25,
+    "Delivery and operations": 15,
+    "Ecosystem and channels": 8,
+    "Global reach": 5,
+    "Financial and organizational health": 5,
+    "Risk control": 15,
+  },
+  "ai-trust-governance": {
+    "Market position": 12,
+    "Commercial traction": 12,
+    "Product and technology": 20,
+    "Delivery and operations": 15,
+    "Ecosystem and channels": 10,
+    "Global reach": 5,
+    "Financial and organizational health": 6,
+    "Risk control": 20,
+  },
+};
+
+export const getDimensionMaxScore = (
+  domainId: DomainId,
+  dimensionLabel: string,
+  fallback: number,
+) => scoringWeightsByDomain[domainId]?.[dimensionLabel] ?? fallback;
